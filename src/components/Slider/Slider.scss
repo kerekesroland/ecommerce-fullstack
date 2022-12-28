@@ -1,0 +1,33 @@
+.slider {
+  height: calc(100vh - 4.5rem);
+  width: 100vw;
+  overflow-x: scroll;
+  scroll-snap-type: mandatory;
+  position: relative;
+  padding-bottom: 1.875rem;
+
+  .container {
+    display: flex;
+    width: 300vw;
+    height: 100%;
+    img {
+      width: 100vw;
+      height: 100%;
+      object-fit: cover;
+      object-position: 50% 25%;
+    }
+  }
+  .icons {
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+    position: absolute;
+    bottom: 50%;
+
+    .icon {
+      cursor: pointer;
+    }
+  }
+}
