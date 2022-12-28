@@ -21,17 +21,17 @@ const Navbar = (props: Props) => {
           </div>
 
           <div className="item">
-            <Link className="link" to="/products/Men">
+            <Link className="link" to="/products/men">
               Men
             </Link>
           </div>
           <div className="item">
-            <Link className="link" to="/products/Women">
+            <Link className="link" to="/products/women">
               Women
             </Link>
           </div>
           <div className="item">
-            <Link className="link" to="/products/Children">
+            <Link className="link" to="/products/children">
               Children
             </Link>
           </div>
