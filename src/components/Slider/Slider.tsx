@@ -37,7 +37,7 @@ const Slider = (props: Props) => {
       <div
         className="container"
         style={{
-          transitionDuration: "500ms",
+          transitionDuration: "1000ms",
           transform: `translateX(-${slide * 100}vw)`,
         }}
       >

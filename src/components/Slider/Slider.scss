@@ -1,7 +1,7 @@
 .slider {
   height: calc(100vh - 4.5rem);
   width: 100vw;
-  overflow-x: scroll;
+  overflow-x: hidden;
   scroll-snap-type: mandatory;
   position: relative;
   padding-bottom: 1.875rem;
