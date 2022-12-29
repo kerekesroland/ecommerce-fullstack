@@ -1,8 +1,15 @@
 import "./Products.scss";
+import ProductList from "../../components/ProductList/ProductList";
+import { useState } from "react";
+import { useParams } from "react-router-dom";
 
 type Props = {};
 
 const Products = (props: Props) => {
+  const category = useParams().category || "";
+  const [maxPrice, setMaxPrice] = useState<number>(0);
+  const [sort, setSort] = useState<string>("");
+
   return (
     <div className="products">
       <div className="left">
@@ -23,19 +30,42 @@ const Products = (props: Props) => {
         </div>
         <div className="filter-item">
           <h2>Price</h2>
-          <span>0</span>
-          <input type="range" min={0} max={10000} />
-          <span>10000</span>
+          <div className="input-item">
+            <span>0</span>
+            <input
+              type="range"
+              min={0}
+              max={1000}
+              onChange={(e) => setMaxPrice(+e.target.value)}
+            />
+            <span>{maxPrice}</span>
+          </div>
         </div>
         <div className="filter-item">
           <h2>Sort by</h2>
-          <input type="radio" id="asc" value="asc" name="price" />
-          <label htmlFor="asc">Price (lowest to highest)</label>
-          <input type="radio" id="desc" value="desc" name="price" />
-          <label htmlFor="desc">Price (highest to lowest)</label>
+          <div className="input-item">
+            <input
+              type="radio"
+              id="asc"
+              value="asc"
+              name="price"
+              onChange={(e) => setSort("asc")}
+            />
+            <label htmlFor="asc">Price (lowest to highest)</label>
+            <input
+              type="radio"
+              id="desc"
+              value="desc"
+              name="price"
+              onChange={(e) => setSort("desc")}
+            />
+            <label htmlFor="desc">Price (highest to lowest)</label>
+          </div>
         </div>
       </div>
-      <div className="right"></div>
+      <div className="right">
+        <ProductList category={category} maxPrice={maxPrice} sort={sort} />
+      </div>
     </div>
   );
 };
