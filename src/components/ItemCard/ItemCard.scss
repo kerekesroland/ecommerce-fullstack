@@ -1,0 +1,36 @@
+.card {
+  .img-container {
+    height: 18rem;
+    width: 18rem;
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      mix-blend-mode: multiply;
+      border-radius: 10px;
+    }
+  }
+  .details {
+    margin-top: 1rem;
+    margin-bottom: 0.4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .name,
+    .price {
+      font-weight: 500;
+    }
+  }
+  .category {
+    color: #909090;
+    font-weight: 300;
+  }
+
+  @media screen and (max-width: 500px) {
+    .img-container {
+      width: 10rem;
+      height: 8rem;
+    }
+  }
+}
