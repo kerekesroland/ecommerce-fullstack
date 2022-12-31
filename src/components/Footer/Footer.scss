@@ -70,6 +70,14 @@
     }
   }
   @media screen and (max-width: 542px) {
+    .bottom {
+      .left {
+        text-align: center;
+        padding: 2rem;
+        gap: 1rem;
+      }
+    }
+
     .right {
       img {
         width: 15rem !important;
