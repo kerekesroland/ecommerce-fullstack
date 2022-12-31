@@ -23,11 +23,11 @@ const Slider = (props: Props) => {
 
   // Auto slider every 3 seconds
   useEffect(() => {
-    const interval = setTimeout(() => {
+    const interval = setInterval(() => {
       nextSlide();
     }, 5000);
     return () => {
-      clearTimeout(interval);
+      clearInterval(interval);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [slide]);
