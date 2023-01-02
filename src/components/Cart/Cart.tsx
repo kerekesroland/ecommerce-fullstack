@@ -30,7 +30,7 @@ const Cart = (props: Props) => {
       key="modal"
       initial={{ right: "-50rem" }}
       animate={{
-        right: "0.625rem",
+        right: "1.875rem",
       }}
       transition={{
         duration: 0.6,
