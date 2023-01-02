@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import "./Navbar.scss";
 import { useState } from "react";
 import Cart from "../Cart/Cart";
+import { AnimatePresence } from "framer-motion";
 type Props = {};
 
 const Navbar = (props: Props) => {
@@ -77,7 +78,7 @@ const Navbar = (props: Props) => {
           </div>
         </div>
       </div>
-      {isOpenCart && <Cart />}
+      <AnimatePresence>{isOpenCart && <Cart />}</AnimatePresence>
     </div>
   );
 };
