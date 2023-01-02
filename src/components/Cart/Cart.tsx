@@ -1,5 +1,6 @@
 import CartItem from "../CartItem/CartItem";
 import "./Cart.scss";
+import { motion } from "framer-motion";
 
 type Props = {};
 
@@ -25,7 +26,18 @@ const Cart = (props: Props) => {
     },
   ];
   return (
-    <div className="cart">
+    <motion.div
+      key="modal"
+      initial={{ right: "-50rem" }}
+      animate={{
+        right: "0.625rem",
+      }}
+      transition={{
+        duration: 0.6,
+      }}
+      exit={{ right: "-50rem" }}
+      className="cart"
+    >
       <h1>Items in your Cart</h1>
       <div className="items">
         {cartItems.map((item) => (
@@ -51,7 +63,7 @@ const Cart = (props: Props) => {
       <div className="btn-container">
         <button>Proceed to Checkout</button>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
