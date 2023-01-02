@@ -1,0 +1,68 @@
+.cart-item {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+
+  .left {
+    height: 5rem;
+    width: 6rem;
+    .img-container {
+      position: relative;
+      height: 100%;
+      width: 100%;
+      img {
+        z-index: 1;
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+        border-radius: 10px;
+      }
+      span {
+        font-size: 0.8rem;
+        font-weight: 600;
+        position: absolute;
+        width: 1.5rem;
+        height: 1.5rem;
+        background-color: cornflowerblue;
+        color: white;
+        border-radius: 50%;
+        z-index: 2;
+        right: -10%;
+        top: -15%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+      }
+    }
+  }
+
+  .center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 0 1rem;
+    h1 {
+      font-size: 0.9rem;
+      font-weight: 550;
+      text-align: center;
+      padding-bottom: 0.4rem;
+    }
+    p {
+      font-size: 0.7rem;
+      text-align: left;
+      opacity: 0.7;
+    }
+  }
+  .end {
+    font-size: 0.9rem;
+    font-weight: 550;
+  }
+
+  .delete-icon {
+    font-size: 1.5rem;
+  }
+}
