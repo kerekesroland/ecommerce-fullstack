@@ -4,9 +4,13 @@ import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Link } from "react-router-dom";
 import "./Navbar.scss";
+import { useState } from "react";
+import Cart from "../Cart/Cart";
 type Props = {};
 
 const Navbar = (props: Props) => {
+  const [isOpenMobile, setIsOpenMobile] = useState<boolean>(false);
+  const [isOpenCart, setIsOpenCart] = useState<boolean>(false);
   return (
     <div className="navbar">
       <div className="wrapper">
@@ -63,13 +67,17 @@ const Navbar = (props: Props) => {
             <div className="icon">
               <FavoriteBorderOutlinedIcon />
             </div>
-            <div className="cart-icon">
+            <div
+              className="cart-icon"
+              onClick={() => setIsOpenCart(!isOpenCart)}
+            >
               <ShoppingCartOutlinedIcon />
               <span>0</span>
             </div>
           </div>
         </div>
       </div>
+      {isOpenCart && <Cart />}
     </div>
   );
 };
