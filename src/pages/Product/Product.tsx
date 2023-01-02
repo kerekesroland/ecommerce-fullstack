@@ -9,6 +9,8 @@ import { useState } from "react";
 type Props = {};
 
 const Product = (props: Props) => {
+  const [currentImage, setCurrentImage] = useState<string>(product1);
+
   const previews = [
     { id: 1, src: product1 },
 
@@ -33,10 +35,14 @@ const Product = (props: Props) => {
   return (
     <div className="product">
       <div className="left">
-        <img className="product-img" src={product1} alt="" />
+        <img className="product-img" src={currentImage} alt="" />
         <div className="preview-images">
           {previews.map((src) => (
-            <div key={src.id} className="image-container">
+            <div
+              key={src.id}
+              className="image-container"
+              onClick={() => setCurrentImage(src.src)}
+            >
               <img src={src.src} alt="preview" />
             </div>
           ))}
