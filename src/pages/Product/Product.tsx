@@ -9,7 +9,15 @@ import { useState } from "react";
 type Props = {};
 
 const Product = (props: Props) => {
-  const previews = [product1, product2, product1, product2];
+  const previews = [
+    { id: 1, src: product1 },
+
+    { id: 2, src: product2 },
+
+    { id: 3, src: product1 },
+
+    { id: 4, src: product2 },
+  ];
   const [amount, setAmount] = useState<number>(1);
 
   const onAddAmount = () => {
@@ -28,8 +36,8 @@ const Product = (props: Props) => {
         <img className="product-img" src={product1} alt="" />
         <div className="preview-images">
           {previews.map((src) => (
-            <div className="image-container">
-              <img src={src} alt="preview" />
+            <div key={src.id} className="image-container">
+              <img src={src.src} alt="preview" />
             </div>
           ))}
         </div>
