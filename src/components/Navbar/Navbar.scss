@@ -1,3 +1,6 @@
+:root {
+  --navBar-height: 80px;
+}
 .navbar {
   height: 80px;
   width: 100%;
@@ -63,6 +66,64 @@
       }
     }
   }
+  .mobile-view {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 80%;
+    margin: auto 0;
+    // border-top-right-radius: 10px;
+    background-color: rgba(32, 32, 32);
+    z-index: 880;
+
+    .link-container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 3rem;
+      z-index: 999;
+
+      .item-link {
+        width: 100%;
+      }
+
+      .item {
+        display: flex;
+        height: fit-content;
+        align-items: center;
+        justify-content: center;
+        margin-left: 24px;
+        gap: 0.3rem;
+        position: relative;
+
+        span {
+          text-align: left;
+          width: 5rem;
+          color: #fff;
+          margin: auto 0;
+        }
+      }
+    }
+
+    .close-icon-container {
+      position: absolute;
+      text-align: center;
+      margin: auto 0;
+      border-radius: 50%;
+      padding: 0.8rem;
+      top: 5%;
+      right: -1rem;
+      background-color: rgba(32, 32, 32);
+    }
+  }
+
+  /*
+  -----------------------media queries-----------------------------------------
+  */
   @media screen and (max-width: 720px) {
     .wrapper {
       .left {
@@ -80,3 +141,7 @@
     }
   }
 }
+
+/*
+-----------------------  media queries end-----------------------------------------
+*/
