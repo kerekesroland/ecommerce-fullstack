@@ -70,11 +70,11 @@
     position: absolute;
     top: 0;
     height: 100%;
-    width: 80%;
+    width: clamp(15rem, 0.5rem, 30rem);
     margin: auto 0;
     // border-top-right-radius: 10px;
     background-color: rgba(32, 32, 32);
-    z-index: 880;
+    z-index: 999;
 
     .link-container {
       position: relative;
@@ -102,6 +102,7 @@
 
         span {
           text-align: left;
+          font-size: clamp(1rem, 0.5rem, 2rem);
           width: 5rem;
           color: #fff;
           margin: auto 0;
