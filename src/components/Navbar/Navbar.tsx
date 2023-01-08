@@ -1,5 +1,5 @@
 import KeyBoardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
+import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import MenuIcon from "@mui/icons-material/Menu";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
@@ -80,12 +80,12 @@ const Navbar = (props: Props) => {
       icon: <LocalMallIcon style={{ fill: "#fff" }} />,
     },
     {
-      id: "Favorites",
-      name: "Favorites",
-      to: "/favorites",
+      id: "Profile",
+      name: "Profile",
+      to: "/profile",
       side: "right",
       delay: 0.8,
-      icon: <FavoriteBorderOutlinedIcon style={{ fill: "#fff" }} />,
+      icon: <PersonOutlineIcon style={{ fill: "#fff" }} />,
     },
   ];
 
@@ -153,7 +153,7 @@ const Navbar = (props: Props) => {
             </div>
             <div className="icons">
               <div className="icon">
-                <FavoriteBorderOutlinedIcon />
+                <PersonOutlineIcon />
               </div>
               <div
                 className="cart-icon"
@@ -251,120 +251,3 @@ const Navbar = (props: Props) => {
 };
 
 export default Navbar;
-
-// <Link
-// className="link item-link"
-// to="/"
-// onClick={() => setIsOpenMobile(false)}
-// >
-// <motion.div
-//   key={"nav-item"}
-//   initial={{ opacity: 0, left: "-2rem" }}
-//   animate={{ left: 0, opacity: 1 }}
-//   transition={{ duration: 0.6, delay: 0.3 }}
-//   className="item"
-// >
-//   <HomeIcon style={{ fill: "#fff" }} />
-//   <span>Home</span>
-// </motion.div>
-// </Link>
-// <Link
-// className="link item-link"
-// to="/products/men"
-// onClick={() => setIsOpenMobile(false)}
-// >
-// <motion.div
-//   key={"nav-item"}
-//   initial={{ opacity: 0, left: "-2rem" }}
-//   animate={{ left: 0, opacity: 1 }}
-//   transition={{ duration: 0.6, delay: 0.4 }}
-//   className="item"
-// >
-//   <ManIcon style={{ fill: "#fff" }} />
-//   <span>Men</span>
-// </motion.div>
-// </Link>
-// <Link
-// className="link item-link"
-// to="/products/women"
-// onClick={() => setIsOpenMobile(false)}
-// >
-// <motion.div
-//   key={"nav-item"}
-//   initial={{ opacity: 0, left: "-2rem" }}
-//   animate={{ left: 0, opacity: 1 }}
-//   transition={{ duration: 0.6, delay: 0.5 }}
-//   className="item"
-// >
-//   <WomanIcon
-//     style={{
-//       fill: "#fff",
-//     }}
-//   />
-//   <span>Women</span>
-// </motion.div>
-// </Link>
-// <Link
-// className="link item-link"
-// to="/products/children"
-// onClick={() => setIsOpenMobile(false)}
-// >
-// <motion.div
-//   key={"nav-item"}
-//   initial={{ opacity: 0, left: "-2rem" }}
-//   animate={{ left: 0, opacity: 1 }}
-//   transition={{ duration: 0.6, delay: 0.6 }}
-//   className="item"
-// >
-//   <ChildFriendlyIcon style={{ fill: "#fff" }} />
-//   <span>Children</span>
-// </motion.div>
-// </Link>
-// <Link className="link item-link" to="/">
-// <motion.div
-//   key={"nav-item"}
-//   initial={{ opacity: 0, left: "-2rem" }}
-//   animate={{ left: 0, opacity: 1 }}
-//   transition={{ duration: 0.6, delay: 0.7 }}
-//   className="item"
-// >
-//   <InfoIcon style={{ fill: "#fff" }} />
-//   <span>About</span>
-// </motion.div>
-// </Link>
-// <Link className="link item-link" to="/">
-// <motion.div
-//   key={"nav-item"}
-//   initial={{ opacity: 0, left: "-2rem" }}
-//   animate={{ left: 0, opacity: 1 }}
-//   transition={{ duration: 0.6, delay: 0.8 }}
-//   className="item"
-// >
-//   <LocalPostOfficeIcon style={{ fill: "#fff" }} />
-//   <span>Contact</span>
-// </motion.div>
-// </Link>
-// <Link className="link item-link" to="/">
-// <motion.div
-//   key={"nav-item"}
-//   initial={{ opacity: 0, left: "-2rem" }}
-//   animate={{ left: 0, opacity: 1 }}
-//   transition={{ duration: 0.6, delay: 0.9 }}
-//   className="item"
-// >
-//   <LocalMallIcon style={{ fill: "#fff" }} />
-//   <span>Stores</span>
-// </motion.div>
-// </Link>
-// <Link className="link item-link" to="/">
-// <motion.div
-//   key={"nav-item"}
-//   initial={{ opacity: 0, left: "-2rem" }}
-//   animate={{ left: 0, opacity: 1 }}
-//   transition={{ duration: 0.6, delay: 1 }}
-//   className="item"
-// >
-//   <FavoriteBorderOutlinedIcon style={{ fill: "#fff" }} />
-//   <span>Favorites</span>
-// </motion.div>
-// </Link>
