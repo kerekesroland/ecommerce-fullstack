@@ -15,11 +15,79 @@ import "./Navbar.scss";
 import React, { useEffect, useState } from "react";
 import Cart from "../Cart/Cart";
 import { AnimatePresence, motion } from "framer-motion";
+import { MobileTabNav } from "../../models/mobileNavTab";
 type Props = {};
 
 const Navbar = (props: Props) => {
   const [isOpenMobile, setIsOpenMobile] = useState<boolean>(false);
   const [isOpenCart, setIsOpenCart] = useState<boolean>(false);
+
+  const mobileNavTabs: Array<MobileTabNav> = [
+    {
+      id: "Home",
+      name: "Home",
+      to: "/",
+      side: "left",
+      delay: 0.3,
+      icon: <HomeIcon style={{ fill: "#fff" }} />,
+    },
+    {
+      id: "Men",
+      name: "Men",
+      to: "/products/men",
+      side: "right",
+      delay: 0.4,
+      icon: <ManIcon style={{ fill: "#fff" }} />,
+    },
+    {
+      id: "Women",
+      name: "Women",
+      to: "/products/women",
+      side: "left",
+      delay: 0.5,
+      icon: <WomanIcon style={{ fill: "#fff" }} />,
+    },
+    {
+      id: "Children",
+      name: "Children",
+      to: "/products/children",
+      side: "right",
+      delay: 0.4,
+      icon: <ChildFriendlyIcon style={{ fill: "#fff" }} />,
+    },
+    {
+      id: "About",
+      name: "About",
+      to: "/about",
+      side: "left",
+      delay: 0.5,
+      icon: <InfoIcon style={{ fill: "#fff" }} />,
+    },
+    {
+      id: "Contact",
+      name: "Contact",
+      to: "/contact",
+      side: "right",
+      delay: 0.6,
+      icon: <LocalPostOfficeIcon style={{ fill: "#fff" }} />,
+    },
+    {
+      id: "Stores",
+      name: "Stores",
+      to: "/stores",
+      side: "left",
+      delay: 0.7,
+      icon: <LocalMallIcon style={{ fill: "#fff" }} />,
+    },
+    {
+      id: "Favorites",
+      name: "Favorites",
+      to: "/favorites",
+      side: "right",
+      delay: 0.8,
+      icon: <FavoriteBorderOutlinedIcon style={{ fill: "#fff" }} />,
+    },
+  ];
 
   useEffect(() => {
     const html = document.querySelector("html");
@@ -97,7 +165,9 @@ const Navbar = (props: Props) => {
             </div>
           </div>
         </div>
-        <AnimatePresence>{isOpenCart && <Cart />}</AnimatePresence>
+        <AnimatePresence>
+          {isOpenCart && <Cart setIsOpenCart={setIsOpenCart} />}
+        </AnimatePresence>
         <AnimatePresence>
           {isOpenMobile ? (
             <>
@@ -123,77 +193,43 @@ const Navbar = (props: Props) => {
                       style={{ fill: "#fff", fontSize: "1.5rem" }}
                     />
                   </div>
-                  <Link
-                    className="link item-link"
-                    to="/"
-                    onClick={() => setIsOpenMobile(false)}
-                  >
-                    <div className="item">
-                      <HomeIcon style={{ fill: "#fff" }} />
-                      <span>Home</span>
-                    </div>
-                  </Link>
-                  <Link
-                    className="link item-link"
-                    to="/products/men"
-                    onClick={() => setIsOpenMobile(false)}
-                  >
-                    <div className="item">
-                      <ManIcon style={{ fill: "#fff" }} />
-                      <span>Men</span>
-                    </div>
-                  </Link>
-                  <Link
-                    className="link item-link"
-                    to="/products/women"
-                    onClick={() => setIsOpenMobile(false)}
-                  >
-                    <div className="item">
-                      <WomanIcon
-                        style={{
-                          fill: "#fff",
+                  {mobileNavTabs.map((tab) => (
+                    <Link
+                      key={tab.id}
+                      className="link item-link"
+                      to={tab.to}
+                      onClick={() => setIsOpenMobile(false)}
+                    >
+                      <motion.div
+                        key={"nav-item"}
+                        initial={
+                          tab.side === "left"
+                            ? { opacity: 0, left: "-4rem" }
+                            : { opacity: 0, left: "4rem" }
+                        }
+                        animate={
+                          tab.side === "left"
+                            ? { left: 0, opacity: 1 }
+                            : { left: 0, opacity: 1 }
+                        }
+                        transition={{
+                          duration: 0.6,
+                          delay: tab.delay,
+                          type: "spring",
                         }}
-                      />
-                      <span>Women</span>
-                    </div>
-                  </Link>
-                  <Link
-                    className="link item-link"
-                    to="/products/children"
-                    onClick={() => setIsOpenMobile(false)}
-                  >
-                    <div className="item">
-                      <ChildFriendlyIcon style={{ fill: "#fff" }} />
-                      <span>Children</span>
-                    </div>
-                  </Link>
-                  <Link className="link item-link" to="/">
-                    <div className="item">
-                      <InfoIcon style={{ fill: "#fff" }} />
-                      <span>About</span>
-                    </div>
-                  </Link>
-                  <Link className="link item-link" to="/">
-                    <div className="item">
-                      <LocalPostOfficeIcon style={{ fill: "#fff" }} />
-                      <span>Contact</span>
-                    </div>
-                  </Link>
-                  <Link className="link item-link" to="/">
-                    <div className="item">
-                      <LocalMallIcon style={{ fill: "#fff" }} />
-                      <span>Stores</span>
-                    </div>
-                  </Link>
-                  <Link className="link item-link" to="/">
-                    <div className="item">
-                      <FavoriteBorderOutlinedIcon style={{ fill: "#fff" }} />
-                      <span>Favorites</span>
-                    </div>
-                  </Link>
-
+                        className="item"
+                      >
+                        {tab.icon}
+                        <span>{tab.name}</span>
+                      </motion.div>
+                    </Link>
+                  ))}
                   <div className="item-link">
-                    <div
+                    <motion.div
+                      key={"nav-item"}
+                      initial={{ opacity: 0, left: "-4rem" }}
+                      animate={{ left: 0, opacity: 1 }}
+                      transition={{ duration: 0.6, delay: 0.9, type: "spring" }}
                       onClick={() => {
                         setIsOpenCart(!isOpenCart);
                         setIsOpenMobile(false);
@@ -202,7 +238,7 @@ const Navbar = (props: Props) => {
                     >
                       <ShoppingCartOutlinedIcon style={{ fill: "#fff" }} />
                       <span>Cart</span>
-                    </div>
+                    </motion.div>
                   </div>
                 </div>
               </motion.div>
@@ -215,3 +251,120 @@ const Navbar = (props: Props) => {
 };
 
 export default Navbar;
+
+// <Link
+// className="link item-link"
+// to="/"
+// onClick={() => setIsOpenMobile(false)}
+// >
+// <motion.div
+//   key={"nav-item"}
+//   initial={{ opacity: 0, left: "-2rem" }}
+//   animate={{ left: 0, opacity: 1 }}
+//   transition={{ duration: 0.6, delay: 0.3 }}
+//   className="item"
+// >
+//   <HomeIcon style={{ fill: "#fff" }} />
+//   <span>Home</span>
+// </motion.div>
+// </Link>
+// <Link
+// className="link item-link"
+// to="/products/men"
+// onClick={() => setIsOpenMobile(false)}
+// >
+// <motion.div
+//   key={"nav-item"}
+//   initial={{ opacity: 0, left: "-2rem" }}
+//   animate={{ left: 0, opacity: 1 }}
+//   transition={{ duration: 0.6, delay: 0.4 }}
+//   className="item"
+// >
+//   <ManIcon style={{ fill: "#fff" }} />
+//   <span>Men</span>
+// </motion.div>
+// </Link>
+// <Link
+// className="link item-link"
+// to="/products/women"
+// onClick={() => setIsOpenMobile(false)}
+// >
+// <motion.div
+//   key={"nav-item"}
+//   initial={{ opacity: 0, left: "-2rem" }}
+//   animate={{ left: 0, opacity: 1 }}
+//   transition={{ duration: 0.6, delay: 0.5 }}
+//   className="item"
+// >
+//   <WomanIcon
+//     style={{
+//       fill: "#fff",
+//     }}
+//   />
+//   <span>Women</span>
+// </motion.div>
+// </Link>
+// <Link
+// className="link item-link"
+// to="/products/children"
+// onClick={() => setIsOpenMobile(false)}
+// >
+// <motion.div
+//   key={"nav-item"}
+//   initial={{ opacity: 0, left: "-2rem" }}
+//   animate={{ left: 0, opacity: 1 }}
+//   transition={{ duration: 0.6, delay: 0.6 }}
+//   className="item"
+// >
+//   <ChildFriendlyIcon style={{ fill: "#fff" }} />
+//   <span>Children</span>
+// </motion.div>
+// </Link>
+// <Link className="link item-link" to="/">
+// <motion.div
+//   key={"nav-item"}
+//   initial={{ opacity: 0, left: "-2rem" }}
+//   animate={{ left: 0, opacity: 1 }}
+//   transition={{ duration: 0.6, delay: 0.7 }}
+//   className="item"
+// >
+//   <InfoIcon style={{ fill: "#fff" }} />
+//   <span>About</span>
+// </motion.div>
+// </Link>
+// <Link className="link item-link" to="/">
+// <motion.div
+//   key={"nav-item"}
+//   initial={{ opacity: 0, left: "-2rem" }}
+//   animate={{ left: 0, opacity: 1 }}
+//   transition={{ duration: 0.6, delay: 0.8 }}
+//   className="item"
+// >
+//   <LocalPostOfficeIcon style={{ fill: "#fff" }} />
+//   <span>Contact</span>
+// </motion.div>
+// </Link>
+// <Link className="link item-link" to="/">
+// <motion.div
+//   key={"nav-item"}
+//   initial={{ opacity: 0, left: "-2rem" }}
+//   animate={{ left: 0, opacity: 1 }}
+//   transition={{ duration: 0.6, delay: 0.9 }}
+//   className="item"
+// >
+//   <LocalMallIcon style={{ fill: "#fff" }} />
+//   <span>Stores</span>
+// </motion.div>
+// </Link>
+// <Link className="link item-link" to="/">
+// <motion.div
+//   key={"nav-item"}
+//   initial={{ opacity: 0, left: "-2rem" }}
+//   animate={{ left: 0, opacity: 1 }}
+//   transition={{ duration: 0.6, delay: 1 }}
+//   className="item"
+// >
+//   <FavoriteBorderOutlinedIcon style={{ fill: "#fff" }} />
+//   <span>Favorites</span>
+// </motion.div>
+// </Link>
