@@ -2,9 +2,11 @@
   position: absolute;
   top: 3rem;
   right: 0.625rem;
-  z-index: 999;
+  z-index: 998;
   width: 30vw;
   height: fit-content;
+  max-height: 85vh;
+  overflow-y: scroll;
   border-radius: 10px;
   background-color: #fff;
   -webkit-box-shadow: 0px 0px 31px 0px rgba(0, 0, 0, 0.42);
@@ -14,7 +16,7 @@
   h1 {
     font-size: 1.2rem;
     text-align: center;
-    padding-top: 1rem;
+    padding-top: 2rem;
   }
 
   .items {
@@ -83,6 +85,18 @@
     color: lightgrey;
     opacity: 0.1;
   }
+
+  .close-container {
+    position: absolute;
+    top: 0;
+    right: 0;
+    cursor: pointer;
+
+    .close-icon {
+      cursor: "pointer";
+      font-size: 1.8rem;
+    }
+  }
 }
 
 @keyframes pulse {
@@ -103,8 +117,20 @@
   }
 }
 
-// @media (width <= 500px) {
-//   .cart {
-//     width: 90%;
-//   }
-// }
+@media (width <= 500) {
+  .cart {
+    .close-container {
+      .close-icon {
+        cursor: pointer;
+        font-size: 0.4rem;
+      }
+    }
+  }
+}
+
+@media (width >= 320px) {
+  .cart {
+    width: 70vw;
+    max-width: 25rem;
+  }
+}

@@ -21,8 +21,10 @@ const CartItem: FC<Props> = ({ item }) => {
         <h1>{item.title}</h1>
         <p>Lorem ipsum dolor sit amet...</p>
       </div>
-      <div className="end">${item.price}</div>
-      <DeleteIcon style={{ fill: "#DC143C	" }} className="delete-icon" />
+      <div className="end">
+        <span>${item.price}</span>
+        <DeleteIcon style={{ fill: "#DC143C	" }} className="delete-icon" />
+      </div>
     </div>
   );
 };

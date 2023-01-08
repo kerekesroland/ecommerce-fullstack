@@ -58,12 +58,25 @@
     }
   }
   .end {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
     font-size: 0.9rem;
     font-weight: 550;
+    .delete-icon {
+      cursor: pointer;
+      font-size: 1.5rem;
+    }
   }
+}
 
-  .delete-icon {
-    cursor: pointer;
-    font-size: 1.5rem;
+@media (width <= 450px) {
+  .cart-item {
+    flex-direction: column;
+
+    .end {
+      justify-content: space-between;
+      padding-top: 0.5rem;
+    }
   }
 }

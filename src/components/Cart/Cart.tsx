@@ -1,10 +1,14 @@
 import CartItem from "../CartItem/CartItem";
-import "./Cart.scss";
+import CloseIcon from "@mui/icons-material/Close";
 import { motion } from "framer-motion";
+import { FC } from "react";
+import "./Cart.scss";
 
-type Props = {};
+type Props = {
+  setIsOpenCart: React.Dispatch<React.SetStateAction<boolean>>;
+};
 
-const Cart = (props: Props) => {
+const Cart: FC<Props> = ({ setIsOpenCart }) => {
   const cartItems = [
     {
       id: 1,
@@ -62,6 +66,9 @@ const Cart = (props: Props) => {
       </div>
       <div className="btn-container">
         <button>Proceed to Checkout</button>
+      </div>
+      <div className="close-container" onClick={() => setIsOpenCart(false)}>
+        <CloseIcon className="close-icon" style={{ fill: "crimson" }} />
       </div>
     </motion.div>
   );
