@@ -5,6 +5,7 @@ import girl2 from "../../images/girl_2.jpg";
 import girl3 from "../../images/girl_3.jpg";
 import man1 from "../../images/man_1.jpg";
 import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 
 type Props = {};
 
@@ -34,17 +35,22 @@ const Slider = (props: Props) => {
 
   return (
     <div className="slider">
-      <div
+      <motion.div
+        key={"slider"}
         className="container"
-        style={{
-          transitionDuration: "1000ms",
-          transform: `translateX(-${slide * 100}vw)`,
+        initial={{ x: 0 }}
+        transition={{
+          duration: 0.6,
+          type: "tween",
+        }}
+        animate={{
+          x: `-${slide * 100}vw`,
         }}
       >
         <img src={slides[0]} alt="" />
         <img src={slides[1]} alt="" />
         <img src={slides[2]} alt="" />
-      </div>
+      </motion.div>
       <div className="icons">
         <div className="icon">
           <ArrowBackIosIcon
