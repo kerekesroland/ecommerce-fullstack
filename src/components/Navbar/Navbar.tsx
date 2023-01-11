@@ -1,4 +1,3 @@
-import KeyBoardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -16,16 +15,18 @@ import React, { useEffect, useState } from "react";
 import Cart from "../Cart/Cart";
 import { AnimatePresence, motion } from "framer-motion";
 import { MobileTabNav } from "../../models/mobileNavTab";
+import { useTranslation } from "react-i18next";
 type Props = {};
 
 const Navbar = (props: Props) => {
+  const { t, i18n } = useTranslation();
   const [isOpenMobile, setIsOpenMobile] = useState<boolean>(false);
   const [isOpenCart, setIsOpenCart] = useState<boolean>(false);
-
+  const [language, setLanguage] = useState<string>(i18n.language);
   const mobileNavTabs: Array<MobileTabNav> = [
     {
       id: "Home",
-      name: "Home",
+      name: t("data.navigation.home"),
       to: "/",
       side: "left",
       delay: 0.3,
@@ -33,7 +34,7 @@ const Navbar = (props: Props) => {
     },
     {
       id: "Men",
-      name: "Men",
+      name: t("data.navigation.men"),
       to: "/products/men",
       side: "right",
       delay: 0.4,
@@ -41,7 +42,7 @@ const Navbar = (props: Props) => {
     },
     {
       id: "Women",
-      name: "Women",
+      name: t("data.navigation.women"),
       to: "/products/women",
       side: "left",
       delay: 0.5,
@@ -49,7 +50,7 @@ const Navbar = (props: Props) => {
     },
     {
       id: "Children",
-      name: "Children",
+      name: t("data.navigation.children"),
       to: "/products/children",
       side: "right",
       delay: 0.4,
@@ -57,7 +58,7 @@ const Navbar = (props: Props) => {
     },
     {
       id: "About",
-      name: "About",
+      name: t("data.navigation.about"),
       to: "/about",
       side: "left",
       delay: 0.5,
@@ -65,7 +66,7 @@ const Navbar = (props: Props) => {
     },
     {
       id: "Contact",
-      name: "Contact",
+      name: t("data.navigation.contact"),
       to: "/contact",
       side: "right",
       delay: 0.6,
@@ -73,7 +74,7 @@ const Navbar = (props: Props) => {
     },
     {
       id: "Stores",
-      name: "Stores",
+      name: t("data.navigation.stores"),
       to: "/stores",
       side: "left",
       delay: 0.7,
@@ -81,7 +82,7 @@ const Navbar = (props: Props) => {
     },
     {
       id: "Profile",
-      name: "Profile",
+      name: t("data.navigation.profile"),
       to: "/profile",
       side: "right",
       delay: 0.8,
@@ -96,6 +97,13 @@ const Navbar = (props: Props) => {
     }
   }, [isOpenMobile]);
 
+  const changeLanguage = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedLanguage = e.target.value;
+    setLanguage(selectedLanguage);
+    i18n.changeLanguage(selectedLanguage);
+    localStorage.setItem("i18nextLng", selectedLanguage);
+  };
+
   return (
     <React.Fragment>
       <div className="navbar">
@@ -107,24 +115,32 @@ const Navbar = (props: Props) => {
             >
               <MenuIcon />
             </div>
-            <div className="item">
-              <span>EN</span>
-              <KeyBoardArrowDownIcon />
+            <div className="item select-wrapper">
+              <select
+                className="select-tag"
+                value={language}
+                onChange={changeLanguage}
+              >
+                <option value="en">EN</option>
+                <option value="fr">FR</option>
+                <option value="de">DE</option>
+              </select>
+              <span className="select-tag-arrow" />
             </div>
 
             <div className="item">
               <Link className="link" to="/products/men">
-                Men
+                {t("data.navigation.men")}
               </Link>
             </div>
             <div className="item">
               <Link className="link" to="/products/women">
-                Women
+                {t("data.navigation.women")}
               </Link>
             </div>
             <div className="item">
               <Link className="link" to="/products/children">
-                Children
+                {t("data.navigation.children")}
               </Link>
             </div>
           </div>
@@ -138,29 +154,26 @@ const Navbar = (props: Props) => {
           <div className="right">
             <div className="item">
               <Link className="link" to="/">
-                About
+                {t("data.navigation.about")}
               </Link>
             </div>
             <div className="item">
               <Link className="link" to="/">
-                Contact
+                {t("data.navigation.contact")}
               </Link>
             </div>
             <div className="item">
               <Link className="link" to="/">
-                Stores
+                {t("data.navigation.stores")}
               </Link>
             </div>
             <div className="icons">
-              <div className="icon">
-                <PersonOutlineIcon />
-              </div>
               <div
                 className="cart-icon"
                 onClick={() => setIsOpenCart(!isOpenCart)}
               >
                 <ShoppingCartOutlinedIcon />
-                <span>0</span>
+                <span>2</span>
               </div>
             </div>
           </div>
@@ -237,7 +250,7 @@ const Navbar = (props: Props) => {
                       className="item"
                     >
                       <ShoppingCartOutlinedIcon style={{ fill: "#fff" }} />
-                      <span>Cart</span>
+                      <span>{t("data.navigation.cart")}</span>
                     </motion.div>
                   </div>
                 </div>

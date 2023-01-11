@@ -16,6 +16,32 @@
       font-size: 1rem;
     }
 
+    .select-wrapper {
+      position: relative;
+      .select-tag {
+        appearance: none;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 3px;
+        padding: 10px;
+        font-size: 16px;
+        width: 4rem;
+      }
+
+      .select-tag-arrow {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 0;
+        height: 0;
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        border-top: 8px solid #333;
+        pointer-events: none;
+      }
+    }
+
     .mobile-item {
       display: none;
       font-size: 1rem;
@@ -125,7 +151,7 @@
   /*
   -----------------------media queries-----------------------------------------
   */
-  @media screen and (max-width: 720px) {
+  @media screen and (max-width: 860px) {
     .wrapper {
       .left {
         .item {
