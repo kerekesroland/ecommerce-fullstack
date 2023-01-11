@@ -1,0 +1,18 @@
+{
+  "data": {
+    "navigation": {
+      "home": "Heimat",
+      "men": "Männer",
+      "women": "Frauen",
+      "children": "Kinder",
+      "about": "Über",
+      "contact": "Kontakt",
+      "stores": "Stores",
+      "profile": "Profil",
+      "cart": "Wagen"
+    },
+    "featuredProducts": {
+      "title": "Featured Products"
+    }
+  }
+}

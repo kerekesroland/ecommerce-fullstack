@@ -1,0 +1,18 @@
+{
+  "data": {
+    "navigation": {
+      "home": "Domicile",
+      "men": "Hommes",
+      "women": "Femmes",
+      "children": "Enfants",
+      "about": "Quelque",
+      "contact": "Contact",
+      "stores": "Boutiques",
+      "profile": "Profil",
+      "cart": "Chariot"
+    },
+    "featuredProducts": {
+      "title": "Featured Products"
+    }
+  }
+}
