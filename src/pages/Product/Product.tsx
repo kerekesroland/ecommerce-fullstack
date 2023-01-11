@@ -2,8 +2,8 @@ import "./Product.scss";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
-import product1 from "../../images/cloth_1.jpg";
-import product2 from "../../images/cloth_2.jpg";
+import product1 from "../../images/cloth_1-min.jpg";
+import product2 from "../../images/cloth_2-min.jpg";
 import { useState } from "react";
 
 type Props = {};
