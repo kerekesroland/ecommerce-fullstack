@@ -1,8 +1,4 @@
 import "./Categories.scss";
-import menFashion from "../../images/men-fashion.jpg";
-import womenFashion from "../../images/women-fashion.jpg";
-import accessories from "../../images/accesories.jpg";
-import childrenFashion from "../../images/children-fashion.jpg";
 import ImageCard from "../ImageCard/ImageCard";
 import { FashionItem } from "../../models/FashionItem";
 
@@ -12,22 +8,22 @@ const Categories = (props: Props) => {
   const images: Array<FashionItem> = [
     {
       id: "men",
-      image: menFashion,
+      image: require("../../images/men-fashion-min.jpg"),
       btnTitle: "Men",
     },
     {
       id: "women",
-      image: womenFashion,
+      image: require("../../images/women-fashion-min.jpg"),
       btnTitle: "Women",
     },
     {
       id: "children",
-      image: childrenFashion,
+      image: require("../../images/children-fashion-min.jpg"),
       btnTitle: "Children",
     },
     {
       id: "accessories",
-      image: accessories,
+      image: require("../../images/accesories-min.jpg"),
       btnTitle: "Accessories",
     },
   ];

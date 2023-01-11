@@ -12,7 +12,7 @@ const Cart: FC<Props> = ({ setIsOpenCart }) => {
   const cartItems = [
     {
       id: 1,
-      image_1: require("../../images/cloth_1.jpg"),
+      image_1: require("../../images/cloth_1-min.jpg"),
       title: "Superset clothes",
       price: 44.99,
       oldPrice: 22.99,
@@ -21,7 +21,7 @@ const Cart: FC<Props> = ({ setIsOpenCart }) => {
     },
     {
       id: 2,
-      image_1: require("../../images/cloth_2.jpg"),
+      image_1: require("../../images/cloth_2-min.jpg"),
       title: "Superset clothes",
       price: 44.99,
       oldPrice: 22.99,
