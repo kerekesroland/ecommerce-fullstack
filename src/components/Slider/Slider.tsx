@@ -1,15 +1,16 @@
 import "./Slider.scss";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import girl2 from "../../images/girl_2.jpg";
-import girl3 from "../../images/girl_3.jpg";
-import man1 from "../../images/man_1.jpg";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
 type Props = {};
 
-const slides: Array<string> = [girl2, girl3, man1];
+const slides: Array<string> = [
+  require("/Users/roland/work/ecommerce/client/src/images/girl_2-min.jpg"),
+  require("/Users/roland/work/ecommerce/client/src/images/girl_3-min.jpg"),
+  require("/Users/roland/work/ecommerce/client/src/images/man_1-min.jpg"),
+];
 
 const Slider = (props: Props) => {
   const [slide, setSlide] = useState<number>(0);
