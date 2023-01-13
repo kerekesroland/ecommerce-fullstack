@@ -16,6 +16,7 @@ import Cart from "../Cart/Cart";
 import { AnimatePresence, motion } from "framer-motion";
 import { MobileTabNav } from "../../models/mobileNavTab";
 import { useTranslation } from "react-i18next";
+import Backdrop from "../Backdrop/Backdrop";
 type Props = {};
 
 const Navbar = (props: Props) => {
@@ -89,6 +90,10 @@ const Navbar = (props: Props) => {
       icon: <PersonOutlineIcon style={{ fill: "#fff" }} />,
     },
   ];
+
+  const handleCloseMobile = () => {
+    setIsOpenMobile(false);
+  };
 
   useEffect(() => {
     const html = document.querySelector("html");
@@ -255,6 +260,7 @@ const Navbar = (props: Props) => {
                   </div>
                 </div>
               </motion.div>
+              <Backdrop onClick={handleCloseMobile} />
             </>
           ) : null}
         </AnimatePresence>
