@@ -12,11 +12,13 @@
   -webkit-box-shadow: 0px 0px 31px 0px rgba(0, 0, 0, 0.42);
   -moz-box-shadow: 0px 0px 31px 0px rgba(0, 0, 0, 0.42);
   box-shadow: 0px 0px 31px 0px rgba(0, 0, 0, 0.42);
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 
-  h1 {
+  .cart-items {
     font-size: 1.2rem;
     text-align: center;
-    padding-top: 2rem;
+    padding: 1rem 0rem;
   }
 
   .items {
@@ -97,6 +99,10 @@
       font-size: 1.8rem;
     }
   }
+}
+
+.cart::-webkit-scrollbar {
+  display: none;
 }
 
 @keyframes pulse {

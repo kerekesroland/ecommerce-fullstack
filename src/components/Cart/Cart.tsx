@@ -42,7 +42,7 @@ const Cart: FC<Props> = ({ setIsOpenCart }) => {
       exit={{ right: "-50rem" }}
       className="cart"
     >
-      <h1>Items in your Cart</h1>
+      <h1 className="cart-items">Items in your Cart</h1>
       <div className="items">
         {cartItems.map((item) => (
           <CartItem key={item.id} item={item} />
