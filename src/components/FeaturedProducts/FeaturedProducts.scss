@@ -1,10 +1,46 @@
 .featured {
   margin: 1rem 4rem 6rem 4rem;
 
-  h1 {
-    font-size: 1.5rem;
-    font-weight: 600;
+  .top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: 1.5rem;
+
+    h1 {
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+    .nav-buttons {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      .next-btn {
+        cursor: pointer;
+
+        .next {
+          height: 48px;
+          width: 48px;
+          background-color: #e5e5e5;
+          border-radius: 24px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+      }
+      .prev-btn {
+        cursor: pointer;
+        .prev {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 48px;
+          width: 48px;
+          background-color: #e5e5e5;
+          border-radius: 24px;
+        }
+      }
+    }
   }
 
   .bottom {
@@ -12,9 +48,10 @@
     gap: 1rem;
     justify-content: space-between;
     align-items: center;
-    overflow: scroll;
+    overflow-x: scroll;
+    white-space: nowrap;
+    scroll-snap-type: inline mandatory;
     scroll-behavior: smooth;
-    scroll-snap-type: mandatory;
     padding-bottom: 1rem;
   }
 }

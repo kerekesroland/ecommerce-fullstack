@@ -1,9 +1,8 @@
 import ItemCard from "../ItemCard/ItemCard";
 import "./FeaturedProducts.scss";
-
-type Props = {};
-
-const FeaturedProducts = (props: Props) => {
+import { useRef } from "react";
+import { ChevronLeftOutlined, ChevronRightOutlined } from "@mui/icons-material";
+const FeaturedProducts = () => {
   const DUMMY_DATA = [
     {
       id: 1,
@@ -79,10 +78,34 @@ const FeaturedProducts = (props: Props) => {
     },
   ];
 
+  const scrollRef: any = useRef(null);
+
+  const goToNext = () => {
+    scrollRef.current.scrollLeft += 304;
+  };
+
+  const goToPrevious = () => {
+    scrollRef.current.scrollLeft -= 304;
+  };
+
   return (
     <div className="featured">
-      <h1>Featured Products</h1>
-      <div className="bottom">
+      <div className="top">
+        <h1>Featured Products</h1>
+        <div className="nav-buttons">
+          <div className="prev-btn" onClick={goToPrevious}>
+            <div className="prev">
+              <ChevronLeftOutlined fontSize="large" />
+            </div>
+          </div>
+          <div className="next-btn" onClick={goToNext}>
+            <div className="next">
+              <ChevronRightOutlined fontSize="large" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="bottom" ref={scrollRef}>
         {DUMMY_DATA.map((item) => (
           <ItemCard key={item.id} item={item} />
         ))}
