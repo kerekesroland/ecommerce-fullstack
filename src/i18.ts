@@ -30,7 +30,7 @@ i18n
     },
   });
 
-let currentLanguage = localStorage.getItem("i18nextLng");
+let currentLanguage = localStorage.getItem("i18nextLng") || "en";
 
 if (currentLanguage) {
   i18n.changeLanguage(currentLanguage);
