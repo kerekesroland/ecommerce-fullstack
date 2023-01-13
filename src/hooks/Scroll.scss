@@ -1,0 +1,11 @@
+.bottom {
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  align-items: center;
+  overflow-x: scroll;
+  scroll-behavior: smooth;
+  scroll-snap-type: mandatory;
+  padding-bottom: 1rem;
+  white-space: nowrap;
+}
