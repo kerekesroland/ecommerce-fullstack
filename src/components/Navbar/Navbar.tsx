@@ -83,7 +83,7 @@ const Navbar = () => {
     },
     {
       id: "Profile",
-      name: t("data.navigation.profile"),
+      name: t("data.navigation.profile.title"),
       to: "/profile",
       side: "right",
       delay: 0.8,
@@ -194,7 +194,7 @@ const Navbar = () => {
                     onMouseEnter={openDropdown}
                     onMouseLeave={closeDropdown}
                   >
-                    <li>{t("data.navigation.profile")}</li>
+                    <li>{t("data.navigation.profile.title")}</li>
                     <li>Settings</li>
                     <li>Logout</li>
                   </ul>

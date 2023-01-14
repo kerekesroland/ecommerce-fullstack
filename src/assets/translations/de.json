@@ -8,7 +8,12 @@
       "about": "Über",
       "contact": "Kontakt",
       "stores": "Stores",
-      "profile": "Profil",
+      "profile": {
+        "title": "Profil",
+        "settings": "Einstellungen",
+        "login": "Anmeldung",
+        "logout": "Ausloggen"
+      },
       "cart": "Wagen"
     },
     "featuredProducts": {

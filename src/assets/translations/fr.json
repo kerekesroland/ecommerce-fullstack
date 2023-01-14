@@ -8,7 +8,12 @@
       "about": "Quelque",
       "contact": "Contact",
       "stores": "Boutiques",
-      "profile": "Profil",
+      "profile": {
+        "title": "Profil",
+        "settings": "Paramètres",
+        "login": "Entrer",
+        "logout": "Déconnexion"
+      },
       "cart": "Chariot"
     },
     "featuredProducts": {

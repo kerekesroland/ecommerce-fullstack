@@ -8,7 +8,12 @@
       "about": "About",
       "contact": "Contact",
       "stores": "Stores",
-      "profile": "Profile",
+      "profile": {
+        "title": "Profile",
+        "settings": "Settings",
+        "login": "Login",
+        "logout": "Logout"
+      },
       "cart": "Cart"
     },
     "featuredProducts": {
