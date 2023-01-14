@@ -17,12 +17,12 @@ import { AnimatePresence, motion } from "framer-motion";
 import { MobileTabNav } from "../../models/mobileNavTab";
 import { useTranslation } from "react-i18next";
 import Backdrop from "../Backdrop/Backdrop";
-type Props = {};
 
-const Navbar = (props: Props) => {
+const Navbar = () => {
   const { t, i18n } = useTranslation();
   const [isOpenMobile, setIsOpenMobile] = useState<boolean>(false);
   const [isOpenCart, setIsOpenCart] = useState<boolean>(false);
+  const [isOpenProfile, setIsOpenProfile] = useState<boolean>(false);
   const [language, setLanguage] = useState<string>(i18n.language);
   const mobileNavTabs: Array<MobileTabNav> = [
     {
@@ -91,10 +91,15 @@ const Navbar = (props: Props) => {
     },
   ];
 
-  const handleCloseMobile = () => {
-    setIsOpenMobile(false);
-  };
+  //Function to call when the backdrop is clicked
+  const handleCloseMobile = () => setIsOpenMobile(false);
 
+  //For the profile onHover open and close
+  const closeDropdown = () => setIsOpenProfile(false);
+
+  const openDropdown = () => setIsOpenProfile(true);
+
+  //Observable kind of thing to keep track of the mobile menu
   useEffect(() => {
     const html = document.querySelector("html");
     if (html) {
@@ -102,6 +107,7 @@ const Navbar = (props: Props) => {
     }
   }, [isOpenMobile]);
 
+  //Change the preferred language and persist the changes, default is en
   const changeLanguage = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedLanguage = e.target.value;
     setLanguage(selectedLanguage);
@@ -173,6 +179,28 @@ const Navbar = (props: Props) => {
               </Link>
             </div>
             <div className="icons">
+              <div className="profile">
+                <div
+                  className="profile-icon"
+                  onMouseEnter={openDropdown}
+                  onMouseLeave={closeDropdown}
+                >
+                  <PersonOutlineIcon />
+                </div>
+
+                {isOpenProfile && (
+                  <ul
+                    className="profile-dropdown"
+                    onMouseEnter={openDropdown}
+                    onMouseLeave={closeDropdown}
+                  >
+                    <li>{t("data.navigation.profile")}</li>
+                    <li>Settings</li>
+                    <li>Logout</li>
+                  </ul>
+                )}
+              </div>
+
               <div
                 className="cart-icon"
                 onClick={() => setIsOpenCart(!isOpenCart)}

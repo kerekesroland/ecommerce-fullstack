@@ -71,6 +71,31 @@
       align-items: center;
       gap: 0.6rem;
       cursor: pointer;
+      margin-top: 3.5px;
+
+      .profile {
+        position: relative;
+        .profile-dropdown {
+          width: 6rem;
+          position: absolute;
+          left: -30px;
+          display: flex;
+          flex-direction: column;
+          background-color: white;
+          list-style: none;
+          border: 1px solid gray;
+          border-radius: 5px;
+          z-index: 1;
+        }
+
+        .profile-dropdown li {
+          padding: 10px;
+        }
+
+        .profile-dropdown li:hover {
+          background-color: lightgray;
+        }
+      }
 
       .cart-icon {
         position: relative;
