@@ -86,14 +86,15 @@
           border: 1px solid gray;
           border-radius: 5px;
           z-index: 1;
-        }
 
-        .profile-dropdown li {
-          padding: 10px;
-        }
-
-        .profile-dropdown li:hover {
-          background-color: lightgray;
+          li {
+            padding: 10px;
+            color: #505050;
+            &:hover {
+              background-color: cornflowerblue;
+              color: #fff;
+            }
+          }
         }
       }
 
