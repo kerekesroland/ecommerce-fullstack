@@ -159,45 +159,47 @@
 
 @media screen and (min-width: 1920px) {
   .product {
+    height: fit-content;
+    padding-bottom: 15rem;
     .right {
       h1 {
-        font-size: 2rem;
+        font-size: 1.8rem;
       }
       .details {
         width: 100%;
-        justify-content: center;
+        justify-content: space-between;
         flex-direction: row;
         gap: 2rem;
 
         .brand {
           .title {
-            font-size: 1.5rem;
+            font-size: 1.3rem;
           }
 
           .value {
-            font-size: 1.5rem;
+            font-size: 1.3rem;
           }
         }
 
         .info-container {
           .title {
-            font-size: 1.5rem;
+            font-size: 1.3em;
           }
 
           .value {
-            font-size: 1.5rem;
+            font-size: 1.3rem;
           }
         }
       }
 
       .buy-container {
         .price {
-          font-size: 2rem;
+          font-size: 1.8rem;
         }
         .amount {
           .icons {
             .number {
-              font-size: 2rem;
+              font-size: 1.8rem;
               width: 3rem;
             }
             .icon {
@@ -212,15 +214,15 @@
       }
 
       .description {
-        font-size: 3rem;
+        font-size: 1.8rem;
         text-align: left;
 
         h1 {
-          font-size: 2rem;
+          font-size: 1.8rem;
         }
 
         span {
-          font-size: 1.5rem;
+          font-size: 1.3rem;
         }
       }
       .divider {
