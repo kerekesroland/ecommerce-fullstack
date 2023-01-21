@@ -1,25 +1,33 @@
+import "./Navbar.scss";
+
+import { AnimatePresence, motion } from "framer-motion";
+import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import ChildFriendlyIcon from "@mui/icons-material/ChildFriendly";
+import HomeIcon from "@mui/icons-material/Home";
+import InfoIcon from "@mui/icons-material/Info";
+import LocalMallIcon from "@mui/icons-material/LocalMall";
+import LocalPostOfficeIcon from "@mui/icons-material/LocalPostOffice";
+import ManIcon from "@mui/icons-material/Man";
+import MenuIcon from "@mui/icons-material/Menu";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
-import MenuIcon from "@mui/icons-material/Menu";
-import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import HomeIcon from "@mui/icons-material/Home";
-import ManIcon from "@mui/icons-material/Man";
 import WomanIcon from "@mui/icons-material/Woman";
-import ChildFriendlyIcon from "@mui/icons-material/ChildFriendly";
-import InfoIcon from "@mui/icons-material/Info";
-import LocalPostOfficeIcon from "@mui/icons-material/LocalPostOffice";
-import LocalMallIcon from "@mui/icons-material/LocalMall";
-import { Link } from "react-router-dom";
-import "./Navbar.scss";
-import React, { useEffect, useState } from "react";
-import Cart from "../Cart/Cart";
-import { AnimatePresence, motion } from "framer-motion";
+
 import { MobileTabNav } from "../../models/mobileNavTab";
-import { useTranslation } from "react-i18next";
+import { RootState } from "../../store/store";
 import Backdrop from "../Backdrop/Backdrop";
+import Cart from "../Cart/Cart";
 
 const Navbar = () => {
   const { t, i18n } = useTranslation();
+  const isAuthenticated = useSelector<RootState>(
+    (state) => state.auth.isAuthenticated
+  );
   const [isOpenMobile, setIsOpenMobile] = useState<boolean>(false);
   const [isOpenCart, setIsOpenCart] = useState<boolean>(false);
   const [isOpenProfile, setIsOpenProfile] = useState<boolean>(false);
@@ -194,9 +202,17 @@ const Navbar = () => {
                     onMouseEnter={openDropdown}
                     onMouseLeave={closeDropdown}
                   >
-                    <li>{t("data.navigation.profile.title")}</li>
+                    <Link className="link" to="/auth">
+                      <li>{t("data.navigation.profile.title")}</li>
+                    </Link>
                     <li>Settings</li>
-                    <li>Logout</li>
+                    <Link className="link" to="/auth">
+                      <li>
+                        {isAuthenticated
+                          ? t("data.navigation.profile.logout")
+                          : t("data.navigation.profile.login")}
+                      </li>
+                    </Link>
                   </ul>
                 )}
               </div>
