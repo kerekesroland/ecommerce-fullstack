@@ -1,5 +1,5 @@
 export interface IRegisterUser {
-  userName: string;
+  username: string;
   email: string;
   password: string;
   user_tier?: null;
