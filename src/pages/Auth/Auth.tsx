@@ -1,41 +1,172 @@
 import "./Auth.scss";
+
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
+import { yupResolver } from "@hookform/resolvers/yup";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+
+import { useAuthSchemas } from "../../hooks/useAuthSchemas";
+import {
+  login,
+  register as handleRegister,
+} from "../../store/slices/authSlice";
+import { AppDispatch } from "../../store/store";
+
+interface IRegisterFormInputs {
+  username: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+}
+
+interface ILoginFormInputs {
+  identifier: string;
+  password: string;
+}
 
 const Auth = () => {
+  const navigate = useNavigate();
   const [isSignedUpMode, setIsSignedUpMode] = useState<boolean>(false);
+  const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
+  const dynamicClass = isSignedUpMode ? "auth sign-up-mode" : "auth";
+  const dispatch: AppDispatch = useDispatch();
+  const { registerSchema, loginSchema } = useAuthSchemas();
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<IRegisterFormInputs>({
+    resolver: yupResolver(registerSchema),
+    reValidateMode: "onChange",
+  });
+
+  /**
+   * @param {IRegisterFormInputs} data - The register form input data object
+   * @returns {void}
+   */
+  const onRegister = (data: IRegisterFormInputs) => {
+    const { username, email, password } = data;
+    const user = { username, email, password };
+    // If registration is success => move to login form
+    dispatch(handleRegister(user))
+      .then(() => {
+        setTimeout(() => {
+          setIsSignedUpMode(true);
+        }, 1000);
+      })
+      .catch((err) => console.error(err));
+    reset();
+  };
+
+  const {
+    register: registerLoginField,
+    handleSubmit: handleSubmitLoginForm,
+    reset: resetLoginForm,
+    formState: { errors: loginFormErrors },
+  } = useForm<ILoginFormInputs>({
+    resolver: yupResolver(loginSchema),
+    reValidateMode: "onChange",
+  });
+
+  /**
+   * @param {IFormInputs} data - The login form input data object
+   * @returns {void}
+   */
+  const onLogin = (data: ILoginFormInputs) => {
+    const { identifier, password } = data;
+    const user = { identifier, password };
+    dispatch(login(user))
+      .then(() => {
+        setTimeout(() => {
+          navigate("/");
+        }, 500);
+      })
+      .catch((error) => console.error(error));
+    resetLoginForm();
+  };
 
   const handleToggle = () => setIsSignedUpMode(!isSignedUpMode);
-
-  const dynamicClass = isSignedUpMode ? "auth sign-up-mode" : "auth";
 
   return (
     <div className={dynamicClass}>
       <div className="container">
         <div className="inner-container">
           <div className="forms-wrapper">
-            <form className="sign-up">
+            <form className="sign-up" onSubmit={handleSubmit(onRegister)}>
               <div className="top">
                 <h2>Create account!</h2>
               </div>
               <div className="center">
                 <div className="inputs">
-                  <input
-                    type="text"
-                    minLength={4}
-                    placeholder="Username"
-                    required
-                  />
-                  <input type="email" placeholder="Email" required />
-                  <input type="password" placeholder="Password" required />
-                  <input
-                    type="password"
-                    placeholder="Confirm password"
-                    required
-                  />
+                  <div className="input-container">
+                    <input
+                      {...register("username")}
+                      type="text"
+                      minLength={4}
+                      placeholder="Username"
+                      required
+                    />
+                  </div>
+                  <p className="validation-error">{errors.username?.message}</p>
+                  <div className="input-container">
+                    <input
+                      type="email"
+                      placeholder="Email"
+                      required
+                      {...register("email")}
+                    />
+                  </div>
+
+                  <p className="validation-error">{errors.email?.message}</p>
+
+                  <div className="input-container">
+                    <input
+                      type={isPasswordVisible ? "text" : "password"}
+                      placeholder="Password"
+                      required
+                      {...register("password")}
+                    />
+                    <div
+                      className="input-icon-container"
+                      onClick={() => setIsPasswordVisible(!isPasswordVisible)}
+                    >
+                      {isPasswordVisible ? (
+                        <VisibilityIcon style={{ fill: "cornflowerblue" }} />
+                      ) : (
+                        <VisibilityOffIcon style={{ fill: "lightslategray" }} />
+                      )}
+                    </div>
+                  </div>
+
+                  <p className="validation-error">{errors.password?.message}</p>
+
+                  <div className="input-container">
+                    <input
+                      type="password"
+                      placeholder="Confirm password"
+                      required
+                      {...register("confirmPassword")}
+                    />
+                  </div>
+                  <p className="validation-error">
+                    {errors.confirmPassword?.message}
+                  </p>
                 </div>
               </div>
               <div className="bottom">
-                <button>Sign Up</button>
+                <button
+                  type="submit"
+                  // disabled={!isValid}
+                  // className={!isValid ? "disabled" : ""}
+                >
+                  Sign Up
+                </button>
                 <p className="no-account toggle" onClick={handleToggle}>
                   Already a member?{" "}
                   <span className="sign-in-btn"> Sign in </span>
@@ -46,21 +177,41 @@ const Auth = () => {
               </div>
             </form>
 
-            <form className="sign-in">
+            <form className="sign-in" onSubmit={handleSubmitLoginForm(onLogin)}>
               <div className="top">
                 <h2>Welcome back!</h2>
               </div>
               <div className="center">
                 <div className="inputs">
-                  <input type="email" placeholder="Email" required />
-                  <input type="password" placeholder="Password" required />
+                  <div className="input-container">
+                    <input
+                      {...registerLoginField("identifier")}
+                      type="email"
+                      placeholder="Email"
+                      required
+                    />
+                    <p className="validation-error">
+                      {loginFormErrors.identifier?.message}
+                    </p>
+                  </div>
+                  <div className="input-container">
+                    <input
+                      {...registerLoginField("password")}
+                      type="password"
+                      placeholder="Password"
+                      required
+                    />
+                    <p className="validation-error">
+                      {loginFormErrors.password?.message}
+                    </p>
+                  </div>
                 </div>
               </div>
               <div className="bottom">
                 <button>Sign In</button>
                 <p className="no-account toggle" onClick={handleToggle}>
                   Don't have an account?{" "}
-                  <span className="sign-up-btn">Click here!</span>
+                  <span className="sign-up-btn">Sign up</span>
                 </p>
                 <p className="forgot-password">Forgot your password?</p>
               </div>
