@@ -6,6 +6,8 @@ import Product from "./pages/Product/Product";
 import Products from "./pages/Products/Products";
 import "./App.scss";
 import Auth from "./pages/Auth/Auth";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
 
 const Layout = () => {
   return (
@@ -46,6 +48,7 @@ const App = () => {
   return (
     <div>
       <RouterProvider router={router} />
+      <ToastContainer />
     </div>
   );
 };
