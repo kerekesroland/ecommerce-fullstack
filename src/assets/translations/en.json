@@ -18,6 +18,30 @@
     },
     "featuredProducts": {
       "title": "Featured Products"
+    },
+    "errors": {
+      "registration": {
+        "username": {
+          "required": "Username is required!",
+          "minLength": "Username must be at least 4 characters long!"
+        },
+        "email": {
+          "required": "Email is required!",
+          "emailFormat": "It must be a valid email!"
+        },
+        "password": {
+          "required": "Password is required!",
+          "minLength": "Password must be at least 6 characters long!",
+          "upperCase": "Password must contain an uppercase character!",
+          "lowerCase": "Password must contain a lowercase character!",
+          "specialCharacter": "Password must contain a special character! (!?.%$&£@)",
+          "numberRequired": "Password must contain a number!"
+        },
+        "confirmPassword": {
+          "required": "Confirm password is required!",
+          "mismatch": "The passwords do not match!"
+        }
+      }
     }
   }
 }

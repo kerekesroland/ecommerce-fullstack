@@ -18,6 +18,30 @@
     },
     "featuredProducts": {
       "title": "Featured Products"
+    },
+    "errors": {
+      "registration": {
+        "username": {
+          "required": "Le nom d'utilisateur est requis!",
+          "minLength": "Le nom d'utilisateur doit comporter au moins 4 caractères!"
+        },
+        "email": {
+          "required": "E-mail obligatoire!",
+          "emailFormat": "Ce doit être un email valide!"
+        },
+        "password": {
+          "required": "Le mot de passe est requis!",
+          "minLength": "Le mot de passe doit comporter au moins 6 caractères!",
+          "upperCase": "Le mot de passe doit contenir un caractère majuscule!",
+          "lowerCase": "Le mot de passe doit contenir un caractère minuscule!",
+          "specialCharacter": "Le mot de passe doit contenir un caractère spécial! (!?.%$&£@)",
+          "numberRequired": "Le mot de passe doit contenir un chiffre!"
+        },
+        "confirmPassword": {
+          "required": "Confirmer le mot de passe est requis!",
+          "mismatch": "Les mots de passe ne correspondent pas!"
+        }
+      }
     }
   }
 }
