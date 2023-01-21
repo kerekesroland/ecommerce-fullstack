@@ -205,14 +205,18 @@ const Navbar = () => {
                     <Link className="link" to="/auth">
                       <li>{t("data.navigation.profile.title")}</li>
                     </Link>
-                    <li>Settings</li>
-                    <Link className="link" to="/auth">
-                      <li>
-                        {isAuthenticated
-                          ? t("data.navigation.profile.logout")
-                          : t("data.navigation.profile.login")}
-                      </li>
+                    <Link className="link" to="/">
+                      <li>{t("data.navigation.profile.settings")}</li>
                     </Link>
+                    {isAuthenticated ? (
+                      <Link className="link" to="/auth">
+                        <li>{t("data.navigation.profile.logout")}</li>
+                      </Link>
+                    ) : (
+                      <Link className="link" to="/auth">
+                        <li>{t("data.navigation.profile.login")}</li>
+                      </Link>
+                    )}
                   </ul>
                 )}
               </div>
