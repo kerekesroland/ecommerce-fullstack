@@ -6,6 +6,7 @@
   .left {
     flex: 1;
     position: sticky;
+    position: -webkit-sticky;
     height: 100%;
     top: 0;
     .filter-item {
