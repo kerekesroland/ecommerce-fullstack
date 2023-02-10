@@ -2,7 +2,6 @@ import "./Auth.scss";
 
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -10,11 +9,8 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 
 import { useAuthSchemas } from "../../hooks/useAuthSchemas";
-import {
-  login,
-  register as handleRegister,
-} from "../../store/slices/authSlice";
-import { AppDispatch } from "../../store/store";
+import { authService } from "../../api/auth/auth";
+import GoogleSignInButton from "../../components/GoogleSignInBtn/GoogleSignInButton";
 
 interface IRegisterFormInputs {
   username: string;
@@ -24,7 +20,7 @@ interface IRegisterFormInputs {
 }
 
 interface ILoginFormInputs {
-  identifier: string;
+  email: string;
   password: string;
 }
 
@@ -33,7 +29,6 @@ const Auth = () => {
   const [isSignedUpMode, setIsSignedUpMode] = useState<boolean>(false);
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
   const dynamicClass = isSignedUpMode ? "auth sign-up-mode" : "auth";
-  const dispatch: AppDispatch = useDispatch();
   const { registerSchema, loginSchema } = useAuthSchemas();
 
   const {
@@ -54,7 +49,8 @@ const Auth = () => {
     const { username, email, password } = data;
     const user = { username, email, password };
     // If registration is success => move to login form
-    dispatch(handleRegister(user))
+    authService
+      .registerUser(user)
       .then(() => {
         setTimeout(() => {
           setIsSignedUpMode(true);
@@ -79,9 +75,10 @@ const Auth = () => {
    * @returns {void}
    */
   const onLogin = (data: ILoginFormInputs) => {
-    const { identifier, password } = data;
-    const user = { identifier, password };
-    dispatch(login(user))
+    const { email, password } = data;
+    const user = { email, password };
+    authService
+      .loginUser(user)
       .then(() => {
         setTimeout(() => {
           navigate("/");
@@ -127,6 +124,7 @@ const Auth = () => {
 
                   <div className="input-container">
                     <input
+                      className="password"
                       type={isPasswordVisible ? "text" : "password"}
                       placeholder="Password"
                       required
@@ -160,13 +158,7 @@ const Auth = () => {
                 </div>
               </div>
               <div className="bottom">
-                <button
-                  type="submit"
-                  // disabled={!isValid}
-                  // className={!isValid ? "disabled" : ""}
-                >
-                  Sign Up
-                </button>
+                <button type="submit">Sign Up</button>
                 <p className="no-account toggle" onClick={handleToggle}>
                   Already a member?{" "}
                   <span className="sign-in-btn"> Sign in </span>
@@ -185,15 +177,15 @@ const Auth = () => {
                 <div className="inputs">
                   <div className="input-container">
                     <input
-                      {...registerLoginField("identifier")}
+                      {...registerLoginField("email")}
                       type="email"
                       placeholder="Email"
                       required
                     />
-                    <p className="validation-error">
-                      {loginFormErrors.identifier?.message}
-                    </p>
                   </div>
+                  <p className="validation-error">
+                    {loginFormErrors.email?.message}
+                  </p>
                   <div className="input-container">
                     <input
                       {...registerLoginField("password")}
@@ -201,16 +193,21 @@ const Auth = () => {
                       placeholder="Password"
                       required
                     />
-                    <p className="validation-error">
-                      {loginFormErrors.password?.message}
-                    </p>
                   </div>
+                  <p className="validation-error">
+                    {loginFormErrors.password?.message}
+                  </p>
                 </div>
               </div>
               <div className="bottom">
-                <button>Sign In</button>
+                <button type="submit">Sign In</button>
+                <div className="google-provider">
+                  <GoogleSignInButton
+                    onClick={() => authService.signInWithGoogle()}
+                  />
+                </div>
                 <p className="no-account toggle" onClick={handleToggle}>
-                  Don't have an account?{" "}
+                  Don't have an account?
                   <span className="sign-up-btn">Sign up</span>
                 </p>
                 <p className="forgot-password">Forgot your password?</p>
