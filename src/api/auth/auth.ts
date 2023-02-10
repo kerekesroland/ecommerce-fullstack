@@ -1,34 +1,82 @@
 import { ILoginUser, IRegisterUser } from "./models";
-import axios from "axios";
-
-export const authUrl = "http://localhost:1337/api/auth/local";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  updateProfile,
+} from "firebase/auth";
+import { auth, googleProvider } from "../../firebase/config";
+import { toast } from "react-toastify";
 
 const registerUser = async (user: IRegisterUser) => {
-  const res = await axios.post(`${authUrl}/register`, user);
-
-  if (res.data) {
-    localStorage.setItem("user", JSON.stringify(res.data));
+  try {
+    await createUserWithEmailAndPassword(auth, user.email, user.password);
+    if (auth.currentUser) {
+      updateProfile(auth.currentUser, { displayName: user.username });
+    }
+    toast.success(`Successfully created ${user.email}`, {
+      position: "top-center",
+      autoClose: 3000,
+      pauseOnHover: false,
+      closeOnClick: true,
+    });
+  } catch (error) {
+    console.log(error);
   }
-
-  return res.data;
+  await auth.signOut();
 };
 
 const loginUser = async (user: ILoginUser) => {
-  const res = await axios.post(authUrl, user);
-
-  if (res.data) {
-    localStorage.setItem("user", JSON.stringify(res.data));
+  try {
+    await signInWithEmailAndPassword(auth, user.email, user.password);
+    toast.success(
+      `Successfully logged in as ${
+        auth?.currentUser?.displayName ?? user.email
+      }`,
+      {
+        position: "top-center",
+        pauseOnHover: false,
+        autoClose: 3000,
+        closeOnClick: true,
+      }
+    );
+  } catch (error) {
+    console.log(error);
   }
-
-  return res.data;
 };
 
-const logout = () => {
-  localStorage.removeItem("user");
+const logout = async () => {
+  await auth.signOut();
+  toast.success("Successfully logged out", {
+    position: "top-center",
+    autoClose: 3000,
+    pauseOnHover: false,
+    closeOnClick: true,
+  });
+};
+
+const signInWithGoogle = async () => {
+  try {
+    const { user } = await signInWithPopup(auth, googleProvider);
+    toast.success(
+      `Successfully logged in as ${
+        auth?.currentUser?.displayName ?? user.email
+      }`,
+      {
+        position: "top-center",
+        autoClose: 3000,
+        pauseOnHover: false,
+        closeOnClick: true,
+      }
+    );
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 export const authService = {
   registerUser,
   loginUser,
+  signInWithGoogle,
   logout,
 };
