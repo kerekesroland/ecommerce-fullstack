@@ -1,0 +1,20 @@
+.profile-container {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  .profile-image-container {
+    padding: 1rem 2rem 0rem 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+  }
+  .separator {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    color: lightgrey;
+    opacity: 0.1;
+  }
+}
