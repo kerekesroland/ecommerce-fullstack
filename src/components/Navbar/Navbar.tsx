@@ -3,8 +3,7 @@ import "./Navbar.scss";
 import { AnimatePresence, motion } from "framer-motion";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, NavigateFunction, useNavigate } from "react-router-dom";
 
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ChildFriendlyIcon from "@mui/icons-material/ChildFriendly";
@@ -19,15 +18,16 @@ import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import WomanIcon from "@mui/icons-material/Woman";
 
 import { MobileTabNav } from "../../models/mobileNavTab";
-import { RootState } from "../../store/store";
 import Backdrop from "../Backdrop/Backdrop";
 import Cart from "../Cart/Cart";
+import { auth } from "../../firebase/config";
+import { authService } from "../../api/auth/auth";
 
 const Navbar = () => {
   const { t, i18n } = useTranslation();
-  const isAuthenticated = useSelector<RootState>(
-    (state) => state.auth.isAuthenticated
-  );
+
+  const currentUser = auth?.currentUser;
+  const navigate: NavigateFunction = useNavigate();
   const [isOpenMobile, setIsOpenMobile] = useState<boolean>(false);
   const [isOpenCart, setIsOpenCart] = useState<boolean>(false);
   const [isOpenProfile, setIsOpenProfile] = useState<boolean>(false);
@@ -107,6 +107,17 @@ const Navbar = () => {
 
   const openDropdown = () => setIsOpenProfile(true);
 
+  const handleLogout = () => {
+    authService
+      .logout()
+      .then(() => {
+        setTimeout(() => {
+          navigate("/auth");
+        }, 500);
+      })
+      .catch((error) => console.error(error));
+  };
+
   //Observable kind of thing to keep track of the mobile menu
   useEffect(() => {
     const html = document.querySelector("html");
@@ -132,7 +143,7 @@ const Navbar = () => {
               className="mobile-item"
               onClick={() => setIsOpenMobile(!isOpenMobile)}
             >
-              <MenuIcon />
+              <MenuIcon style={{ cursor: "pointer" }} />
             </div>
             <div className="item select-wrapper">
               <select
@@ -166,7 +177,7 @@ const Navbar = () => {
 
           <div className="center">
             <Link className="link" to="/">
-              RIVIERA
+              RIVENA
             </Link>
           </div>
 
@@ -193,7 +204,7 @@ const Navbar = () => {
                   onMouseEnter={openDropdown}
                   onMouseLeave={closeDropdown}
                 >
-                  <PersonOutlineIcon />
+                  <PersonOutlineIcon style={{ cursor: "pointer" }} />
                 </div>
 
                 {isOpenProfile && (
@@ -202,16 +213,18 @@ const Navbar = () => {
                     onMouseEnter={openDropdown}
                     onMouseLeave={closeDropdown}
                   >
-                    <Link className="link" to="/auth">
+                    <Link className="link" to="/profile">
                       <li>{t("data.navigation.profile.title")}</li>
                     </Link>
                     <Link className="link" to="/">
                       <li>{t("data.navigation.profile.settings")}</li>
                     </Link>
-                    {isAuthenticated ? (
-                      <Link className="link" to="/auth">
-                        <li>{t("data.navigation.profile.logout")}</li>
-                      </Link>
+                    {currentUser ? (
+                      <div className="link" onClick={handleLogout}>
+                        <li style={{ cursor: "pointer" }}>
+                          {t("data.navigation.profile.logout")}
+                        </li>
+                      </div>
                     ) : (
                       <Link className="link" to="/auth">
                         <li>{t("data.navigation.profile.login")}</li>
@@ -225,7 +238,7 @@ const Navbar = () => {
                 className="cart-icon"
                 onClick={() => setIsOpenCart(!isOpenCart)}
               >
-                <ShoppingCartOutlinedIcon />
+                <ShoppingCartOutlinedIcon style={{ cursor: "pointer" }} />
                 <span>2</span>
               </div>
             </div>

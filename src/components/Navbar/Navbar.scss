@@ -70,7 +70,6 @@
       display: flex;
       align-items: center;
       gap: 0.6rem;
-      cursor: pointer;
       margin-top: 3.5px;
 
       .profile {
@@ -171,6 +170,7 @@
       top: 5%;
       right: -1rem;
       background-color: rgba(32, 32, 32);
+      cursor: pointer;
     }
   }
 
