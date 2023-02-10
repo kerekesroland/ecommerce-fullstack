@@ -1,0 +1,42 @@
+.avatar-container {
+  border-radius: 50%;
+
+  .img-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 5rem;
+    height: 5rem;
+    border-radius: 50%;
+
+    .avatar {
+      vertical-align: middle;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+    }
+
+    .edit-btn-container {
+      width: 2rem;
+      height: 2rem;
+      background-color: #fff;
+      -webkit-box-shadow: 0px 0px 31px 0px rgba(0, 0, 0, 0.42);
+      -moz-box-shadow: 0px 0px 31px 0px rgba(0, 0, 0, 0.42);
+      box-shadow: 0px 0px 31px 0px rgba(0, 0, 0, 0.42);
+      border-radius: 50%;
+      position: absolute;
+      right: -0.5rem;
+      bottom: -0.3rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      .edit-btn {
+        fill: cornflowerblue;
+        width: 20px;
+        height: 20px;
+      }
+    }
+  }
+}
