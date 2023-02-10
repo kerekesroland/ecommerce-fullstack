@@ -12,6 +12,7 @@
         "title": "Profil",
         "settings": "Paramètres",
         "login": "Entrer",
+        "login_google": "Connecter avec google",
         "logout": "Déconnexion"
       },
       "cart": "Chariot"

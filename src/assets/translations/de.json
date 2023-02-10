@@ -12,6 +12,7 @@
         "title": "Profil",
         "settings": "Einstellungen",
         "login": "Anmeldung",
+        "login_google": "Anmeldung mit Google",
         "logout": "Ausloggen"
       },
       "cart": "Wagen"

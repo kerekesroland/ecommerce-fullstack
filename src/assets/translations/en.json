@@ -12,6 +12,7 @@
         "title": "Profile",
         "settings": "Settings",
         "login": "Login",
+        "login_google": "Sign in with Google",
         "logout": "Logout"
       },
       "cart": "Cart"
