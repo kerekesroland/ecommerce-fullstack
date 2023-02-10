@@ -1,0 +1,14 @@
+.profile-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  .username {
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+  .user-email {
+    font-size: 0.9rem;
+  }
+}
