@@ -3,6 +3,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import { motion } from "framer-motion";
 import { FC } from "react";
 import "./Cart.scss";
+import Separator from "../Separator/Separator";
 
 type Props = {
   setIsOpenCart: React.Dispatch<React.SetStateAction<boolean>>;
@@ -48,7 +49,7 @@ const Cart: FC<Props> = ({ setIsOpenCart }) => {
           <CartItem key={item.id} item={item} />
         ))}
       </div>
-      <hr className="separator" />
+      <Separator />
       <div className="subtotal">
         <div className="item">
           <span className="title">Subtotal</span>
@@ -59,7 +60,7 @@ const Cart: FC<Props> = ({ setIsOpenCart }) => {
           <span className="value">$8.99</span>
         </div>
       </div>
-      <hr className="separator" />
+      <Separator />
       <div className="total">
         <span className="title">Total</span>
         <span className="value">$318</span>
