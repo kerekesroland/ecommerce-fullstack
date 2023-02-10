@@ -8,6 +8,9 @@ import "./App.scss";
 import Auth from "./pages/Auth/Auth";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
+import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
+import Plans from "./pages/Plans/Plans";
+import Profile from "./pages/Profile/Profile";
 
 const Layout = () => {
   return (
@@ -39,6 +42,22 @@ const router = createBrowserRouter([
       {
         path: "auth",
         element: <Auth />,
+      },
+      {
+        path: "/profile",
+        element: (
+          <PrivateRoute>
+            <Profile />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "plans",
+        element: (
+          <PrivateRoute>
+            <Plans />
+          </PrivateRoute>
+        ),
       },
     ],
   },
