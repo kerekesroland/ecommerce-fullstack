@@ -106,7 +106,7 @@ export const useAuthSchemas = () => {
   });
 
   const loginSchema = yup.object({
-    identifier: yup
+    email: yup
       .string()
       .email(errors.userEmailFormatError)
       .required(errors.userEmailRequiredError),
