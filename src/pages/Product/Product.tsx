@@ -6,9 +6,7 @@ import product1 from "../../images/cloth_1-min.jpg";
 import product2 from "../../images/cloth_2-min.jpg";
 import { useState } from "react";
 
-type Props = {};
-
-const Product = (props: Props) => {
+const Product = () => {
   const [currentImage, setCurrentImage] = useState<string>(product1);
 
   const previews = [
