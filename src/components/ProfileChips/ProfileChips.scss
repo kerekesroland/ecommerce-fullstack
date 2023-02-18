@@ -1,0 +1,22 @@
+.profile-chips {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+
+  .option {
+    font-size: 0.7rem;
+    font-weight: 550;
+    line-height: 1rem;
+    border-bottom: 2px solid white;
+    cursor: pointer;
+    &.active {
+      border-bottom: 2px solid cornflowerblue;
+      transform: scale(1.1);
+      transition: 0.4s ease all;
+    }
+    @media screen and (min-width: 700px) {
+      font-size: 0.9rem;
+      line-height: 1.5rem;
+    }
+  }
+}
