@@ -7,6 +7,7 @@ import {
 } from "firebase/auth";
 import { auth, googleProvider } from "../../firebase/config";
 import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const registerUser = async (user: IRegisterUser) => {
   try {
@@ -28,7 +29,11 @@ const registerUser = async (user: IRegisterUser) => {
 
 const loginUser = async (user: ILoginUser) => {
   try {
-    await signInWithEmailAndPassword(auth, user.email, user.password);
+    const { user: userProfile } = await signInWithEmailAndPassword(
+      auth,
+      user.email,
+      user.password
+    );
     toast.success(
       `Successfully logged in as ${
         auth?.currentUser?.displayName ?? user.email
@@ -40,8 +45,9 @@ const loginUser = async (user: ILoginUser) => {
         closeOnClick: true,
       }
     );
+    localStorage.setItem("user", JSON.stringify(userProfile));
   } catch (error) {
-    console.log(error);
+    return error;
   }
 };
 
@@ -53,6 +59,7 @@ const logout = async () => {
     pauseOnHover: false,
     closeOnClick: true,
   });
+  localStorage.removeItem("user");
 };
 
 const signInWithGoogle = async () => {
@@ -69,8 +76,9 @@ const signInWithGoogle = async () => {
         closeOnClick: true,
       }
     );
+    localStorage.setItem("user", JSON.stringify(user));
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 };
 
