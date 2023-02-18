@@ -1,2 +1,108 @@
 .profile-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: calc(100vh - 370px);
+  .input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    .input-container {
+      display: flex;
+      flex-direction: column;
+      max-width: 550px;
+      label {
+        font-size: 12px;
+        color: #787878;
+        font-weight: 500;
+        line-height: 15px;
+        margin-left: -5px;
+        padding-bottom: 0.7rem;
+      }
+      input {
+        background: #ffffff;
+        border: 1px solid #b9bcc8;
+        border-radius: 10px;
+        height: 40px;
+        padding: 0.5rem;
+
+        &:focus {
+          outline: 2px solid cornflowerblue;
+          border: none;
+        }
+      }
+      @media screen and (min-width: 700px) {
+        label {
+          font-size: 13px;
+          font-weight: 550;
+        }
+        input {
+          font-size: 13px;
+          height: 40px;
+          padding: 0.5rem;
+        }
+      }
+    }
+    @media screen and (min-width: 570px) {
+      margin-top: 2rem;
+      align-items: center;
+      gap: 1rem;
+      width: 100%;
+
+      .input-container {
+        width: 100%;
+      }
+    }
+  }
+
+  .buttons {
+    display: flex;
+    width: calc(100%);
+    gap: 2rem;
+    padding: 0.5rem 0rem;
+    justify-content: center;
+    align-items: center;
+    .cancel {
+      height: 36px;
+      width: 80px;
+      background-color: #ffffff;
+      color: #505050;
+      padding: 0.5rem 1rem;
+      border-radius: 10px;
+      border: none;
+      outline: none;
+      border: 1px solid #b9bcc8;
+      cursor: pointer;
+    }
+
+    .publish {
+      height: 36px;
+      width: 140px;
+      background-color: cornflowerblue;
+      color: #ffffff;
+      padding: 0.5rem 1rem;
+      border-radius: 10px;
+      border: none;
+      outline: none;
+      cursor: pointer;
+    }
+
+    @media screen and (min-width: 700px) {
+      gap: 4rem;
+
+      .cancel {
+        width: 120px;
+        height: 48px;
+        font-size: 1rem;
+        font-weight: 500;
+      }
+      .publish {
+        height: 48px;
+        width: 180px;
+        font-size: 1rem;
+        font-weight: 500;
+      }
+    }
+  }
 }
