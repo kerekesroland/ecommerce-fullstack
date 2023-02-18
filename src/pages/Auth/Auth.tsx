@@ -11,6 +11,9 @@ import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { useAuthSchemas } from "../../hooks/useAuthSchemas";
 import { authService } from "../../api/auth/auth";
 import GoogleSignInButton from "../../components/GoogleSignInBtn/GoogleSignInButton";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { FirebaseError } from "firebase/app";
 
 interface IRegisterFormInputs {
   username: string;
@@ -79,7 +82,12 @@ const Auth = () => {
     const user = { email, password };
     authService
       .loginUser(user)
-      .then(() => {
+      .then((data) => {
+        if (data instanceof FirebaseError) {
+          //todo add translation
+          toast.error("Email or password incorrect");
+          return;
+        }
         setTimeout(() => {
           navigate("/");
         }, 500);
