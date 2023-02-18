@@ -7,13 +7,14 @@ import { motion } from "framer-motion";
 type Props = {};
 
 const slides: Array<string> = [
-  require("/Users/roland/work/ecommerce/client/src/images/girl_2-min.jpg"),
-  require("/Users/roland/work/ecommerce/client/src/images/girl_3-min.jpg"),
-  require("/Users/roland/work/ecommerce/client/src/images/man_1-min.jpg"),
+  require("/Users/roland/work/ecommerce/client/src/images/girl_2-min-02.jpg"),
+  require("/Users/roland/work/ecommerce/client/src/images/girl_3-min-02.jpg"),
+  require("/Users/roland/work/ecommerce/client/src/images/man_1-min-02.jpg"),
 ];
 
 const Slider = (props: Props) => {
   const [slide, setSlide] = useState<number>(0);
+  const [isInView, setIsInView] = useState(false);
 
   const prevSlide = () => {
     setSlide(slide === 0 ? 2 : (prev) => prev - 1);
