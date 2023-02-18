@@ -1,4 +1,9 @@
-import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
+import {
+  createBrowserRouter,
+  RouterProvider,
+  Outlet,
+  useLocation,
+} from "react-router-dom";
 import Footer from "./components/Footer/Footer";
 import Navbar from "./components/Navbar/Navbar";
 import Home from "./pages/Home/Home";
@@ -13,11 +18,12 @@ import Plans from "./pages/Plans/Plans";
 import Profile from "./pages/Profile/Profile";
 
 const Layout = () => {
+  const { pathname } = useLocation();
   return (
     <div className="app">
       <Navbar />
       <Outlet />
-      <Footer />
+      {pathname !== "/profile" && <Footer />}
     </div>
   );
 };
