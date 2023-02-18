@@ -20,6 +20,11 @@
     "featuredProducts": {
       "title": "Featured Products"
     },
+    "order": {
+      "id": "ID de commande",
+      "reorder": "Réorganiser",
+      "details": "Détails"
+    },
     "errors": {
       "registration": {
         "username": {
