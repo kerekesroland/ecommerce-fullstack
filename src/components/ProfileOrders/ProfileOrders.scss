@@ -1,0 +1,18 @@
+.orders {
+  display: flex;
+  flex-direction: column;
+  .profile-orders {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    .profile-order-separator {
+      margin-top: 1.3rem;
+      margin-bottom: 1rem;
+      color: lightgrey;
+      opacity: 0.1;
+      width: 100%;
+    }
+  }
+}
