@@ -2,81 +2,13 @@ import ItemCard from "../ItemCard/ItemCard";
 import "./FeaturedProducts.scss";
 import { useRef } from "react";
 import { ChevronLeftOutlined, ChevronRightOutlined } from "@mui/icons-material";
+import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store/store";
+import { Item } from "../../models/Item";
 const FeaturedProducts = () => {
-  const DUMMY_DATA = [
-    {
-      id: 1,
-      image_1: require("../../images/cloth_1-min-02.jpg"),
-      title: "Superset clothes",
-      price: 44.99,
-      oldPrice: 22.99,
-      isNew: true,
-      category: "Clothes set",
-    },
-    {
-      id: 2,
-      image_1: require("../../images/cloth_2-min-02.jpg"),
-      title: "Nike shoes for men",
-      price: 24.99,
-      oldPrice: 22.99,
-      isNew: false,
-      category: "Men Shoes",
-    },
-    {
-      id: 3,
-      image_1: require("../../images/cloth_1-min-02.jpg"),
-      title: "Superset clothes",
-      price: 14.99,
-      oldPrice: 22.99,
-      isNew: true,
-      category: "Clothes set",
-    },
-    {
-      id: 4,
-      image_1: require("../../images/cloth_2-min-02.jpg"),
-      title: "Better Nike Shoes",
-      price: 104.99,
-      oldPrice: 140.99,
-      isNew: false,
-      category: "Men Shoes",
-    },
-    {
-      id: 5,
-      image_1: require("../../images/cloth_1-min-02.jpg"),
-      title: "Superset clothes",
-      price: 14.99,
-      oldPrice: 22.99,
-      isNew: true,
-      category: "Clothes set",
-    },
-    {
-      id: 6,
-      image_1: require("../../images/cloth_2-min-02.jpg"),
-      title: "Better Nike Shoes",
-      price: 104.99,
-      oldPrice: 140.99,
-      isNew: false,
-      category: "Men Shoes",
-    },
-    {
-      id: 7,
-      image_1: require("../../images/cloth_1-min-02.jpg"),
-      title: "Superset clothes",
-      price: 14.99,
-      oldPrice: 22.99,
-      isNew: true,
-      category: "Clothes set",
-    },
-    {
-      id: 8,
-      image_1: require("../../images/cloth_2-min-02.jpg"),
-      title: "Better Nike Shoes",
-      price: 104.99,
-      oldPrice: 140.99,
-      isNew: false,
-      category: "Men Shoes",
-    },
-  ];
+  const { t } = useTranslation();
+  const products = useSelector((state: RootState) => state.products.products);
 
   const scrollRef: any = useRef(null);
 
@@ -91,7 +23,7 @@ const FeaturedProducts = () => {
   return (
     <div className="featured">
       <div className="top">
-        <h1>Featured Products</h1>
+        <h1>{t("data.featuredProducts.title")}</h1>
         <div className="nav-buttons">
           <div className="prev-btn" onClick={goToPrevious}>
             <div className="prev">
@@ -106,7 +38,7 @@ const FeaturedProducts = () => {
         </div>
       </div>
       <div className="bottom" ref={scrollRef}>
-        {DUMMY_DATA.map((item) => (
+        {products?.slice(0, 8).map((item: Item) => (
           <ItemCard key={item.id} item={item} />
         ))}
       </div>
