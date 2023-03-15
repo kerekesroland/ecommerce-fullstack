@@ -1,0 +1,90 @@
+.container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  span {
+    color: transparent;
+    background-image: linear-gradient(
+      to left,
+      #6495ed,
+      #76b9ec,
+      #6495ed,
+      #74b3e3,
+      #6495ed
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-animation: changeText 3s linear infinite;
+    animation: changeText 5s linear infinite;
+    -webkit-background-size: 500%;
+    background-size: 500%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    font-size: 4rem;
+    font-weight: 500;
+    -webkit-filter: saturate(1.6);
+    filter: saturate(1.6);
+    -webkit-filter: brightness(1.2);
+    filter: brightness(1.2);
+  }
+
+  .loader {
+    position: absolute;
+    border-radius: 50%;
+    background: transparent;
+    width: 120px;
+    height: 120px;
+    animation: spin 2s linear infinite;
+    -webkit-animation: spin 2s linear infinite;
+    box-shadow: inset -4px -5px 10px #6495ed, inset 2px 0px 10px #2595ed,
+      inset -2px 0px 10px #2595ed, 1px 1px 1px 1px #2595ed, 2px 0 10px #2595ed;
+    -webkit-filter: saturate(1.6);
+    filter: saturate(1.6);
+    -webkit-filter: brightness(1.2);
+    filter: brightness(1.2);
+  }
+}
+@-webkit-keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@-webkit-keyframes changeText {
+  0% {
+    background-position: 0 100%;
+  }
+  50% {
+    background-position: 100% 0%;
+  }
+  100% {
+    background-position: 0 100%;
+  }
+}
+@keyframes changeText {
+  0% {
+    background-position: 0 100%;
+  }
+  50% {
+    background-position: 100% 0%;
+  }
+  100% {
+    background-position: 0 100%;
+  }
+}
