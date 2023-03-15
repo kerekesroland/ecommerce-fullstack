@@ -14,6 +14,7 @@ import GoogleSignInButton from "../../components/GoogleSignInBtn/GoogleSignInBut
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { FirebaseError } from "firebase/app";
+import { useTranslation } from "react-i18next";
 
 interface IRegisterFormInputs {
   username: string;
@@ -28,8 +29,9 @@ interface ILoginFormInputs {
 }
 
 const Auth = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
-  const [isSignedUpMode, setIsSignedUpMode] = useState<boolean>(false);
+  const [isSignedUpMode, setIsSignedUpMode] = useState<boolean>(true);
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
   const dynamicClass = isSignedUpMode ? "auth sign-up-mode" : "auth";
   const { registerSchema, loginSchema } = useAuthSchemas();
@@ -84,8 +86,7 @@ const Auth = () => {
       .loginUser(user)
       .then((data) => {
         if (data instanceof FirebaseError) {
-          //todo add translation
-          toast.error("Email or password incorrect");
+          toast.error(t("data.errors.toast.invalid_credentials"));
           return;
         }
         setTimeout(() => {
@@ -103,9 +104,55 @@ const Auth = () => {
       <div className="container">
         <div className="inner-container">
           <div className="forms-wrapper">
+            <form className="sign-in" onSubmit={handleSubmitLoginForm(onLogin)}>
+              <div className="top">
+                <h2>{t("data.auth.welcome")}</h2>
+              </div>
+              <div className="center">
+                <div className="inputs">
+                  <div className="input-container">
+                    <input
+                      {...registerLoginField("email")}
+                      type="email"
+                      placeholder={t("data.auth.email") || "Email"}
+                      required
+                    />
+                  </div>
+                  <p className="validation-error">
+                    {loginFormErrors.email?.message}
+                  </p>
+                  <div className="input-container">
+                    <input
+                      {...registerLoginField("password")}
+                      type="password"
+                      placeholder={t("data.auth.password") || "Password"}
+                      required
+                    />
+                  </div>
+                  <p className="validation-error">
+                    {loginFormErrors.password?.message}
+                  </p>
+                </div>
+              </div>
+              <div className="bottom">
+                <button type="submit">{t("data.auth.sign_in")}</button>
+                <div className="google-provider">
+                  <GoogleSignInButton
+                    onClick={() => authService.signInWithGoogle()}
+                  />
+                </div>
+                <p className="no-account toggle" onClick={handleToggle}>
+                  {t("data.auth.no_account")}
+                  <span className="sign-up-btn"> {t("data.auth.sign_up")}</span>
+                </p>
+                <p className="forgot-password">
+                  {t("data.auth.forgot_password")}
+                </p>
+              </div>
+            </form>
             <form className="sign-up" onSubmit={handleSubmit(onRegister)}>
               <div className="top">
-                <h2>Create account!</h2>
+                <h2>{t("data.auth.create_account")}</h2>
               </div>
               <div className="center">
                 <div className="inputs">
@@ -114,7 +161,7 @@ const Auth = () => {
                       {...register("username")}
                       type="text"
                       minLength={4}
-                      placeholder="Username"
+                      placeholder={t("data.auth.username") || "Username"}
                       required
                     />
                   </div>
@@ -122,7 +169,7 @@ const Auth = () => {
                   <div className="input-container">
                     <input
                       type="email"
-                      placeholder="Email"
+                      placeholder={t("data.auth.email") || "Email"}
                       required
                       {...register("email")}
                     />
@@ -134,7 +181,7 @@ const Auth = () => {
                     <input
                       className="password"
                       type={isPasswordVisible ? "text" : "password"}
-                      placeholder="Password"
+                      placeholder={t("data.auth.password") || "Password"}
                       required
                       {...register("password")}
                     />
@@ -155,7 +202,9 @@ const Auth = () => {
                   <div className="input-container">
                     <input
                       type="password"
-                      placeholder="Confirm password"
+                      placeholder={
+                        t("data.auth.confirm_password") || "Confirm password"
+                      }
                       required
                       {...register("confirmPassword")}
                     />
@@ -166,59 +215,15 @@ const Auth = () => {
                 </div>
               </div>
               <div className="bottom">
-                <button type="submit">Sign Up</button>
+                <button type="submit">{t("data.auth.sign_up")}</button>
                 <p className="no-account toggle" onClick={handleToggle}>
-                  Already a member?{" "}
-                  <span className="sign-in-btn"> Sign in </span>
+                  {t("data.auth.already_joined") || "Already a member?"}{" "}
+                  <span className="sign-in-btn">
+                    {" "}
+                    {t("data.auth.sign_in")}{" "}
+                  </span>
                 </p>
-                <p className="no-account">
-                  I agree to the terms of services by signing up
-                </p>
-              </div>
-            </form>
-
-            <form className="sign-in" onSubmit={handleSubmitLoginForm(onLogin)}>
-              <div className="top">
-                <h2>Welcome back!</h2>
-              </div>
-              <div className="center">
-                <div className="inputs">
-                  <div className="input-container">
-                    <input
-                      {...registerLoginField("email")}
-                      type="email"
-                      placeholder="Email"
-                      required
-                    />
-                  </div>
-                  <p className="validation-error">
-                    {loginFormErrors.email?.message}
-                  </p>
-                  <div className="input-container">
-                    <input
-                      {...registerLoginField("password")}
-                      type="password"
-                      placeholder="Password"
-                      required
-                    />
-                  </div>
-                  <p className="validation-error">
-                    {loginFormErrors.password?.message}
-                  </p>
-                </div>
-              </div>
-              <div className="bottom">
-                <button type="submit">Sign In</button>
-                <div className="google-provider">
-                  <GoogleSignInButton
-                    onClick={() => authService.signInWithGoogle()}
-                  />
-                </div>
-                <p className="no-account toggle" onClick={handleToggle}>
-                  Don't have an account?
-                  <span className="sign-up-btn">Sign up</span>
-                </p>
-                <p className="forgot-password">Forgot your password?</p>
+                <p className="no-account">{t("data.auth.tos")}</p>
               </div>
             </form>
           </div>
