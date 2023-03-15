@@ -19,7 +19,7 @@
       display: flex;
       width: 100%;
       justify-content: center;
-      top: 50%;
+      top: calc(50% - 25px);
 
       button {
         cursor: pointer;
