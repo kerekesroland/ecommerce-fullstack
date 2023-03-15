@@ -9,14 +9,16 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ChildFriendlyIcon from "@mui/icons-material/ChildFriendly";
 import HomeIcon from "@mui/icons-material/Home";
 import InfoIcon from "@mui/icons-material/Info";
-import LocalMallIcon from "@mui/icons-material/LocalMall";
 import LocalPostOfficeIcon from "@mui/icons-material/LocalPostOffice";
 import ManIcon from "@mui/icons-material/Man";
 import MenuIcon from "@mui/icons-material/Menu";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
+import LoyaltyIcon from "@mui/icons-material/Loyalty";
 import WomanIcon from "@mui/icons-material/Woman";
-
+import flag_en from "../../images/United kingdom.svg";
+import flag_fr from "../../images/France.svg";
+import flag_de from "../../images/Germany.svg";
 import { MobileTabNav } from "../../models/mobileNavTab";
 import Backdrop from "../Backdrop/Backdrop";
 import Cart from "../Cart/Cart";
@@ -82,12 +84,12 @@ const Navbar = () => {
       icon: <LocalPostOfficeIcon style={{ fill: "#fff" }} />,
     },
     {
-      id: "Stores",
-      name: t("data.navigation.stores"),
-      to: "/stores",
+      id: "Plans",
+      name: t("data.navigation.plans"),
+      to: "/plans",
       side: "left",
       delay: 0.7,
-      icon: <LocalMallIcon style={{ fill: "#fff" }} />,
+      icon: <LoyaltyIcon style={{ fill: "#fff" }} />,
     },
     {
       id: "Profile",
@@ -132,6 +134,11 @@ const Navbar = () => {
     setLanguage(selectedLanguage);
     i18n.changeLanguage(selectedLanguage);
     localStorage.setItem("i18nextLng", selectedLanguage);
+  };
+  const changeLanguageByClick = (language: string) => {
+    setLanguage(language);
+    i18n.changeLanguage(language);
+    localStorage.setItem("i18nextLng", language);
   };
 
   return (
@@ -194,7 +201,7 @@ const Navbar = () => {
             </div>
             <div className="item">
               <Link className="link" to="/">
-                {t("data.navigation.stores")}
+                {t("data.navigation.plans")}
               </Link>
             </div>
             <div className="icons">
@@ -263,6 +270,26 @@ const Navbar = () => {
                 className="mobile-view"
               >
                 <div className="link-container">
+                  <div className="language-helper">
+                    <div
+                      className="language"
+                      onClick={() => changeLanguageByClick("en")}
+                    >
+                      <img src={flag_en} alt="en" />
+                    </div>
+                    <div
+                      className="language"
+                      onClick={() => changeLanguageByClick("fr")}
+                    >
+                      <img src={flag_fr} alt="fr" />
+                    </div>
+                    <div
+                      className="language"
+                      onClick={() => changeLanguageByClick("de")}
+                    >
+                      <img src={flag_de} alt="de" />
+                    </div>
+                  </div>
                   <div
                     className="close-icon-container"
                     onClick={() => setIsOpenMobile(false)}
@@ -272,52 +299,58 @@ const Navbar = () => {
                       style={{ fill: "#fff", fontSize: "1.5rem" }}
                     />
                   </div>
-                  {mobileNavTabs.map((tab) => (
-                    <Link
-                      key={tab.id}
-                      className="link item-link"
-                      to={tab.to}
-                      onClick={() => setIsOpenMobile(false)}
-                    >
+                  <div className="options-container">
+                    {mobileNavTabs.map((tab) => (
+                      <Link
+                        key={tab.id}
+                        className="link item-link"
+                        to={tab.to}
+                        onClick={() => setIsOpenMobile(false)}
+                      >
+                        <motion.div
+                          key={"nav-item"}
+                          initial={
+                            tab.side === "left"
+                              ? { opacity: 0, left: "-4rem" }
+                              : { opacity: 0, left: "4rem" }
+                          }
+                          animate={
+                            tab.side === "left"
+                              ? { left: 0, opacity: 1 }
+                              : { left: 0, opacity: 1 }
+                          }
+                          transition={{
+                            duration: 0.6,
+                            delay: tab.delay,
+                            type: "spring",
+                          }}
+                          className="item"
+                        >
+                          {tab.icon}
+                          <span>{tab.name}</span>
+                        </motion.div>
+                      </Link>
+                    ))}
+                    <div className="item-link">
                       <motion.div
                         key={"nav-item"}
-                        initial={
-                          tab.side === "left"
-                            ? { opacity: 0, left: "-4rem" }
-                            : { opacity: 0, left: "4rem" }
-                        }
-                        animate={
-                          tab.side === "left"
-                            ? { left: 0, opacity: 1 }
-                            : { left: 0, opacity: 1 }
-                        }
+                        initial={{ opacity: 0, left: "-4rem" }}
+                        animate={{ left: 0, opacity: 1 }}
                         transition={{
                           duration: 0.6,
-                          delay: tab.delay,
+                          delay: 0.9,
                           type: "spring",
+                        }}
+                        onClick={() => {
+                          setIsOpenCart(!isOpenCart);
+                          setIsOpenMobile(false);
                         }}
                         className="item"
                       >
-                        {tab.icon}
-                        <span>{tab.name}</span>
+                        <ShoppingCartOutlinedIcon style={{ fill: "#fff" }} />
+                        <span>{t("data.navigation.cart")}</span>
                       </motion.div>
-                    </Link>
-                  ))}
-                  <div className="item-link">
-                    <motion.div
-                      key={"nav-item"}
-                      initial={{ opacity: 0, left: "-4rem" }}
-                      animate={{ left: 0, opacity: 1 }}
-                      transition={{ duration: 0.6, delay: 0.9, type: "spring" }}
-                      onClick={() => {
-                        setIsOpenCart(!isOpenCart);
-                        setIsOpenMobile(false);
-                      }}
-                      className="item"
-                    >
-                      <ShoppingCartOutlinedIcon style={{ fill: "#fff" }} />
-                      <span>{t("data.navigation.cart")}</span>
-                    </motion.div>
+                    </div>
                   </div>
                 </div>
               </motion.div>
