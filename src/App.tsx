@@ -16,6 +16,9 @@ import { ToastContainer } from "react-toastify";
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 import Plans from "./pages/Plans/Plans";
 import Profile from "./pages/Profile/Profile";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "./store/store";
 
 const Layout = () => {
   const { pathname } = useLocation();
@@ -70,6 +73,13 @@ const router = createBrowserRouter([
 ]);
 
 const App = () => {
+  const isLoading = useSelector((state: RootState) => state.loading.isLoading);
+  useEffect(() => {
+    const html = document.querySelector("html");
+    if (html) {
+      html.style.overflow = isLoading ? "hidden" : "auto";
+    }
+  }, [isLoading]);
   return (
     <div>
       <RouterProvider router={router} />
