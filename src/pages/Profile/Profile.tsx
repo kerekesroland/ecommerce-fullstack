@@ -12,8 +12,16 @@ import ProfileOrders from "../../components/ProfileOrders/ProfileOrders";
 import ProfilePlan from "../../components/ProfilePlan/ProfilePlan";
 import { User } from "firebase/auth";
 import { motion } from "framer-motion";
+import { authService } from "../../api/auth/auth";
+import Loader from "../../components/Loader/Loader";
+import { useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../store/store";
+import { useDispatch } from "react-redux";
+import { toggleLoading } from "../../store/slices/loadingSlice";
 
 const Profile = () => {
+  const isLoading = useSelector((state: RootState) => state.loading.isLoading);
+  const dispatch: AppDispatch = useDispatch();
   const [userProfile, setUserProfile] = useState<User>();
   useEffect(() => {
     auth?.onAuthStateChanged((user) => {
@@ -26,6 +34,21 @@ const Profile = () => {
   }, [userProfile]);
   const photoUrl = userProfile?.photoURL ? userProfile.photoURL : noProfile;
   const [activeChip, setActiveChip] = useState<number>(1);
+  const [shouldAnimate, setShouldAnimate] = useState<boolean>(true);
+  const [profileImage, setProfileImage] = useState<string>("");
+  const [file, setFile] = useState({});
+
+  const handleUploadProfile = async () => {
+    // if user is not present, stop right there
+    if (!auth.currentUser) return;
+    dispatch(toggleLoading(true));
+    await authService.uploadProfilePicture(
+      file,
+      auth.currentUser,
+      setProfileImage
+    );
+    dispatch(toggleLoading(false));
+  };
 
   const checkActiveChip = () => {
     switch (activeChip) {
@@ -43,37 +66,64 @@ const Profile = () => {
   };
 
   const AnimatedComponent = () => {
-    const [isMounted, setIsMounted] = useState(false);
-
-    useEffect(() => {
-      setIsMounted(true);
-    }, []);
     return (
-      <div>
-        {isMounted && userProfile && (
-          <motion.div
-            initial={{ opacity: 0, x: 200 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.4 }}
-          >
-            {checkActiveChip()}
-          </motion.div>
+      <>
+        {userProfile && (
+          <>
+            {shouldAnimate ? (
+              <motion.div
+                layout
+                initial={{ opacity: 0, x: 200 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.4 }}
+              >
+                {checkActiveChip()}
+              </motion.div>
+            ) : (
+              <div>{checkActiveChip()}</div>
+            )}
+          </>
         )}
-      </div>
+      </>
     );
   };
 
-  return (
-    <div className="profile-container">
-      <div className="profile-image-container">
-        <Avatar src={photoUrl} />
-        <ProfileInfo />
-      </div>
-      <ProfileChips activeChip={activeChip} setActiveChip={setActiveChip} />
-      <Separator />
+  //Observable kind of thing to keep track of the mobile menu
+  useEffect(() => {
+    const html = document.querySelector("html");
+    if (html) {
+      html.style.overflow = isLoading ? "hidden" : "auto";
+    }
+  }, [isLoading]);
 
-      {<AnimatedComponent />}
-    </div>
+  return (
+    <>
+      {isLoading && (
+        <div className="loader-container">
+          <Loader />
+        </div>
+      )}
+
+      <div className="profile-container">
+        <div className="profile-image-container">
+          <Avatar
+            src={photoUrl}
+            file={file}
+            setFile={setFile}
+            profileImage={profileImage}
+            setProfileImage={setProfileImage}
+            handleUploadProfile={handleUploadProfile}
+            setShouldAnimate={setShouldAnimate}
+            isLoading={isLoading}
+          />
+          <ProfileInfo />
+        </div>
+        <ProfileChips activeChip={activeChip} setActiveChip={setActiveChip} />
+        <Separator />
+
+        <AnimatedComponent />
+      </div>
+    </>
   );
 };
 
