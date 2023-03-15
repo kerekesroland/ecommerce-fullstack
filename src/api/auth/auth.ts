@@ -4,10 +4,13 @@ import {
   signInWithEmailAndPassword,
   signInWithPopup,
   updateProfile,
+  User,
 } from "firebase/auth";
-import { auth, googleProvider } from "../../firebase/config";
+import { auth, googleProvider, storage } from "../../firebase/config";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { t } from "i18next";
 
 const registerUser = async (user: IRegisterUser) => {
   try {
@@ -15,16 +18,16 @@ const registerUser = async (user: IRegisterUser) => {
     if (auth.currentUser) {
       updateProfile(auth.currentUser, { displayName: user.username });
     }
-    toast.success(`Successfully created ${user.email}`, {
+    toast.success(`${t("data.auth.create_account_success")} ${user.email}`, {
       position: "top-center",
       autoClose: 3000,
       pauseOnHover: false,
       closeOnClick: true,
     });
+    await auth.signOut();
   } catch (error) {
     console.log(error);
   }
-  await auth.signOut();
 };
 
 const loginUser = async (user: ILoginUser) => {
@@ -35,7 +38,7 @@ const loginUser = async (user: ILoginUser) => {
       user.password
     );
     toast.success(
-      `Successfully logged in as ${
+      `${t("data.auth.login_success")} ${
         auth?.currentUser?.displayName ?? user.email
       }`,
       {
@@ -53,7 +56,7 @@ const loginUser = async (user: ILoginUser) => {
 
 const logout = async () => {
   await auth.signOut();
-  toast.success("Successfully logged out", {
+  toast.success(`${t("data.auth.logout_success")}`, {
     position: "top-center",
     autoClose: 3000,
     pauseOnHover: false,
@@ -66,7 +69,7 @@ const signInWithGoogle = async () => {
   try {
     const { user } = await signInWithPopup(auth, googleProvider);
     toast.success(
-      `Successfully logged in as ${
+      `${t("data.auth.login_success")} ${
         auth?.currentUser?.displayName ?? user.email
       }`,
       {
@@ -82,9 +85,31 @@ const signInWithGoogle = async () => {
   }
 };
 
+const uploadProfilePicture = async (
+  image: any,
+  currentUser: User,
+  callBack: Function
+) => {
+  try {
+    // if image or user is not present then don't do anything
+    if (!image || !currentUser) return;
+
+    const fileRef = ref(storage, auth?.currentUser?.uid + ".png");
+    await uploadBytes(fileRef, image);
+
+    const photoUrl = await getDownloadURL(fileRef);
+    updateProfile(currentUser, { photoURL: photoUrl });
+
+    callBack(photoUrl);
+  } catch (err) {
+    console.error(err);
+  }
+};
+
 export const authService = {
   registerUser,
   loginUser,
   signInWithGoogle,
   logout,
+  uploadProfilePicture,
 };
