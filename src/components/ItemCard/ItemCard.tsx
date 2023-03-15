@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import { FC } from "react";
 import { Link } from "react-router-dom";
 import { Item } from "../../models/Item";
@@ -9,18 +10,20 @@ type Props = {
 
 const ItemCard: FC<Props> = ({ item }) => {
   return (
-    <Link className="link" to={`/product/${item.id}`}>
-      <div className="card">
-        <div className="img-container">
-          <img src={item.image} alt="item" />
+    <motion.div layout>
+      <Link className="link" to={`/product/${item.id}`}>
+        <div className="card">
+          <div className="img-container">
+            <img src={item.image} alt="item" />
+          </div>
+          <div className="details">
+            <span className="name">{item.title}</span>
+            <span className="price">${item.price}</span>
+          </div>
+          <span className="category">{item.category}</span>
         </div>
-        <div className="details">
-          <span className="name">{item.title}</span>
-          <span className="price">${item.price}</span>
-        </div>
-        <span className="category">{item.category}</span>
-      </div>
-    </Link>
+      </Link>
+    </motion.div>
   );
 };
 
