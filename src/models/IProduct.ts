@@ -5,5 +5,6 @@ export interface IProduct {
   oldPrice: number;
   isNew: boolean;
   category: Array<string>;
+  main_category: string;
   image: string;
 }
