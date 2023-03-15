@@ -1,6 +1,9 @@
 import "./ProductList.scss";
 import { FC } from "react";
 import ItemCard from "../ItemCard/ItemCard";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store/store";
+import { Item } from "../../models/Item";
 
 type Props = {
   category: string;
@@ -9,83 +12,11 @@ type Props = {
 };
 
 const ProductList: FC<Props> = ({ category, maxPrice, sort }) => {
-  const DUMMY_DATA = [
-    {
-      id: 1,
-      image_1: require("../../images/cloth_1-min.jpg"),
-      title: "Superset clothes",
-      price: 44.99,
-      oldPrice: 22.99,
-      isNew: true,
-      category: "Clothes set",
-    },
-    {
-      id: 2,
-      image_1: require("../../images/cloth_2-min.jpg"),
-      title: "Nike shoes for men",
-      price: 24.99,
-      oldPrice: 22.99,
-      isNew: false,
-      category: "Men Shoes",
-    },
-    {
-      id: 3,
-      image_1: require("../../images/cloth_1-min.jpg"),
-      title: "Superset clothes",
-      price: 14.99,
-      oldPrice: 22.99,
-      isNew: true,
-      category: "Clothes set",
-    },
-    {
-      id: 4,
-      image_1: require("../../images/cloth_2-min.jpg"),
-      title: "Better Nike Shoes",
-      price: 104.99,
-      oldPrice: 140.99,
-      isNew: false,
-      category: "Men Shoes",
-    },
-    {
-      id: 5,
-      image_1: require("../../images/cloth_1-min.jpg"),
-      title: "Superset clothes",
-      price: 14.99,
-      oldPrice: 22.99,
-      isNew: true,
-      category: "Clothes set",
-    },
-    {
-      id: 6,
-      image_1: require("../../images/cloth_2-min.jpg"),
-      title: "Better Nike Shoes",
-      price: 104.99,
-      oldPrice: 140.99,
-      isNew: false,
-      category: "Men Shoes",
-    },
-    {
-      id: 7,
-      image_1: require("../../images/cloth_1-min.jpg"),
-      title: "Superset clothes",
-      price: 14.99,
-      oldPrice: 22.99,
-      isNew: true,
-      category: "Clothes set",
-    },
-    {
-      id: 8,
-      image_1: require("../../images/cloth_2-min.jpg"),
-      title: "Better Nike Shoes",
-      price: 104.99,
-      oldPrice: 140.99,
-      isNew: false,
-      category: "Men Shoes",
-    },
-  ];
+  const products = useSelector((state: RootState) => state.products.products);
+
   return (
     <div className="product-list">
-      {DUMMY_DATA.map((item) => (
+      {products?.map((item: Item) => (
         <ItemCard key={item.id} item={item} />
       ))}
     </div>
