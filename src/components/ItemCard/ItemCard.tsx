@@ -12,7 +12,7 @@ const ItemCard: FC<Props> = ({ item }) => {
     <Link className="link" to={`/product/${item.id}`}>
       <div className="card">
         <div className="img-container">
-          <img src={item.image_1} alt="item" />
+          <img src={item.image} alt="item" />
         </div>
         <div className="details">
           <span className="name">{item.title}</span>
