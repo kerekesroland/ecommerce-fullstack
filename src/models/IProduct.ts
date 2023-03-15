@@ -1,9 +1,9 @@
-export interface Item {
+export interface IProduct {
   id: string;
-  image: string;
   title: string;
   price: number;
   oldPrice: number;
   isNew: boolean;
-  category: string | Array<string>;
+  category: Array<string>;
+  image: string;
 }
