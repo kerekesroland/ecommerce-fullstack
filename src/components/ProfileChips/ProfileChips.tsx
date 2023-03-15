@@ -1,5 +1,6 @@
 import { FC } from "react";
 import "./ProfileChips.scss";
+import { useTranslation } from "react-i18next";
 
 interface IOption {
   id: number;
@@ -12,23 +13,23 @@ interface IProps {
 }
 
 const ProfileChips: FC<IProps> = ({ activeChip, setActiveChip }) => {
-  //todo add translations
+  const { t } = useTranslation();
   const options: Array<IOption> = [
     {
       id: 1,
-      name: "Details",
+      name: t("data.navigation.profile.details"),
     },
     {
       id: 2,
-      name: "Password",
+      name: t("data.navigation.profile.password"),
     },
     {
       id: 3,
-      name: "Orders",
+      name: t("data.navigation.profile.orders"),
     },
     {
       id: 4,
-      name: "Plan",
+      name: t("data.navigation.profile.plan"),
     },
   ];
 
