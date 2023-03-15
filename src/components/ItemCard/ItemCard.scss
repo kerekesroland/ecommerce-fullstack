@@ -1,5 +1,6 @@
 .card {
   scroll-snap-align: start;
+  transition: all 0.5s ease-in-out;
 
   .img-container {
     height: 18rem;
@@ -34,5 +35,9 @@
       width: 13rem;
       height: 10rem;
     }
+  }
+  &:hover {
+    transform: scale(1.1);
+    transform: rotateZ(-5deg);
   }
 }

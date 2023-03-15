@@ -21,6 +21,7 @@ interface IProps {
 
 export function ControllerDropdown({
   subCategories,
+  setSubCategories,
   singleValue = false,
 }: IProps) {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -59,6 +60,7 @@ export function ControllerDropdown({
         newSubCategory[index].checked = event.target.checked;
       }
       setSubCategory(newSubCategory);
+      setSubCategories({ ...subCategories, subcategory: subCategory });
     };
 
   const handleSubCategoryDelete = (value: string) => () => {

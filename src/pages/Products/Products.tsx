@@ -1,6 +1,6 @@
 import "./Products.scss";
 import ProductList from "../../components/ProductList/ProductList";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { ControllerDropdown } from "../../components/ControllerDropdown/ControllerDropdown";
 
@@ -45,11 +45,23 @@ const Products = () => {
     ],
   });
 
+  useEffect(() => {
+    console.log("====================================");
+    console.log(sizeCategories);
+    console.log("====================================");
+    console.log("====================================");
+    console.log(priceCategories);
+    console.log("====================================");
+    console.log("====================================");
+    console.log(colorCategories);
+    console.log("====================================");
+  }, [colorCategories, priceCategories, sizeCategories]);
+
   return (
     <div className="products">
       <div className="left">
         <div className="filter-item">
-          <h2>Categories</h2>
+          <h2 style={{ marginBottom: "1rem" }}>Categories</h2>
 
           <ControllerDropdown
             subCategories={sizeCategories}
@@ -67,19 +79,7 @@ const Products = () => {
             singleValue={true}
           />
         </div>
-        <div className="filter-item">
-          <h2>Price</h2>
-          <div className="input-item">
-            <span>0</span>
-            <input
-              type="range"
-              min={0}
-              max={1000}
-              onChange={(e) => setMaxPrice(+e.target.value)}
-            />
-            <span>{maxPrice}</span>
-          </div>
-        </div>
+
         <div className="filter-item">
           <h2>Sort by</h2>
           <div className="input-item">
@@ -88,7 +88,7 @@ const Products = () => {
               id="asc"
               value="asc"
               name="price"
-              onChange={(e) => setSort("asc")}
+              onChange={() => setSort("asc")}
             />
             <label htmlFor="asc">Price (lowest to highest)</label>
             <input
@@ -96,7 +96,7 @@ const Products = () => {
               id="desc"
               value="desc"
               name="price"
-              onChange={(e) => setSort("desc")}
+              onChange={() => setSort("desc")}
             />
             <label htmlFor="desc">Price (highest to lowest)</label>
           </div>
