@@ -1,53 +1,81 @@
 {
   "data": {
-    "navigation": {
-      "home": "Home",
-      "men": "Men",
-      "women": "Women",
-      "children": "Children",
-      "about": "About",
-      "contact": "Contact",
-      "stores": "Stores",
-      "profile": {
-        "title": "Profile",
-        "settings": "Settings",
-        "login": "Login",
-        "login_google": "Sign in with Google",
-        "logout": "Logout"
+    "auth": {
+      "welcome": "Welcome back!",
+      "email": "Email",
+      "password": "Password",
+      "sign_in": "Sign in",
+      "sign_up": "Sign up",
+      "forgot_password": "Forgot your password?",
+      "create_account": "Create account!",
+      "tos": "I agree to the terms of services by signing up",
+      "no_account": "Don't have an account?",
+      "username": "Username",
+      "confirm_password": "Confirm password",
+      "already_joined": "Already a member?",
+      "create_account_success": "Successfully created",
+      "logout_success": "Successfully logged out!",
+      "login_success": "Successfully logged in as"
+    },
+    "errors": {
+      "registration": {
+        "confirmPassword": {
+          "mismatch": "The passwords do not match!",
+          "required": "Confirm password is required!"
+        },
+        "email": {
+          "emailFormat": "It must be a valid email!",
+          "required": "Email is required!"
+        },
+        "password": {
+          "lowerCase": "Password must contain a lowercase character!",
+          "minLength": "Password must be at least 6 characters long!",
+          "numberRequired": "Password must contain a number!",
+          "required": "Password is required!",
+          "specialCharacter": "Password must contain a special character! (!?.%$&£@)",
+          "upperCase": "Password must contain an uppercase character!"
+        },
+        "username": {
+          "minLength": "Username must be at least 4 characters long!",
+          "required": "Username is required!"
+        }
       },
-      "cart": "Cart"
+      "toast": {
+        "invalid_credentials": "Email or password incorrect"
+      }
     },
     "featuredProducts": {
       "title": "Featured Products"
     },
-    "order": {
-      "id": "Order id",
-      "reorder": "Reorder",
-      "details": "Details"
+    "categories": {
+      "title": "Categories"
     },
-    "errors": {
-      "registration": {
-        "username": {
-          "required": "Username is required!",
-          "minLength": "Username must be at least 4 characters long!"
-        },
-        "email": {
-          "required": "Email is required!",
-          "emailFormat": "It must be a valid email!"
-        },
-        "password": {
-          "required": "Password is required!",
-          "minLength": "Password must be at least 6 characters long!",
-          "upperCase": "Password must contain an uppercase character!",
-          "lowerCase": "Password must contain a lowercase character!",
-          "specialCharacter": "Password must contain a special character! (!?.%$&£@)",
-          "numberRequired": "Password must contain a number!"
-        },
-        "confirmPassword": {
-          "required": "Confirm password is required!",
-          "mismatch": "The passwords do not match!"
-        }
-      }
+    "navigation": {
+      "about": "About",
+      "accessories": "Accessories",
+      "cart": "Cart",
+      "children": "Children",
+      "contact": "Contact",
+      "home": "Home",
+      "men": "Men",
+      "profile": {
+        "details": "Details",
+        "login": "Login",
+        "login_google": "Sign in with Google",
+        "logout": "Logout",
+        "orders": "Orders",
+        "password": "Password",
+        "plan": "Plan",
+        "settings": "Settings",
+        "title": "Profile"
+      },
+      "plans": "Plans",
+      "women": "Women"
+    },
+    "order": {
+      "details": "Details",
+      "id": "Order id",
+      "reorder": "Reorder"
     }
   }
 }

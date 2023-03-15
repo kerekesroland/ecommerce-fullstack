@@ -1,53 +1,81 @@
 {
   "data": {
-    "navigation": {
-      "home": "Heimat",
-      "men": "Männer",
-      "women": "Frauen",
-      "children": "Kinder",
-      "about": "Über",
-      "contact": "Kontakt",
-      "stores": "Stores",
-      "profile": {
-        "title": "Profil",
-        "settings": "Einstellungen",
-        "login": "Anmeldung",
-        "login_google": "Anmeldung mit Google",
-        "logout": "Ausloggen"
-      },
-      "cart": "Wagen"
-    },
-    "featuredProducts": {
-      "title": "Featured Products"
-    },
-    "order": {
-      "id": "Auftrags-id",
-      "reorder": "Neu bestellen",
-      "details": "Einzelheiten"
+    "auth": {
+      "welcome": "Willkommen zurück!",
+      "email": "Email",
+      "password": "Passwort",
+      "sign_in": "Anmelden",
+      "sign_up": "Registrierung",
+      "forgot_password": "Haben Sie Ihr Passwort vergessen?",
+      "tos": "Mit der Anmeldung stimme ich den Nutzungsbedingungen zu",
+      "create_account": "Benutzerkonto erstellen!",
+      "no_account": "Haben Sie kein Konto?",
+      "username": "Benutzername",
+      "confirm_password": "Passwort bestätigen",
+      "already_joined": "Schon Mitglied?",
+      "create_account_success": "Erfolgreich erstellt",
+      "logout_success": "Erfolgreich abgemeldet!",
+      "login_success": "Erfolgreich angemeldet als"
     },
     "errors": {
       "registration": {
-        "username": {
-          "required": "Benutzername ist erforderlich!",
-          "minLength": "Benutzername muss mindestens 4 Zeichen lang sein!"
+        "confirmPassword": {
+          "mismatch": "Die Passwörter stimmen nicht überein!",
+          "required": "Passwort bestätigen ist erforderlich!"
         },
         "email": {
-          "required": "E-Mail ist erforderlich!",
-          "emailFormat": "Es muss eine gültige E-Mail sein!"
+          "emailFormat": "Es muss eine gültige E-Mail sein!",
+          "required": "E-Mail ist erforderlich!"
         },
         "password": {
-          "required": "Passwort ist erforderlich!",
-          "minLength": "Passwort muss mindestens 6 Zeichen lang sein!",
-          "upperCase": "Das Passwort muss einen Großbuchstaben enthalten!",
           "lowerCase": "Das Passwort muss einen Kleinbuchstaben enthalten!",
+          "minLength": "Passwort muss mindestens 6 Zeichen lang sein!",
+          "numberRequired": "Passwort muss eine Zahl enthalten!",
+          "required": "Passwort ist erforderlich!",
           "specialCharacter": "Das Passwort muss ein Sonderzeichen enthalten! (!?.%$&£@)",
-          "numberRequired": "Passwort muss eine Zahl enthalten!"
+          "upperCase": "Das Passwort muss einen Großbuchstaben enthalten!"
         },
-        "confirmPassword": {
-          "required": "Passwort bestätigen ist erforderlich!",
-          "mismatch": "Die Passwörter stimmen nicht überein!"
+        "username": {
+          "minLength": "Benutzername muss mindestens 4 Zeichen lang sein!",
+          "required": "Benutzername ist erforderlich!"
         }
+      },
+      "toast": {
+        "invalid_credentials": "E-Mail oder Passwort falsch"
       }
+    },
+    "featuredProducts": {
+      "title": "Ausgewählte Produkte"
+    },
+    "categories": {
+      "title": "Kategorien"
+    },
+    "navigation": {
+      "about": "Über",
+      "accessories": "Zubehör",
+      "cart": "Wagen",
+      "children": "Kinder",
+      "contact": "Kontakt",
+      "home": "Heimat",
+      "men": "Männer",
+      "profile": {
+        "details": "Einzelheiten",
+        "login": "Anmeldung",
+        "login_google": "Anmeldung mit Google",
+        "logout": "Ausloggen",
+        "orders": "Bestellungen",
+        "password": "Passwort",
+        "plan": "Planen",
+        "settings": "Einstellungen",
+        "title": "Profil"
+      },
+      "plans": "Pläne",
+      "women": "Frauen"
+    },
+    "order": {
+      "details": "Einzelheiten",
+      "id": "Auftrags-id",
+      "reorder": "Neu bestellen"
     }
   }
 }

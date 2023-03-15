@@ -1,53 +1,81 @@
 {
   "data": {
-    "navigation": {
-      "home": "Domicile",
-      "men": "Hommes",
-      "women": "Femmes",
-      "children": "Enfants",
-      "about": "Quelque",
-      "contact": "Contact",
-      "stores": "Boutiques",
-      "profile": {
-        "title": "Profil",
-        "settings": "Paramètres",
-        "login": "Entrer",
-        "login_google": "Connecter avec google",
-        "logout": "Déconnexion"
-      },
-      "cart": "Chariot"
-    },
-    "featuredProducts": {
-      "title": "Featured Products"
-    },
-    "order": {
-      "id": "ID de commande",
-      "reorder": "Réorganiser",
-      "details": "Détails"
+    "auth": {
+      "welcome": "Content de te revoir!",
+      "email": "E-mail",
+      "password": "Mot de passe",
+      "sign_in": "Connexion",
+      "sign_up": "Enregistrer",
+      "forgot_password": "Mot de passe oublié?",
+      "tos": "J'accepte les conditions d'utilisation en m'inscrivant",
+      "create_account": "Créer un compte!",
+      "no_account": "Vous n'avez pas de compte?",
+      "username": "Nom d'utilisateur",
+      "confirm_password": "Confirmer le mot de passe",
+      "already_joined": "Déjà membre?",
+      "create_account_success": "Créé avec succès",
+      "logout_success": "Déconnecté avec succès!",
+      "login_success": "Connecté avec succès en tant que"
     },
     "errors": {
       "registration": {
-        "username": {
-          "required": "Le nom d'utilisateur est requis!",
-          "minLength": "Le nom d'utilisateur doit comporter au moins 4 caractères!"
+        "confirmPassword": {
+          "mismatch": "Les mots de passe ne correspondent pas!",
+          "required": "Confirmer le mot de passe est requis!"
         },
         "email": {
-          "required": "E-mail obligatoire!",
-          "emailFormat": "Ce doit être un email valide!"
+          "emailFormat": "Ce doit être un email valide!",
+          "required": "E-mail obligatoire!"
         },
         "password": {
-          "required": "Le mot de passe est requis!",
-          "minLength": "Le mot de passe doit comporter au moins 6 caractères!",
-          "upperCase": "Le mot de passe doit contenir un caractère majuscule!",
           "lowerCase": "Le mot de passe doit contenir un caractère minuscule!",
+          "minLength": "Le mot de passe doit comporter au moins 6 caractères!",
+          "numberRequired": "Le mot de passe doit contenir un chiffre!",
+          "required": "Le mot de passe est requis!",
           "specialCharacter": "Le mot de passe doit contenir un caractère spécial! (!?.%$&£@)",
-          "numberRequired": "Le mot de passe doit contenir un chiffre!"
+          "upperCase": "Le mot de passe doit contenir un caractère majuscule!"
         },
-        "confirmPassword": {
-          "required": "Confirmer le mot de passe est requis!",
-          "mismatch": "Les mots de passe ne correspondent pas!"
+        "username": {
+          "minLength": "Le nom d'utilisateur doit comporter au moins 4 caractères!",
+          "required": "Le nom d'utilisateur est requis!"
         }
+      },
+      "toast": {
+        "invalid_credentials": "Email ou mot de passe incorrect"
       }
+    },
+    "featuredProducts": {
+      "title": "Produits populaires"
+    },
+    "categories": {
+      "title": "Catégories"
+    },
+    "navigation": {
+      "about": "Quelque",
+      "accessories": "Accessoires",
+      "cart": "Chariot",
+      "children": "Enfants",
+      "contact": "Contact",
+      "home": "Domicile",
+      "men": "Hommes",
+      "profile": {
+        "details": "Détails",
+        "login": "Entrer",
+        "login_google": "Connecter avec google",
+        "logout": "Déconnexion",
+        "orders": "Ordres",
+        "password": "Mot de passe",
+        "plan": "Plan",
+        "settings": "Paramètres",
+        "title": "Profil"
+      },
+      "plans": "Plans",
+      "women": "Femmes"
+    },
+    "order": {
+      "details": "Détails",
+      "id": "ID de commande",
+      "reorder": "Réorganiser"
     }
   }
 }
