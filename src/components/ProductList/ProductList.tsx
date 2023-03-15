@@ -22,10 +22,6 @@ const ProductList: FC<Props> = ({ category, maxPrice, sort }) => {
     (product) => product.main_category.toLowerCase() === category
   );
 
-  console.log("====================================");
-  console.log(productsMainCategoryFiltered);
-  console.log("====================================");
-
   return (
     <motion.div layout className="product-list">
       <AnimatePresence>

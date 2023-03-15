@@ -2,31 +2,70 @@ import "./Products.scss";
 import ProductList from "../../components/ProductList/ProductList";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
+import { ControllerDropdown } from "../../components/ControllerDropdown/ControllerDropdown";
 
-type Props = {};
+type SubCategories = {
+  title: string;
+  subcategory: {
+    label: string;
+    value: string;
+    checked?: boolean;
+  }[];
+};
 
-const Products = (props: Props) => {
+const Products = () => {
   const category = useParams().category || "";
   const [maxPrice, setMaxPrice] = useState<number>(0);
   const [sort, setSort] = useState<string>("");
+  const [sizeCategories, setSizeCategories] = useState<SubCategories>({
+    title: "Sizes",
+    subcategory: [
+      { label: "Small", value: "small", checked: false },
+      { label: "Medium", value: "medium", checked: false },
+      { label: "Large", value: "large", checked: false },
+    ],
+  });
+  const [colorCategories, setColorCategories] = useState<SubCategories>({
+    title: "Colors",
+    subcategory: [
+      { label: "Green", value: "green", checked: false },
+      { label: "Blue", value: "blue", checked: false },
+      { label: "Black", value: "black", checked: false },
+    ],
+  });
+
+  const [priceCategories, setPriceCategories] = useState<SubCategories>({
+    title: "Prices",
+    subcategory: [
+      { label: "10-99", value: "10-99", checked: false },
+      { label: "100-500", value: "100-500", checked: false },
+      { label: "500-2000", value: "500-2000", checked: false },
+      { label: "2000-10000", value: "2000-10000", checked: false },
+      { label: "10000-50000", value: "10000-50000", checked: false },
+    ],
+  });
 
   return (
     <div className="products">
       <div className="left">
         <div className="filter-item">
           <h2>Categories</h2>
-          <div className="input-item">
-            <input type="checkbox" id="shoes" value={1} />
-            <label htmlFor="shoes">Shoes</label>
-          </div>
-          <div className="input-item">
-            <input type="checkbox" id="hats" value={2} />
-            <label htmlFor="hats">Hats</label>
-          </div>
-          <div className="input-item">
-            <input type="checkbox" id="jackets" value={3} />
-            <label htmlFor="jackets">Jackets</label>
-          </div>
+
+          <ControllerDropdown
+            subCategories={sizeCategories}
+            setSubCategories={setSizeCategories}
+          />
+
+          <ControllerDropdown
+            subCategories={colorCategories}
+            setSubCategories={setColorCategories}
+          />
+
+          <ControllerDropdown
+            subCategories={priceCategories}
+            setSubCategories={setPriceCategories}
+            singleValue={true}
+          />
         </div>
         <div className="filter-item">
           <h2>Price</h2>
