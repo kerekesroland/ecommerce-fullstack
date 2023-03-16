@@ -11,21 +11,24 @@ type Props = {
   category: string;
   maxPrice: number;
   sort: string;
+  filters: Array<string>;
 };
 
-const ProductList: FC<Props> = ({ category, maxPrice, sort }) => {
+const ProductList: FC<Props> = ({ category, maxPrice, sort, filters }) => {
   const products: IProduct[] = useSelector(
     (state: RootState) => state.products.products
   );
 
-  const productsMainCategoryFiltered = products.filter(
-    (product) => product.main_category.toLowerCase() === category
+  const filteredProducts = products.filter(
+    (product) =>
+      product.main_category.toLowerCase() === category &&
+      filters.every((filter) => product.category.includes(filter))
   );
 
   return (
     <motion.div layout className="product-list">
       <AnimatePresence>
-        {productsMainCategoryFiltered?.map((item: Item) => (
+        {filteredProducts?.map((item: Item) => (
           <motion.div
             initial={{
               opacity: 0,
