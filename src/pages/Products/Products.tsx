@@ -45,17 +45,19 @@ const Products = () => {
     ],
   });
 
-  useEffect(() => {
-    console.log("====================================");
-    console.log(sizeCategories);
-    console.log("====================================");
-    console.log("====================================");
-    console.log(priceCategories);
-    console.log("====================================");
-    console.log("====================================");
-    console.log(colorCategories);
-    console.log("====================================");
-  }, [colorCategories, priceCategories, sizeCategories]);
+  const selectedSizes = sizeCategories.subcategory
+    .filter((element) => element.checked === true)
+    .map((el) => el.value);
+
+  const selectedColors = colorCategories.subcategory
+    .filter((element) => element.checked === true)
+    .map((el) => el.value);
+
+  const selectedPrice = priceCategories.subcategory
+    .filter((element) => element.checked === true)
+    .map((el) => el.value);
+
+  const filters = [...selectedSizes, ...selectedColors, ...selectedPrice];
 
   return (
     <div className="products">
@@ -103,7 +105,12 @@ const Products = () => {
         </div>
       </div>
       <div className="right">
-        <ProductList category={category} maxPrice={maxPrice} sort={sort} />
+        <ProductList
+          category={category}
+          filters={filters}
+          maxPrice={maxPrice}
+          sort={sort}
+        />
       </div>
     </div>
   );
