@@ -75,6 +75,7 @@ export function ControllerDropdown({
         (subcategory: Category) => subcategory.value !== value
       )
     );
+    setSubCategories({ ...subCategories, subcategory: subCategory });
   };
 
   return (
