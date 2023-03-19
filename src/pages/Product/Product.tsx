@@ -4,7 +4,7 @@ import RemoveIcon from "@mui/icons-material/Remove";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import product1 from "../../images/cloth_1-min.jpg";
 import product2 from "../../images/cloth_2-min.jpg";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { addToCart } from "../../store/slices/cartSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store";
@@ -39,6 +39,13 @@ const Product = () => {
     if (amount === 1) return;
     setAmount((prev) => prev - 1);
   };
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }, []);
 
   return (
     <div className="product">
