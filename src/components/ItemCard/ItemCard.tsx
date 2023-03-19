@@ -20,7 +20,7 @@ const ItemCard: FC<Props> = ({ item }) => {
             <span className="name">{item.title}</span>
             <span className="price">${item.price}</span>
           </div>
-          <span className="category">{item.category}</span>
+          <span className="category">{item.category[0]}</span>
         </div>
       </Link>
     </motion.div>
