@@ -14,7 +14,9 @@ type Props = {
 };
 
 const Cart: FC<Props> = ({ setIsOpenCart }) => {
-  const cart = useSelector((state: RootState) => state.cart.cart);
+  const { cart, cartTotal, cartSubTotal, cartShipping } = useSelector(
+    (state: RootState) => state.cart
+  );
 
   if (!cart.length) {
     return (
@@ -90,17 +92,17 @@ const Cart: FC<Props> = ({ setIsOpenCart }) => {
       <div className="subtotal">
         <div className="item">
           <span className="title">Subtotal</span>
-          <span className="value">$66.99</span>
+          <span className="value">${cartSubTotal.toFixed(2)}</span>
         </div>
         <div className="item">
           <span className="title">Shipping</span>
-          <span className="value">$8.99</span>
+          <span className="value">${cartShipping.toFixed(2)}</span>
         </div>
       </div>
       <Separator />
       <div className="total">
         <span className="title">Total</span>
-        <span className="value">$318</span>
+        <span className="value">${cartTotal.toFixed(2)}</span>
       </div>
       <div className="btn-container">
         <button>Proceed to Checkout</button>
