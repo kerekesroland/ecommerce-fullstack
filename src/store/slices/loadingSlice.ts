@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-interface InitState {
+interface ILoadingState {
   isLoading: boolean;
 }
 
@@ -12,7 +12,10 @@ const loadingSlice = createSlice({
   name: "products",
   initialState,
   reducers: {
-    toggleLoading: (state, action: PayloadAction<InitState["isLoading"]>) => {
+    toggleLoading: (
+      state,
+      action: PayloadAction<ILoadingState["isLoading"]>
+    ) => {
       state.isLoading = action.payload;
     },
   },
