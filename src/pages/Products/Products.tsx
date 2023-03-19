@@ -1,6 +1,6 @@
 import "./Products.scss";
 import ProductList from "../../components/ProductList/ProductList";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { ControllerDropdown } from "../../components/ControllerDropdown/ControllerDropdown";
 
