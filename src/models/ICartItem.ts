@@ -1,9 +1,11 @@
 export interface ICartItem {
-  id: number;
-  image_1: any;
+  id: string;
+  image: string;
   title: string;
   price: number;
   oldPrice: number;
+  quantity: number;
   isNew: boolean;
-  category: string;
+  main_category: string;
+  category: Array<string>;
 }
