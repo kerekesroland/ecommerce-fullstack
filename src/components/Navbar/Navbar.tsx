@@ -1,7 +1,7 @@
 import "./Navbar.scss";
 
 import { AnimatePresence, motion } from "framer-motion";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, NavigateFunction, useNavigate } from "react-router-dom";
 
@@ -30,7 +30,7 @@ import { RootState } from "../../store/store";
 const Navbar = () => {
   const { t, i18n } = useTranslation();
   const cart = useSelector((state: RootState) => state.cart.cart);
-
+  const cartRef = useRef<HTMLDivElement>(null);
   const currentUser = auth?.currentUser;
   const navigate: NavigateFunction = useNavigate();
   const [isOpenMobile, setIsOpenMobile] = useState<boolean>(false);
@@ -130,6 +130,13 @@ const Navbar = () => {
       html.style.overflow = isOpenMobile ? "hidden" : "auto";
     }
   }, [isOpenMobile]);
+
+  useEffect(() => {
+    cartRef?.current?.classList.add("cart-animation");
+    setTimeout(() => {
+      cartRef?.current?.classList.remove("cart-animation");
+    }, 1000);
+  }, [cart.length]);
 
   //Change the preferred language and persist the changes, default is en
   const changeLanguage = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -245,6 +252,7 @@ const Navbar = () => {
               </div>
 
               <div
+                ref={cartRef}
                 className="cart-icon"
                 onClick={() => setIsOpenCart(!isOpenCart)}
               >
