@@ -1,5 +1,5 @@
 import "./ProductList.scss";
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import ItemCard from "../ItemCard/ItemCard";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
@@ -18,12 +18,26 @@ const ProductList: FC<Props> = ({ category, maxPrice, sort, filters }) => {
   const products: IProduct[] = useSelector(
     (state: RootState) => state.products.products
   );
+  const [filteredProducts, setFilteredProducts] =
+    useState<Array<IProduct>>(products);
 
-  const filteredProducts = products.filter(
-    (product) =>
-      product.main_category.toLowerCase() === category &&
-      filters.every((filter) => product.category.includes(filter))
-  );
+  useEffect(() => {
+    if (filters.length !== 0) {
+      setFilteredProducts(
+        products.filter(
+          (product) =>
+            product.main_category.toLowerCase() === category &&
+            filters.some((filter) => product.category.includes(filter))
+        )
+      );
+    } else {
+      setFilteredProducts(
+        products.filter(
+          (product) => product.main_category.toLowerCase() === category
+        )
+      );
+    }
+  }, [category, filters, products]);
 
   return (
     <motion.div layout className="product-list">
