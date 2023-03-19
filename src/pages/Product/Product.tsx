@@ -5,9 +5,19 @@ import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import product1 from "../../images/cloth_1-min.jpg";
 import product2 from "../../images/cloth_2-min.jpg";
 import { useState } from "react";
+import { addToCart } from "../../store/slices/cartSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../store/store";
+import { useParams } from "react-router-dom";
+import { IProduct } from "../../models/IProduct";
 
 const Product = () => {
-  const [currentImage, setCurrentImage] = useState<string>(product1);
+  const { id } = useParams();
+  const dispatch = useDispatch<AppDispatch>();
+  const product: IProduct = useSelector((state: RootState) =>
+    state.products.products.find((p: IProduct) => p.id === id)
+  );
+  const [currentImage, setCurrentImage] = useState<string>(product.image);
 
   const previews = [
     { id: 1, src: product1 },
@@ -47,7 +57,7 @@ const Product = () => {
         </div>
       </div>
       <div className="right">
-        <h1>Nike Shoes for Men</h1>
+        <h1>{product.title} </h1>
         <div className="details">
           <div className="brand">
             <span className="title">Brand:</span>
@@ -71,7 +81,7 @@ const Product = () => {
           </div>
         </div>
         <div className="buy-container">
-          <div className="price">$ 59.99</div>
+          <div className="price">$ {product.price}</div>
           <div className="amount">
             <div className="icons">
               <div className="icon" onClick={onSubtractAmount}>
@@ -82,7 +92,12 @@ const Product = () => {
                 <AddIcon style={{ fill: "#303030" }} />
               </div>
             </div>
-            <div className="btn-container">
+            <div
+              className="btn-container"
+              onClick={() =>
+                dispatch(addToCart({ ...product, quantity: amount }))
+              }
+            >
               <AddShoppingCartIcon style={{ fill: "#fff" }} />
               <span className="buy">Add to Cart</span>
             </div>

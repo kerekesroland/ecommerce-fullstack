@@ -114,6 +114,8 @@
           span {
             width: 2rem;
             text-align: center;
+            user-select: none;
+            -moz-user-select: none;
           }
         }
 
@@ -130,6 +132,8 @@
           border-radius: 5px;
           .buy {
             color: #fff;
+            user-select: none;
+            -moz-user-select: none;
           }
         }
       }
