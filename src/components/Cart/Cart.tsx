@@ -4,32 +4,69 @@ import { motion } from "framer-motion";
 import { FC } from "react";
 import "./Cart.scss";
 import Separator from "../Separator/Separator";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store/store";
+import { ICartItem } from "../../models/ICartItem";
+import EmptyCart from "../../images/emptyCart.svg";
 
 type Props = {
   setIsOpenCart: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const Cart: FC<Props> = ({ setIsOpenCart }) => {
-  const cartItems = [
-    {
-      id: 1,
-      image_1: require("../../images/cloth_1-min.jpg"),
-      title: "Superset clothes",
-      price: 44.99,
-      oldPrice: 22.99,
-      isNew: true,
-      category: "Clothes set",
-    },
-    {
-      id: 2,
-      image_1: require("../../images/cloth_2-min.jpg"),
-      title: "Superset clothes",
-      price: 44.99,
-      oldPrice: 22.99,
-      isNew: true,
-      category: "Nike shoes",
-    },
-  ];
+  const cart = useSelector((state: RootState) => state.cart.cart);
+
+  if (!cart.length) {
+    return (
+      <motion.div
+        key="modal"
+        initial={{ right: "-50rem" }}
+        animate={{
+          right: "1.875rem",
+        }}
+        transition={{
+          duration: 0.6,
+        }}
+        exit={{ right: "-50rem" }}
+        className="cart"
+      >
+        <h1
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100%",
+          }}
+          className="cart-items"
+        >
+          Your cart is empty
+        </h1>
+        <div
+          style={{
+            width: "100%",
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
+          <img
+            style={{
+              width: "35%",
+              height: "35%",
+              objectFit: "cover",
+              fill: "#505050",
+              textAlign: "center",
+            }}
+            src={EmptyCart}
+            alt="empty cart"
+          />
+        </div>
+        <div className="close-container" onClick={() => setIsOpenCart(false)}>
+          <CloseIcon className="close-icon" style={{ fill: "crimson" }} />
+        </div>
+      </motion.div>
+    );
+  }
+
   return (
     <motion.div
       key="modal"
@@ -45,7 +82,7 @@ const Cart: FC<Props> = ({ setIsOpenCart }) => {
     >
       <h1 className="cart-items">Items in your Cart</h1>
       <div className="items">
-        {cartItems.map((item) => (
+        {cart.map((item: ICartItem) => (
           <CartItem key={item.id} item={item} />
         ))}
       </div>
