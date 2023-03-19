@@ -100,11 +100,9 @@ const cartSlice = createSlice({
         } else {
           state.cart = state.cart.filter((i) => i.id !== itemId);
         }
+        state.cartSubTotal -= existingItem.price;
+        state.cartTotal = state.cartSubTotal + state.cartShipping;
       }
-      state.cartSubTotal = state.cart.reduce((total, item) => {
-        return total - item.price;
-      }, state.cartSubTotal);
-      state.cartTotal = state.cartSubTotal + state.cartShipping;
     });
 
     builder.addCase(removeFromCart.rejected, (state) => {
