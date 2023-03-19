@@ -24,9 +24,12 @@ import Backdrop from "../Backdrop/Backdrop";
 import Cart from "../Cart/Cart";
 import { auth } from "../../firebase/config";
 import { authService } from "../../api/auth/auth";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store/store";
 
 const Navbar = () => {
   const { t, i18n } = useTranslation();
+  const cart = useSelector((state: RootState) => state.cart.cart);
 
   const currentUser = auth?.currentUser;
   const navigate: NavigateFunction = useNavigate();
@@ -246,7 +249,7 @@ const Navbar = () => {
                 onClick={() => setIsOpenCart(!isOpenCart)}
               >
                 <ShoppingCartOutlinedIcon style={{ cursor: "pointer" }} />
-                <span>2</span>
+                <span>{cart?.length || 0}</span>
               </div>
             </div>
           </div>
