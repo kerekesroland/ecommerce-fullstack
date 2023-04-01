@@ -9,7 +9,6 @@ h3,
 h4,
 h5,
 h6,
-span,
 p,
 div {
   margin: 0;
@@ -17,11 +16,20 @@ div {
   box-sizing: border-box;
   color: #505050;
   font-family: "Inter", sans-serif;
+
+  span.checked {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    color: #505050;
+    font-family: "Inter", sans-serif;
+  }
+}
+.css-ahj2mt-MuiTypography-root {
+  font-family: "Inter", sans-serif;
 }
 
 .app {
-  // -webkit-transform: translate3d(0, 0, 0);
-  // transform: translate3d(0, 0, 0);
   .link {
     text-decoration: none;
   }
