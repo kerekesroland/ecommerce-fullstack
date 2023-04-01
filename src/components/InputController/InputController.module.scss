@@ -1,0 +1,96 @@
+.input_controller {
+  display: flex;
+  flex-direction: column;
+  width: 45%;
+  flex-shrink: 0;
+  label {
+    width: 100%;
+    padding-bottom: 0.5rem;
+    font-weight: 550;
+    font-size: 0.9rem;
+  }
+
+  .input_container {
+    display: flex;
+    width: 100%;
+    justify-content: flex-start;
+    align-items: center;
+    border: 1.5px solid rgba(144, 144, 144, 0.3);
+
+    input {
+      height: 2.2rem;
+      border: none;
+      outline: none;
+      width: 100%;
+      padding: 0rem 0.5rem;
+
+      &::-webkit-input-placeholder {
+        /* Edge */
+        color: rgba(144, 144, 144, 0.7);
+        font-weight: 450;
+      }
+
+      &:-ms-input-placeholder {
+        /* Internet Explorer */
+        color: rgba(144, 144, 144, 0.7);
+        font-weight: 450;
+      }
+
+      &::placeholder {
+        color: rgba(144, 144, 144, 0.7);
+        font-weight: 450;
+      }
+    }
+    .password {
+      width: 80%;
+      height: 2.2rem;
+      border: none;
+      outline: none;
+      // flex-grow: 1;
+
+      &::-webkit-input-placeholder {
+        /* Edge */
+        color: rgba(144, 144, 144, 0.7);
+        font-weight: 450;
+      }
+
+      &:-ms-input-placeholder {
+        /* Internet Explorer */
+        color: rgba(144, 144, 144, 0.7);
+        font-weight: 450;
+      }
+
+      &::placeholder {
+        color: rgba(144, 144, 144, 0.7);
+        font-weight: 450;
+      }
+    }
+
+    .input_icon_container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: absolute;
+      height: 100%;
+      width: 1.5rem;
+      right: 0px;
+      cursor: pointer;
+    }
+  }
+  @media screen and (max-width: 768px) {
+    width: 100%;
+    max-width: 250px;
+  }
+  @media screen and (max-width: 600px) {
+    width: 100%;
+    max-width: 450px;
+  }
+}
+
+.validation_error {
+  width: 80%;
+  text-align: center;
+  color: crimson;
+  font-size: 0.9rem;
+  font-weight: 450;
+}
