@@ -40,6 +40,29 @@
           "required": "Benutzername ist erforderlich!"
         }
       },
+      "checkout": {
+        "name": {
+          "required": "Name ist erforderlich!"
+        },
+        "city": {
+          "required": "Stadt ist erforderlich!"
+        },
+        "mobile": {
+          "required": "Handynummer ist erforderlich!"
+        },
+        "state": {
+          "required": "Staat ist erforderlich!"
+        },
+        "zip": {
+          "required": "Zip ist erforderlich!"
+        },
+        "address": {
+          "required": "Adresse ist erforderlich!"
+        },
+        "payment_method": {
+          "required": "Zahlungsmethode ist erforderlich!"
+        }
+      },
       "toast": {
         "invalid_credentials": "E-Mail oder Passwort falsch"
       }

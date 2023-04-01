@@ -40,6 +40,29 @@
           "required": "Le nom d'utilisateur est requis!"
         }
       },
+      "checkout": {
+        "name": {
+          "required": "Le nom est requis!"
+        },
+        "city": {
+          "required": "La ville est requise!"
+        },
+        "mobile": {
+          "required": "Le numéro de portable est requis!"
+        },
+        "state": {
+          "required": "L'état est requis!"
+        },
+        "zip": {
+          "required": "Le code postal est requis!"
+        },
+        "address": {
+          "required": "L'adresse est obligatoire!"
+        },
+        "payment_method": {
+          "required": "Le mode de paiement est requis!"
+        }
+      },
       "toast": {
         "invalid_credentials": "Email ou mot de passe incorrect"
       }

@@ -40,6 +40,29 @@
           "required": "Username is required!"
         }
       },
+      "checkout": {
+        "name": {
+          "required": "Name is required!"
+        },
+        "city": {
+          "required": "City is required!"
+        },
+        "mobile": {
+          "required": "Mobile number is required!"
+        },
+        "state": {
+          "required": "State is required!"
+        },
+        "zip": {
+          "required": "Zip is required!"
+        },
+        "address": {
+          "required": "Address is required!"
+        },
+        "payment_method": {
+          "required": "Payment method is required!"
+        }
+      },
       "toast": {
         "invalid_credentials": "Email or password incorrect"
       }
