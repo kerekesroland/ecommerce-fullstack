@@ -27,6 +27,15 @@ export const useAuthSchemas = () => {
     passwordNumberRequiredError: t(
       "data.errors.registration.password.numberRequired"
     ),
+    nameRequiredError: t("data.errors.checkout.name.required"),
+    cityRequiredError: t("data.errors.checkout.city.required"),
+    mobileRequiredError: t("data.errors.checkout.mobile.required"),
+    stateRequiredError: t("data.errors.checkout.state.required"),
+    zipRequiredError: t("data.errors.checkout.zip.required"),
+    addressesRequiredError: t("data.errors.checkout.address.required"),
+    paymentMethodRequiredError: t(
+      "data.errors.checkout.payment_method.required"
+    ),
   };
 
   const registerSchema = yup.object({
@@ -113,8 +122,24 @@ export const useAuthSchemas = () => {
     password: yup.string().required(errors.passwordRequiredError),
   });
 
+  const checkoutFormSchema = yup.object({
+    name: yup.string().required(errors.userNameRequiredError),
+    mobile: yup.string().required(errors.userNameRequiredError),
+    email: yup
+      .string()
+      .email(errors.userEmailFormatError)
+      .required(errors.userEmailRequiredError),
+    city: yup.string().required(errors.userNameRequiredError),
+    state: yup.string().required(errors.userNameRequiredError),
+    zip: yup.number().required(errors.userNameRequiredError),
+    address: yup.string().required(errors.userNameRequiredError),
+    payment_method: yup.string().required(errors.userNameRequiredError),
+    note: yup.string().required(errors.userNameRequiredError),
+  });
+
   return {
     registerSchema,
     loginSchema,
+    checkoutFormSchema,
   };
 };
