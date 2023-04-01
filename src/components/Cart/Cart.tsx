@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import { ICartItem } from "../../models/ICartItem";
 import EmptyCart from "../../images/emptyCart.svg";
+import { NavigateFunction, useNavigate } from "react-router-dom";
 
 type Props = {
   setIsOpenCart: React.Dispatch<React.SetStateAction<boolean>>;
@@ -17,6 +18,12 @@ const Cart: FC<Props> = ({ setIsOpenCart }) => {
   const { cart, cartTotal, cartSubTotal, cartShipping } = useSelector(
     (state: RootState) => state.cart
   );
+  const navigate: NavigateFunction = useNavigate();
+
+  const navigateToCheckout = () => {
+    setIsOpenCart(false);
+    navigate("/checkout");
+  };
 
   if (!cart.length) {
     return (
@@ -105,7 +112,7 @@ const Cart: FC<Props> = ({ setIsOpenCart }) => {
         <span className="value">${cartTotal.toFixed(2)}</span>
       </div>
       <div className="btn-container">
-        <button>Proceed to Checkout</button>
+        <button onClick={navigateToCheckout}>Proceed to Checkout</button>
       </div>
       <div className="close-container" onClick={() => setIsOpenCart(false)}>
         <CloseIcon className="close-icon" style={{ fill: "crimson" }} />
