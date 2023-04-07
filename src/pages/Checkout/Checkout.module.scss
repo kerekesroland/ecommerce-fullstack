@@ -69,7 +69,7 @@
     .order_container {
       width: 100%;
       height: 595px;
-      overflow-y: scroll;
+      overflow-y: auto;
       overflow-x: hidden;
       max-width: 550px;
       display: flex;
