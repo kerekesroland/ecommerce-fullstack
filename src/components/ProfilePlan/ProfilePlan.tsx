@@ -1,52 +1,81 @@
 import "./ProfilePlan.scss";
-import CheckBox from "../../images/Checkbox.svg";
+import usePremiumStatus from "../../stripe/usePremiumStatus";
+import { auth } from "../../firebase/config";
+import { useEffect, useState } from "react";
+import Loader from "../Loader/Loader";
+import cancelSubscription from "../../stripe/cancelSubscription";
+import getSubscriptionId from "../../stripe/getSubscriptionId";
+import GoldCard from "./GoldCard/GoldCard";
+import SilverCard from "./SilverCard/SilverCard";
+import BronzeCard from "./BronzeCard/BronzeCard";
+import { Link } from "react-router-dom";
+import LinkButton from "../LinkButton/LinkButton";
+
 const ProfilePlan = () => {
-  //todo Add translations
-  //todo Add dynamic render for the profile plan based on their profile plan listed on stripe
+  const currUser: any = auth?.currentUser;
+  const premiumStatus = usePremiumStatus(currUser);
+  const [userSubscriptionId, setUserSubscriptionId] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
+
+  useEffect(() => {
+    const getUserSubscription = async () => {
+      if (!auth.currentUser) return;
+      const subscriptionId: string = await getSubscriptionId(
+        auth?.currentUser?.uid
+      );
+      setUserSubscriptionId(subscriptionId);
+    };
+    getUserSubscription();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="signatureLoader">
+        <Loader />
+      </div>
+    );
+  }
+
+  //Make a function that differentiates between tiers
+
   return (
     <div className="profile-plan">
-      <div className="card-container">
-        <div className="badge" />
-        <div className="profile-plan-details">
-          <h5>Golden Child</h5>
-          <div className="price-container">
-            <span className="price">
-              <span>
-                <sup>$ </sup>
-              </span>
-              <span>25</span>
-            </span>
-            <span className="month"> / month</span>
-          </div>
-          <div className="features">
-            <div className="features-title">Features included:</div>
-            <div className="feature">
-              <img src={CheckBox} alt="checkbox" />
-              <div className="feature-text">
-                <span className="highlighted">Free delivery </span>
-                <span>for every order.</span>
-              </div>
-            </div>
-            <div className="feature">
-              <img src={CheckBox} alt="checkbox" />
-
-              <div className="feature-text">
-                <span className="highlighted">Bonus item</span>
-                <span> for each order.</span>
-              </div>
-            </div>
-            <div className="feature">
-              <img src={CheckBox} alt="checkbox" />
-
-              <div className="feature-text">
-                <span className="highlighted">Chosen item </span>
-                <span>at the end of month.</span>
-              </div>
-            </div>
-          </div>
-          <button className="upgrade">Downgrade Plan</button>
+      {premiumStatus === "gold" && (
+        <GoldCard
+          userSubscriptionId={userSubscriptionId}
+          cancelSubscription={cancelSubscription}
+        />
+      )}
+      {premiumStatus === "silver" && (
+        <SilverCard
+          userSubscriptionId={userSubscriptionId}
+          cancelSubscription={cancelSubscription}
+        />
+      )}
+      {premiumStatus === "bronze" && (
+        <BronzeCard
+          userSubscriptionId={userSubscriptionId}
+          cancelSubscription={cancelSubscription}
+        />
+      )}
+      {premiumStatus === null && (
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            textAlign: "center",
+          }}
+        >
+          <h2 style={{ padding: "1rem 0rem" }}>
+            Currently you have no subscriptions!
+          </h2>
+          <Link to="/plans">
+            <LinkButton title="Choose plan!" />
+          </Link>
         </div>
-      </div>
+      )}
     </div>
   );
 };

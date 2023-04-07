@@ -6,6 +6,16 @@
   --button-height: 31px;
 }
 
+.signatureLoader {
+  position: absolute;
+  z-index: 999;
+  background-color: rgba(0, 0, 0, 0.5);
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100%;
+}
+
 .profile-plan {
   display: flex;
   justify-content: center;
