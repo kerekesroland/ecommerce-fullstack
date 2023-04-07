@@ -6,11 +6,12 @@ import {
   updateProfile,
   User,
 } from "firebase/auth";
-import { auth, googleProvider, storage } from "../../firebase/config";
+import { auth, db, googleProvider, storage } from "../../firebase/config";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { t } from "i18next";
+import { doc, setDoc } from "firebase/firestore";
 
 const registerUser = async (user: IRegisterUser) => {
   try {
@@ -18,6 +19,7 @@ const registerUser = async (user: IRegisterUser) => {
     if (auth.currentUser) {
       updateProfile(auth.currentUser, { displayName: user.username });
     }
+
     toast.success(`${t("data.auth.create_account_success")} ${user.email}`, {
       position: "top-center",
       autoClose: 3000,
@@ -68,6 +70,14 @@ const logout = async () => {
 const signInWithGoogle = async () => {
   try {
     const { user } = await signInWithPopup(auth, googleProvider);
+
+    await setDoc(doc(db, "users", user.uid), {
+      uid: user.uid,
+      email: user.email,
+      name: user.displayName,
+      provider: user.providerData[0].providerId,
+      photoUrl: user.photoURL,
+    });
     toast.success(
       `${t("data.auth.login_success")} ${
         auth?.currentUser?.displayName ?? user.email
