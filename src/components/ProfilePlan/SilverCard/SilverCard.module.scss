@@ -1,0 +1,288 @@
+.card_container {
+  position: relative;
+  width: 220px;
+  height: 350px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(
+    21.59deg,
+    #1048b4 2.14%,
+    rgba(71, 179, 241, 0.77) 97.71%
+  );
+  border-radius: 15px;
+
+  .badge {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    width: 22px;
+    height: 44px;
+    background: linear-gradient(
+      357.03deg,
+      rgba(238, 242, 243, 0.68) 51.89%,
+      #5b656d 97.46%
+    );
+  }
+
+  .upgrade {
+    margin-top: 1rem;
+    width: 136px;
+    height: 31.11px;
+    background: #ffffff;
+    border-radius: 6px;
+    outline: none;
+    border: none;
+    color: cornflowerblue;
+    font-weight: 600;
+    font-size: 0.6rem;
+    line-height: 10px;
+    color: #6495ed;
+    cursor: pointer;
+    position: absolute;
+    bottom: 3rem;
+  }
+
+  .profile_plan_details {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    h5 {
+      color: #fff;
+      margin-top: 1.5rem;
+      font-family: "Inter";
+      font-weight: 450;
+      font-size: 14px;
+      line-height: 13px;
+    }
+
+    .price_container {
+      margin-top: 0.8rem;
+      span {
+        color: #fff;
+        font-size: 0.9rem;
+      }
+
+      sup {
+        font-size: 0.7rem;
+        color: #fff;
+      }
+
+      .month {
+        font-weight: 400;
+        font-size: 0.7rem;
+        line-height: 10px;
+        color: rgba(255, 255, 255, 0.6);
+      }
+    }
+
+    .features {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 1rem;
+      gap: 1.2rem;
+      width: 100%;
+
+      .features_title {
+        color: #fff;
+        font-weight: 400;
+        font-size: 0.8rem;
+        line-height: 11px;
+        margin: 0.8rem 0rem;
+      }
+
+      .feature {
+        display: flex;
+        gap: 0.8rem;
+        width: 100%;
+        height: 25px;
+        align-items: center;
+        margin-left: 0.8rem;
+      }
+
+      .feature_text {
+        margin: auto 0;
+        height: 25px;
+      }
+
+      .feature .highlighted {
+        font-weight: 600;
+        opacity: 1;
+      }
+      span {
+        color: #fff;
+        font-size: 0.6rem;
+        opacity: 0.7;
+      }
+    }
+  }
+  @media screen and (min-width: 500px) {
+    width: 60%;
+    max-width: 350px;
+    height: 430px;
+
+    .badge {
+      width: 34px;
+      height: 77px;
+    }
+
+    .upgrade {
+      margin-top: 1rem;
+      width: 200px;
+      height: 45px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 0.8rem;
+      line-height: 18px;
+    }
+
+    .profile_plan_details {
+      h5 {
+        margin-top: 1.5rem;
+        font-size: 1.2rem;
+        line-height: 18px;
+      }
+
+      .price_container {
+        margin-top: 0.8rem;
+        span {
+          font-size: 1.2rem;
+        }
+
+        sup {
+          font-size: 0.7rem;
+        }
+
+        .month {
+          font-weight: 400;
+          font-size: 1rem;
+          line-height: 16px;
+        }
+      }
+      .features {
+        padding: 1rem;
+        gap: 1.2rem;
+
+        .features_title {
+          color: #fff;
+          font-weight: 400;
+          font-size: 1rem;
+          line-height: 18px;
+          margin: 0.8rem 0rem;
+        }
+
+        .feature {
+          height: 40px;
+          align-items: center;
+          margin-left: 1rem;
+        }
+
+        .feature_text {
+          height: 20px;
+          margin: auto 0;
+        }
+
+        .feature .highlighted {
+          font-weight: 600;
+          opacity: 1;
+        }
+        img {
+          height: 20px;
+        }
+        span {
+          color: #fff;
+          font-size: 0.9rem;
+          opacity: 0.7;
+        }
+      }
+    }
+  }
+
+  @media screen and (min-width: 800px) {
+    width: 60%;
+    max-width: 400px;
+    height: 530px;
+
+    .badge {
+      width: 44px;
+      height: 88px;
+    }
+
+    .upgrade {
+      margin-top: 1.2rem;
+      width: 250px;
+      height: 55px;
+      border-radius: 15px;
+      font-weight: 600;
+      font-size: 1rem;
+      line-height: 23px;
+    }
+
+    .profile_plan_details {
+      h5 {
+        margin-top: 1.5rem;
+        font-size: 1.4rem;
+        line-height: 23px;
+      }
+
+      .price_container {
+        margin-top: 0.8rem;
+        span {
+          font-size: 1.4rem;
+        }
+
+        sup {
+          font-size: 0.9rem;
+        }
+
+        .month {
+          font-weight: 400;
+          font-size: 1.2rem;
+          line-height: 21px;
+        }
+      }
+      .features {
+        padding: 1.5rem;
+        gap: 1.4rem;
+
+        .features_title {
+          color: #fff;
+          font-weight: 400;
+          font-size: 1.2rem;
+          line-height: 23px;
+          margin: 1rem 0rem;
+        }
+
+        .feature {
+          height: 50px;
+          align-items: center;
+          margin-left: 1rem;
+          line-height: 25px;
+        }
+
+        .feature_text {
+          height: 25px;
+          margin: auto 0;
+        }
+
+        .feature .highlighted {
+          font-weight: 600;
+          opacity: 1;
+        }
+        img {
+          height: 25px;
+        }
+        span {
+          color: #fff;
+          font-size: 1.1rem;
+          opacity: 0.7;
+        }
+      }
+    }
+  }
+}
