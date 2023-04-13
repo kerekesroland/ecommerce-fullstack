@@ -18,11 +18,17 @@ import { useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store";
 import { useDispatch } from "react-redux";
 import { toggleLoading } from "../../store/slices/loadingSlice";
+import getSubscriptionId from "../../stripe/getSubscriptionId";
+import usePremiumStatus from "../../stripe/usePremiumStatus";
 
 const Profile = () => {
   const isLoading = useSelector((state: RootState) => state.loading.isLoading);
   const dispatch: AppDispatch = useDispatch();
   const [userProfile, setUserProfile] = useState<User>();
+  const [userSubscriptionId, setUserSubscriptionId] = useState<string>("");
+  const currUser: any = auth?.currentUser;
+  const premiumStatus = usePremiumStatus(currUser);
+
   useEffect(() => {
     auth?.onAuthStateChanged((user) => {
       if (user) {
@@ -31,6 +37,17 @@ const Profile = () => {
         setUserProfile(undefined);
       }
     });
+  }, [userProfile]);
+
+  useEffect(() => {
+    const getUserSubscription = async () => {
+      if (!auth.currentUser) return;
+      const subscriptionId: string = await getSubscriptionId(
+        userProfile?.uid as string
+      );
+      setUserSubscriptionId(subscriptionId);
+    };
+    getUserSubscription();
   }, [userProfile]);
   const photoUrl = userProfile?.photoURL ? userProfile.photoURL : noProfile;
   const [activeChip, setActiveChip] = useState<number>(1);
@@ -61,7 +78,13 @@ const Profile = () => {
         return <ProfileOrders key="profile-orders" />;
 
       case 4:
-        return <ProfilePlan key="profile-plan" />;
+        return (
+          <ProfilePlan
+            userSubscriptionId={userSubscriptionId}
+            premiumStatus={premiumStatus}
+            key="profile-plan"
+          />
+        );
     }
   };
 

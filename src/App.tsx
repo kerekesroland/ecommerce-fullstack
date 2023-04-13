@@ -27,7 +27,9 @@ const Layout = () => {
     <div className="app">
       <Navbar />
       <Outlet />
-      {pathname !== "/profile" && pathname !== "/checkout" && <Footer />}
+      {pathname !== "/profile" &&
+        pathname !== "/checkout" &&
+        pathname !== "/plans" && <Footer />}
     </div>
   );
 };

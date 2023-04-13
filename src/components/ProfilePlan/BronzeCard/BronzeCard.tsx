@@ -1,5 +1,9 @@
+import { toast } from "react-toastify";
 import CheckBox from "../../../images/Checkbox.svg";
 import styles from "./BronzeCard.module.scss";
+import { useState } from "react";
+import { auth } from "../../../firebase/config";
+import { UserSubscription } from "../../../stripe/usePremiumStatus";
 
 interface IProps {
   cancelSubscription?: (subscription_key?: string | undefined) => Promise<void>;
@@ -7,6 +11,8 @@ interface IProps {
   userSubscriptionId: string;
   activate?: boolean;
   userId?: string;
+  blocked?: boolean;
+  premiumStatus?: UserSubscription;
 }
 
 const BronzeCard = ({
@@ -14,10 +20,62 @@ const BronzeCard = ({
   cancelSubscription,
   userSubscriptionId,
   activate,
+  blocked,
   userId,
+  premiumStatus,
 }: IProps) => {
+  const [success, setSuccess] = useState<boolean>(false);
+  const isBlocked =
+    !userSubscriptionId ||
+    (premiumStatus !== "bronze" && premiumStatus != null);
+
+  const handleCancelation = async () => {
+    try {
+      await cancelSubscription?.(userSubscriptionId).then(() => {
+        toast.success("Successful cancelation!", {
+          position: "top-center",
+          autoClose: 3000,
+          pauseOnHover: false,
+          closeOnClick: true,
+        });
+        setTimeout(() => {
+          window.location.reload();
+        }, 2500);
+        setSuccess(true);
+      });
+    } catch (error) {
+      toast.error("There was an error during cancelation", {
+        position: "top-center",
+        autoClose: 3000,
+        pauseOnHover: false,
+        closeOnClick: true,
+      });
+      setSuccess(false);
+    }
+  };
+
+  const handleActivateSubscription = async () => {
+    try {
+      if (!auth.currentUser?.uid) return;
+      await activateSubscription?.(auth?.currentUser?.uid as string);
+    } catch (error) {
+      toast.error("There was an error during subscription", {
+        position: "top-center",
+        autoClose: 3000,
+        pauseOnHover: false,
+        closeOnClick: true,
+      });
+      setSuccess(false);
+    }
+  };
+
   return (
-    <div className={styles.card_container}>
+    <div
+      className={styles.card_container}
+      style={{
+        opacity: isBlocked ? 0.6 : 1,
+      }}
+    >
       <div className={styles.badge} />
       <div className={styles.profile_plan_details}>
         <div>
@@ -43,18 +101,19 @@ const BronzeCard = ({
           </div>
         </div>
       </div>
-      {activate ? (
+      {activate && premiumStatus !== "bronze" ? (
         <button
-          onClick={() => activateSubscription?.(userId as string)}
+          disabled={isBlocked}
+          style={{
+            pointerEvents: isBlocked ? "none" : "all",
+          }}
+          onClick={handleActivateSubscription}
           className={styles.upgrade}
         >
           Upgrade to Plan
         </button>
       ) : (
-        <button
-          onClick={() => cancelSubscription?.(userSubscriptionId)}
-          className={styles.upgrade}
-        >
+        <button onClick={handleCancelation} className={styles.upgrade}>
           Cancel Plan
         </button>
       )}

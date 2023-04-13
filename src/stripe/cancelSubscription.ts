@@ -9,11 +9,15 @@ export default async function cancelSubscription(subscription_key?: string) {
       Authorization: `Bearer ${apiKey}`,
     };
 
-    fetch(`https://api.stripe.com/v1/subscriptions/${subscription_key}`, {
+    console.log(subscription_key);
+
+    await fetch(`https://api.stripe.com/v1/subscriptions/${subscription_key}`, {
       method: "DELETE",
       headers: headers,
     })
       .then((response) => {
+        console.log(response.status);
+
         if (!response.ok) {
           throw new Error("Failed to cancel subscription.");
         }

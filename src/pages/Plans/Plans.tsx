@@ -12,21 +12,48 @@ import { auth } from "../../firebase/config";
 import Loader from "../../components/Loader/Loader";
 import cancelSubscription from "../../stripe/cancelSubscription";
 import getSubscriptionId from "../../stripe/getSubscriptionId";
+import { UserSubscription } from "../../stripe/usePremiumStatus";
+import getUserPremiumStatus from "../../stripe/userPremiumStatus";
 
 const Plans = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [userSubscriptionId, setUserSubscriptionId] = useState<string>("");
+  const [premiumStatus, setPremiumStatus] = useState<UserSubscription>(null);
+  const getUserSubscription = async (uid: string) => {
+    const res = await getSubscriptionId(uid);
+    return res;
+  };
+
+  const getStatus = async () => {
+    const res = await getUserPremiumStatus();
+    return res;
+  };
 
   useEffect(() => {
-    const getUserSubscription = async () => {
-      if (!auth.currentUser) return;
-      const subscriptionId: string = await getSubscriptionId(
-        auth?.currentUser?.uid
-      );
-      setUserSubscriptionId(subscriptionId);
+    const unsubscribe = async () => {
+      setLoading(true);
+      const unSub = auth.onAuthStateChanged(async (user) => {
+        if (user !== null) {
+          const [subscriptionId, status] = await Promise.all([
+            getUserSubscription(user.uid),
+            getStatus(),
+          ]);
+          setUserSubscriptionId(subscriptionId);
+          setPremiumStatus(status);
+          setLoading(false);
+        } else {
+          setUserSubscriptionId("");
+          setPremiumStatus(null);
+          setLoading(true);
+        }
+      });
+
+      return () => {
+        unSub();
+      };
     };
-    getUserSubscription();
-  }, []);
+    unsubscribe();
+  }, [userSubscriptionId]);
 
   const handleBronzeSubscription = async (userId: string) => {
     await createPremiumBronzeSession(userId);
@@ -57,6 +84,7 @@ const Plans = () => {
       </div>
     );
   }
+  console.log({ userSubscriptionId }, { premiumStatus });
   return (
     <div className={styles.plans}>
       <BronzeCard
@@ -65,6 +93,14 @@ const Plans = () => {
         userSubscriptionId={userSubscriptionId}
         activate={true}
         userId={auth?.currentUser?.uid}
+        blocked={
+          userSubscriptionId &&
+          premiumStatus !== null &&
+          premiumStatus !== "bronze"
+            ? true
+            : false
+        }
+        premiumStatus={premiumStatus}
       />
       <SilverCard
         activateSubscription={handleSilverSubscription}
@@ -72,6 +108,14 @@ const Plans = () => {
         userSubscriptionId={userSubscriptionId}
         activate={true}
         userId={auth?.currentUser?.uid}
+        blocked={
+          userSubscriptionId &&
+          premiumStatus !== null &&
+          premiumStatus !== "silver"
+            ? true
+            : false
+        }
+        premiumStatus={premiumStatus}
       />
       <GoldCard
         activateSubscription={handleGoldSubscription}
@@ -79,6 +123,14 @@ const Plans = () => {
         userSubscriptionId={userSubscriptionId}
         activate={true}
         userId={auth?.currentUser?.uid}
+        blocked={
+          userSubscriptionId &&
+          premiumStatus !== null &&
+          premiumStatus !== "gold"
+            ? true
+            : false
+        }
+        premiumStatus={premiumStatus}
       />
     </div>
   );
