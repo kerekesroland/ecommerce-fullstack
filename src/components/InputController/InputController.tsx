@@ -18,7 +18,7 @@ const InputController = ({
       <label>{name}</label>
       <div className={styles.input_container}>
         <input
-          // {...register(defaultName)}
+          {...register}
           type="text"
           minLength={4}
           placeholder={placeholder || defaultName}

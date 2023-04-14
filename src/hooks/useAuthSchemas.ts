@@ -36,6 +36,7 @@ export const useAuthSchemas = () => {
     paymentMethodRequiredError: t(
       "data.errors.checkout.payment_method.required"
     ),
+    generalRequiredError: t("data.errors.checkout.general_required"),
   };
 
   const registerSchema = yup.object({
@@ -124,17 +125,15 @@ export const useAuthSchemas = () => {
 
   const checkoutFormSchema = yup.object({
     name: yup.string().required(errors.userNameRequiredError),
-    mobile: yup.string().required(errors.userNameRequiredError),
+    mobile: yup.string().required(errors.generalRequiredError),
     email: yup
       .string()
       .email(errors.userEmailFormatError)
       .required(errors.userEmailRequiredError),
-    city: yup.string().required(errors.userNameRequiredError),
-    state: yup.string().required(errors.userNameRequiredError),
-    zip: yup.number().required(errors.userNameRequiredError),
-    address: yup.string().required(errors.userNameRequiredError),
-    payment_method: yup.string().required(errors.userNameRequiredError),
-    note: yup.string().required(errors.userNameRequiredError),
+    city: yup.string().required(errors.generalRequiredError),
+    state: yup.string().required(errors.generalRequiredError),
+    zip: yup.number().required(errors.generalRequiredError),
+    address: yup.string().required(errors.generalRequiredError),
   });
 
   return {

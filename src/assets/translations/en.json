@@ -61,7 +61,8 @@
         },
         "payment_method": {
           "required": "Payment method is required!"
-        }
+        },
+        "general_required": "Required field"
       },
       "toast": {
         "invalid_credentials": "Email or password incorrect"

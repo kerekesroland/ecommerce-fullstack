@@ -7,17 +7,51 @@ import CartItem from "../../components/CartItem/CartItem";
 import Separator from "../../components/Separator/Separator";
 import { useState } from "react";
 import RadioController from "../../components/RadioController/RadioController";
+import {
+  FieldValues,
+  SubmitHandler,
+  UseFormRegister,
+  useForm,
+} from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useAuthSchemas } from "../../hooks/useAuthSchemas";
+import { auth } from "../../firebase/config";
+import { handlePayment } from "../../stripe/createCheckoutSession";
 
 type PaymentMethods =
   | "online_payment"
   | "cash_on_delivery"
   | "card_on_delivery";
 
+interface CheckoutProps {
+  name: string;
+  email: string;
+  mobile: string;
+  city: string;
+  state: string;
+  zip: string;
+  address: string;
+}
+
 const Checkout = () => {
   const { cart, cartTotal, cartSubTotal, cartShipping } = useSelector(
     (state: RootState) => state.cart
   );
+  const { checkoutFormSchema } = useAuthSchemas();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, touchedFields },
+  } = useForm<CheckoutProps>({
+    resolver: yupResolver(checkoutFormSchema),
+    reValidateMode: "onChange",
+    mode: "onChange",
+  });
 
+  const onSubmit: SubmitHandler<CheckoutProps> = async (data) => {
+    const dataWithPayment = { ...data, payment_method: paymentMethod };
+    await handlePayment(auth?.currentUser?.uid as string, cart);
+  };
   const [paymentMethod, setPaymentMethod] =
     useState<PaymentMethods>("online_payment");
 
@@ -26,10 +60,11 @@ const Checkout = () => {
   };
 
   return (
-    <div className={styles.checkout}>
+    <form onSubmit={handleSubmit(onSubmit)} className={styles.checkout}>
       <CheckoutLeftColumn
         paymentMethod={paymentMethod}
         handlePaymentMethodChange={handlePaymentMethodChange}
+        register={register}
       />
       <CheckoutRightColumn
         cart={cart}
@@ -37,61 +72,63 @@ const Checkout = () => {
         cartSubTotal={cartSubTotal}
         cartShipping={cartShipping}
       />
-    </div>
+    </form>
   );
 };
 
 interface IDeliveryInfoProps {
   paymentMethod: string;
   handlePaymentMethodChange: (event: any) => void;
+  register: UseFormRegister<CheckoutProps>;
 }
 
 const CheckoutLeftColumn = ({
   paymentMethod,
   handlePaymentMethodChange,
+  register,
 }: IDeliveryInfoProps) => (
   <div className={styles.delivery_information}>
     <h4>Delivery Information</h4>
     <div className={styles.delivery_container}>
       <InputController
         name={"Name"}
-        register={undefined}
+        register={register("name")}
         placeholder={"Roland Kerekes"}
         defaultName={"Name"}
       />
       <InputController
         name={"Mobile number"}
-        register={undefined}
+        register={register("mobile")}
         placeholder={"06706240021"}
         defaultName={"Mobile number"}
       />
       <InputController
         name={"Email"}
-        register={undefined}
+        register={register("email")}
         placeholder={"test@example.com"}
         defaultName={"Email"}
       />
       <InputController
         name={"City"}
-        register={undefined}
+        register={register("city")}
         placeholder={"Szeged"}
         defaultName={"City"}
       />
       <InputController
         name={"State"}
-        register={undefined}
+        register={register("state")}
         placeholder={"Csongrad-Csanad"}
         defaultName={"State"}
       />
       <InputController
         name={"Zip"}
-        register={undefined}
+        register={register("zip")}
         placeholder={"6722"}
         defaultName={"Zip"}
       />
       <InputController
         name={"Address"}
-        register={undefined}
+        register={register("address")}
         placeholder={"Test street 28/B"}
         defaultName={"Address"}
       />
@@ -157,7 +194,7 @@ const CheckoutRightColumn = ({
           <span className={styles.value}>${cartTotal.toFixed(2)}</span>
         </div>
         <div className={styles.btn_container}>
-          <button>Confirm Order</button>
+          <button type="submit">Confirm Order</button>
         </div>
       </div>
     </div>
