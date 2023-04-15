@@ -1,9 +1,11 @@
+import styles from "./SuccessPayment.module.scss";
 import { useState, useEffect } from "react";
 import { NavigateFunction, useLocation, useNavigate } from "react-router-dom";
 import { validateSession } from "../../stripe/validateCheckoutSession";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../store/store";
 import { emptyCart } from "../../store/slices/cartSlice";
+import success_image from "../../images/success.svg";
 
 const SuccessPayment = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -34,7 +36,27 @@ const SuccessPayment = () => {
     validateCheckout();
   }, [sessionId, navigate, dispatch]);
 
-  return <div>{validated ? "SuccessPayment" : "Loading..."}</div>;
+  const handleNavigateToHome = () => {
+    navigate("/");
+  };
+
+  return (
+    <div>
+      {validated ? (
+        <div className={styles.success_container}>
+          <div className={styles.card}>
+            <div className={styles.image_container}>
+              <img src={success_image} alt="" />
+              <h1>The Payment was successful!</h1>
+              <button onClick={handleNavigateToHome}>Go to Home</button>
+            </div>
+          </div>
+        </div>
+      ) : (
+        "Loading..."
+      )}
+    </div>
+  );
 };
 
 export default SuccessPayment;

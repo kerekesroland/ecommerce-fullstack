@@ -1,0 +1,64 @@
+.success_container {
+  width: 100%;
+  padding: 4rem 4rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .card {
+    display: flex;
+    justify-content: space-between;
+    padding: clamp(2rem, 8.5vw, 8rem);
+    border-radius: 30px;
+    background: #ffffff;
+    box-shadow: 15px 15px 30px #bebebe, -15px -15px 30px #ffffff;
+    .image_container {
+      width: 100%;
+      min-height: 100px;
+      min-width: 150px;
+      max-width: 220px;
+      max-height: 220px;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      justify-content: center;
+      align-items: center;
+      img {
+        width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+      }
+      h1 {
+        text-align: center;
+        font-size: clamp(1rem, 2.6vw, 1.7rem);
+      }
+      button {
+        font-size: 1rem;
+        font-weight: 500;
+        padding: 12px 18px;
+        background-color: cornflowerblue;
+        color: #fff;
+        border-radius: 5px;
+        font-weight: 600;
+        text-transform: uppercase;
+        width: 100%;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        text-align: center;
+      }
+    }
+    @media screen and (min-width: 240px) {
+      padding: 3rem 2rem;
+    }
+    @media screen and (min-width: 320px) {
+      padding: 4rem;
+    }
+    @media screen and (min-width: 440px) {
+      padding: 6rem;
+    }
+    @media screen and (min-width: 768px) {
+      padding: 8rem;
+    }
+  }
+}
