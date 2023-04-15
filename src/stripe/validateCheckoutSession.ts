@@ -10,12 +10,19 @@ export const validateSession = async (session_id: string) => {
       }
     );
     if (res.status === 200) {
-      return true;
+      return {
+        data: await res.json(),
+        validated: true,
+      };
     } else {
-      return false;
+      return {
+        validated: false,
+      };
     }
   } catch (error) {
     console.error(error);
-    return false;
+    return {
+      validated: false,
+    };
   }
 };

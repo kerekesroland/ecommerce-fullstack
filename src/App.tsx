@@ -30,7 +30,8 @@ const Layout = () => {
       <Outlet />
       {pathname !== "/profile" &&
         pathname !== "/checkout" &&
-        pathname !== "/plans" && <Footer />}
+        pathname !== "/plans" &&
+        !pathname.startsWith("/success") && <Footer />}
     </div>
   );
 };
