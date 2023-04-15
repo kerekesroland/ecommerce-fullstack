@@ -50,7 +50,7 @@ const Checkout = () => {
 
   const onSubmit: SubmitHandler<CheckoutProps> = async (data) => {
     const dataWithPayment = { ...data, payment_method: paymentMethod };
-    await handlePayment(auth?.currentUser?.uid as string, cart);
+    await handlePayment(auth?.currentUser?.uid as string, cart, cartShipping);
   };
   const [paymentMethod, setPaymentMethod] =
     useState<PaymentMethods>("online_payment");

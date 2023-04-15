@@ -4,10 +4,9 @@ import { initializeStripe } from "./initializeStripe";
 import {
   addDoc,
   collection,
-  doc,
   onSnapshot,
-  setDoc,
 } from "firebase/firestore";
+import { ICartItem } from "../models/ICartItem";
 
 export const createPremiumBronzeSession = async (uid: string) => {
   const checkoutSessionRef = await addDoc(
@@ -82,55 +81,44 @@ export const createPremiumGoldSession = async (uid: string) => {
 
 //--------------------------Payment-----------------------------------------------
 
-/** This works
- * body: new URLSearchParams({
-      "payment_method_types[]": "card",
-      "line_items[][price_data][currency]": "usd",
-      "line_items[][price_data][product_data][name]": "T-shirt",
-      "line_items[][price_data][unit_amount]": "2000",
-      "line_items[][quantity]": "1",
-      mode: "payment",
-      success_url: "http://localhost:3000/checkout",
-      cancel_url: "http://localhost:3000/checkout",
-    }).toString(),
- */
+export const handlePayment = async (
+  uid: string,
+  items: ICartItem[],
+  shipping: number
+) => {
 
-export const handlePayment = async (uid: string, items: any) => {
-  const line_items = items.reduce((acc: any, item: any, index: any) => {
-    acc[`line_items[${index}][price_data][currency]`] = "usd";
-    acc[`line_items[${index}][price_data][product_data][name]`] = "Shirt";
-    acc[`line_items[${index}][price_data][unit_amount]`] = 2500;
-    acc[`line_items[${index}][quantity]`] = "1";
-    return acc;
-  }, {});
-
-  const formData = new URLSearchParams();
-  formData.append("payment_method_types[]", "card");
-  for (const [key, value] of Object.entries(line_items)) {
-    //@ts-ignore
-    formData.append(key, value);
-  }
-  formData.append("mode", "payment");
-  formData.append("success_url", "http://localhost:3000/checkout");
-  formData.append("cancel_url", "http://localhost:3000/checkout");
-
-  const response = await fetch("https://api.stripe.com/v1/checkout/sessions", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
-      Authorization: `Bearer ${process.env.REACT_APP_stripe_secret_key}`,
-    },
-    body: formData,
+  const formattedItems = items.map((item: ICartItem) => {
+    return {
+      price_data: {
+        currency: "usd",
+        product_data: {
+          name: item.title,
+        },
+        unit_amount: item.price * 100,
+        tax_behavior: "exclusive",
+      },
+      quantity: item.quantity || 1,
+    };
   });
 
-  const sessionData = await response.json();
-
-  console.log(sessionData);
+  //Modify it to add shipping costs
+  formattedItems.push({
+    price_data: {
+      currency: "usd",
+      product_data: {
+        name: "Shipping",
+      },
+      unit_amount: shipping * 100,
+      tax_behavior: "exclusive",
+    },
+    quantity: 1,
+  });
 
   const checkoutSessionRef = await addDoc(
     collection(db, "users", uid, "checkout_sessions"),
     {
-      price: "price_1MwmcUKTsbxvOHwnNV8eVqKR",
+      line_items: formattedItems,
+
       success_url: "http://localhost:3000/checkout",
       cancel_url: "http://localhost:3000/checkout",
       mode: "payment",
