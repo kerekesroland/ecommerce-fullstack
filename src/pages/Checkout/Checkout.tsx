@@ -23,7 +23,7 @@ type PaymentMethods =
   | "cash_on_delivery"
   | "card_on_delivery";
 
-interface CheckoutProps {
+export interface CheckoutProps {
   name: string;
   email: string;
   mobile: string;
@@ -50,7 +50,12 @@ const Checkout = () => {
 
   const onSubmit: SubmitHandler<CheckoutProps> = async (data) => {
     const dataWithPayment = { ...data, payment_method: paymentMethod };
-    await handlePayment(auth?.currentUser?.uid as string, cart, cartShipping);
+    await handlePayment(
+      auth?.currentUser?.uid as string,
+      cart,
+      cartShipping,
+      dataWithPayment
+    );
   };
   const [paymentMethod, setPaymentMethod] =
     useState<PaymentMethods>("online_payment");

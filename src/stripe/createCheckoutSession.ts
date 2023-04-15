@@ -1,12 +1,9 @@
 import { toast } from "react-toastify";
 import { db } from "../firebase/config";
 import { initializeStripe } from "./initializeStripe";
-import {
-  addDoc,
-  collection,
-  onSnapshot,
-} from "firebase/firestore";
+import { addDoc, collection, onSnapshot } from "firebase/firestore";
 import { ICartItem } from "../models/ICartItem";
+import { CheckoutProps } from "../pages/Checkout/Checkout";
 
 export const createPremiumBronzeSession = async (uid: string) => {
   const checkoutSessionRef = await addDoc(
@@ -84,9 +81,9 @@ export const createPremiumGoldSession = async (uid: string) => {
 export const handlePayment = async (
   uid: string,
   items: ICartItem[],
-  shipping: number
+  shipping: number,
+  dataWithPayment: CheckoutProps
 ) => {
-
   const formattedItems = items.map((item: ICartItem) => {
     return {
       price_data: {
@@ -122,6 +119,16 @@ export const handlePayment = async (
       success_url: "http://localhost:3000/checkout",
       cancel_url: "http://localhost:3000/checkout",
       mode: "payment",
+      metadata: {
+        userId: uid,
+        name: dataWithPayment.name,
+        email: dataWithPayment.email,
+        mobile: dataWithPayment.mobile,
+        city: dataWithPayment.city,
+        state: dataWithPayment.state,
+        zip: dataWithPayment.zip,
+        address: dataWithPayment.address,
+      },
     }
   );
 
