@@ -50,6 +50,13 @@ export const removeFromCart = createAsyncThunk(
   }
 );
 
+export const emptyCart = createAsyncThunk("cart/emptyCart", async () => {
+  try {
+  } catch (err) {
+    console.error(err);
+  }
+});
+
 const cartSlice = createSlice({
   name: "cart",
   initialState,
@@ -109,6 +116,12 @@ const cartSlice = createSlice({
       state.isError = true;
       state.isSuccess = false;
       state.isLoading = false;
+    });
+
+    builder.addCase(emptyCart.fulfilled, (state) => {
+      state.cart = [];
+      state.cartSubTotal = 0;
+      state.cartTotal = 0;
     });
   },
 });

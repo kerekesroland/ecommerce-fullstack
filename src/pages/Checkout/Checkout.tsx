@@ -1,7 +1,7 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import InputController from "../../components/InputController/InputController";
 import styles from "./Checkout.module.scss";
-import { RootState } from "../../store/store";
+import { AppDispatch, RootState } from "../../store/store";
 import { ICartItem } from "../../models/ICartItem";
 import CartItem from "../../components/CartItem/CartItem";
 import Separator from "../../components/Separator/Separator";
@@ -16,7 +16,8 @@ import {
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useAuthSchemas } from "../../hooks/useAuthSchemas";
 import { auth } from "../../firebase/config";
-import { handlePayment } from "../../stripe/createCheckoutSession";
+import { handlePaymentWithCreditCard } from "../../stripe/createCheckoutSession";
+import { emptyCart } from "../../store/slices/cartSlice";
 
 type PaymentMethods =
   | "online_payment"
@@ -37,6 +38,7 @@ const Checkout = () => {
   const { cart, cartTotal, cartSubTotal, cartShipping } = useSelector(
     (state: RootState) => state.cart
   );
+  const dispatch: AppDispatch = useDispatch();
   const { checkoutFormSchema } = useAuthSchemas();
   const {
     register,
@@ -50,13 +52,19 @@ const Checkout = () => {
 
   const onSubmit: SubmitHandler<CheckoutProps> = async (data) => {
     const dataWithPayment = { ...data, payment_method: paymentMethod };
-    await handlePayment(
+    const sessionId = await handlePaymentWithCreditCard(
       auth?.currentUser?.uid as string,
       cart,
       cartShipping,
       dataWithPayment
-    );
+    ).then(() => {
+      setTimeout(() => {
+        dispatch(emptyCart());
+      }, 5000);
+    });
+    console.log(sessionId);
   };
+
   const [paymentMethod, setPaymentMethod] =
     useState<PaymentMethods>("online_payment");
 

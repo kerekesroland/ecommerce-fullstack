@@ -20,6 +20,7 @@ import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "./store/store";
 import Checkout from "./pages/Checkout/Checkout";
+import SuccessPayment from "./pages/SuccessPayment/SuccessPayment";
 
 const Layout = () => {
   const { pathname } = useLocation();
@@ -58,6 +59,10 @@ const router = createBrowserRouter([
       {
         path: "auth",
         element: <Auth />,
+      },
+      {
+        path: "/success/*",
+        element: <SuccessPayment />,
       },
       {
         path: "/profile",

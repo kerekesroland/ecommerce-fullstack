@@ -1,9 +1,11 @@
 import { toast } from "react-toastify";
 import { db } from "../firebase/config";
 import { initializeStripe } from "./initializeStripe";
-import { addDoc, collection, onSnapshot } from "firebase/firestore";
+import { addDoc, collection, onSnapshot, updateDoc } from "firebase/firestore";
 import { ICartItem } from "../models/ICartItem";
 import { CheckoutProps } from "../pages/Checkout/Checkout";
+
+//--------------------------Subscriptions Start-----------------------------------------------
 
 export const createPremiumBronzeSession = async (uid: string) => {
   const checkoutSessionRef = await addDoc(
@@ -76,9 +78,11 @@ export const createPremiumGoldSession = async (uid: string) => {
   });
 };
 
-//--------------------------Payment-----------------------------------------------
+//--------------------------Subscriptions End-----------------------------------------------
 
-export const handlePayment = async (
+//--------------------------Payment Start-----------------------------------------------
+
+export const handlePaymentWithCreditCard = async (
   uid: string,
   items: ICartItem[],
   shipping: number,
@@ -98,7 +102,7 @@ export const handlePayment = async (
     };
   });
 
-  //Modify it to add shipping costs
+  // Modify it to add shipping costs
   formattedItems.push({
     price_data: {
       currency: "usd",
@@ -116,7 +120,8 @@ export const handlePayment = async (
     {
       line_items: formattedItems,
 
-      success_url: "http://localhost:3000/checkout",
+      success_url:
+        "http://localhost:3000/success/?session_id={CHECKOUT_SESSION_ID}",
       cancel_url: "http://localhost:3000/checkout",
       mode: "payment",
       metadata: {
@@ -132,12 +137,22 @@ export const handlePayment = async (
     }
   );
 
-  onSnapshot(checkoutSessionRef, async (snap: any) => {
-    const { sessionId } = await snap.data();
-    console.log(await snap.data());
-    const stripe = await initializeStripe();
-    if (stripe && sessionId) {
-      await stripe.redirectToCheckout({ sessionId });
-    }
-  });
+  const waitForSuccessUrlUpdate = async () => {
+    return new Promise<string>((resolve) => {
+      onSnapshot(checkoutSessionRef, async (snap: any) => {
+        const { sessionId } = snap.data() || {};
+        if (sessionId) {
+          resolve(sessionId);
+        }
+      });
+    });
+  };
+
+  const sessionId = await waitForSuccessUrlUpdate();
+  const stripe = await initializeStripe();
+  if (stripe && sessionId) {
+    await stripe.redirectToCheckout({ sessionId });
+  }
 };
+
+//--------------------------Payment End-----------------------------------------------
