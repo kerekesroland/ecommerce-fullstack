@@ -5,13 +5,17 @@ import { RootState } from "../../store/store";
 import { ICartItem } from "../../models/ICartItem";
 import CartItem from "../../components/CartItem/CartItem";
 import Separator from "../../components/Separator/Separator";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import RadioController from "../../components/RadioController/RadioController";
 import { SubmitHandler, UseFormRegister, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useAuthSchemas } from "../../hooks/useAuthSchemas";
 import { auth } from "../../firebase/config";
 import { handlePaymentWithCreditCard } from "../../stripe/createCheckoutSession";
+import usePremiumStatus, {
+  UserSubscription,
+} from "../../stripe/usePremiumStatus";
+import { NavigateFunction, useNavigate } from "react-router-dom";
 
 type PaymentMethods =
   | "online_payment"
@@ -32,6 +36,14 @@ const Checkout = () => {
   const { cart, cartTotal, cartSubTotal, cartShipping } = useSelector(
     (state: RootState) => state.cart
   );
+  const navigate: NavigateFunction = useNavigate();
+
+  useEffect(() => {
+    if (cart.length === 0) {
+      navigate("/");
+    }
+  }, [cart, navigate]);
+
   const { checkoutFormSchema } = useAuthSchemas();
   const {
     register,
@@ -42,13 +54,15 @@ const Checkout = () => {
     reValidateMode: "onChange",
     mode: "onChange",
   });
+  const currentUserId = auth?.currentUser;
+  const premiumStatus = usePremiumStatus(currentUserId);
 
   const onSubmit: SubmitHandler<CheckoutProps> = async (data) => {
     const dataWithPayment = { ...data, payment_method: paymentMethod };
     await handlePaymentWithCreditCard(
       auth?.currentUser?.uid as string,
       cart,
-      cartShipping,
+      premiumStatus ? 0 : cartShipping,
       dataWithPayment
     );
   };
@@ -68,6 +82,7 @@ const Checkout = () => {
         register={register}
       />
       <CheckoutRightColumn
+        premiumStatus={premiumStatus}
         cart={cart}
         cartTotal={cartTotal}
         cartSubTotal={cartSubTotal}
@@ -163,11 +178,13 @@ const CheckoutRightColumn = ({
   cartSubTotal,
   cartShipping,
   cartTotal,
+  premiumStatus,
 }: {
   cart: ICartItem[];
   cartSubTotal: number;
   cartShipping: number;
   cartTotal: number;
+  premiumStatus?: UserSubscription;
 }) => (
   <div className={styles.order_summary}>
     <h4>Order Summary</h4>
@@ -188,11 +205,23 @@ const CheckoutRightColumn = ({
             <span className={styles.title}>Shipping</span>
             <span className={styles.value}>${cartShipping.toFixed(2)}</span>
           </div>
+          {premiumStatus && (
+            <div className={styles.item}>
+              <span className={styles.title}>
+                {premiumStatus.toUpperCase()}
+              </span>
+              <span className={styles.value}>-${cartShipping.toFixed(2)}</span>
+            </div>
+          )}
         </div>
         <Separator />
         <div className={styles.total}>
           <span className={styles.title}>Total</span>
-          <span className={styles.value}>${cartTotal.toFixed(2)}</span>
+          <span className={styles.value}>
+            {premiumStatus
+              ? (cartTotal - cartShipping).toFixed(2)
+              : cartTotal.toFixed(2)}
+          </span>
         </div>
         <div className={styles.btn_container}>
           <button type="submit">Confirm Order</button>
