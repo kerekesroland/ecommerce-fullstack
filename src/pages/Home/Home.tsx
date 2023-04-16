@@ -14,7 +14,7 @@ const Home = () => {
   const products = useSelector((state: RootState) => state.products.products);
 
   useEffect(() => {
-    if (products.length === 0) {
+    if (products?.length === 0) {
       dispatch(getProducts());
       console.log("Product get called");
     }
