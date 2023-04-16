@@ -24,10 +24,31 @@ const CartItem: FC<Props> = ({ item }) => {
       <div className="center">
         <h1>{item.title}</h1>
         <p>Lorem ipsum dolor sit amet...</p>
+        {item.gift ? (
+          <p
+            style={{
+              marginTop: ".5rem",
+              fontWeight: "bold",
+              color: "cornflowerblue",
+            }}
+          >
+            BONUS ITEM
+          </p>
+        ) : null}
       </div>
-      <div className="end" onClick={() => dispatch(removeFromCart(item.id))}>
+      <div
+        className="end"
+        onClick={() => (item.gift ? {} : dispatch(removeFromCart(item.id)))}
+      >
         <span>${item.price}</span>
-        <DeleteIcon style={{ fill: "#DC143C	" }} className="delete-icon" />
+        {item.gift ? (
+          <DeleteIcon
+            style={{ fill: "#DC143C	" }}
+            className="delete-icon-not-visible"
+          />
+        ) : (
+          <DeleteIcon style={{ fill: "#DC143C	" }} className="delete-icon" />
+        )}
       </div>
     </div>
   );
