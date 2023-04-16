@@ -39,7 +39,7 @@ const FeaturedProducts = () => {
       </div>
       <div className="bottom" ref={scrollRef}>
         {products?.slice(0, 8).map((item: Item) => (
-          <ItemCard key={item.id} item={item} />
+          <ItemCard key={item?.id} item={item} />
         ))}
       </div>
     </div>

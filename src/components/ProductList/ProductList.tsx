@@ -57,7 +57,7 @@ const ProductList: FC<Props> = ({ category, maxPrice, sort, filters }) => {
             key={item.id}
             className="product-list"
           >
-            <ItemCard key={item.id} item={item} />
+            <ItemCard key={item?.id} item={item} />
           </motion.div>
         ))}
       </AnimatePresence>
