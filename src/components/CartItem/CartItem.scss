@@ -69,6 +69,11 @@
       cursor: pointer;
       font-size: 1.5rem;
     }
+    .delete-icon-not-visible {
+      pointer-events: none;
+      visibility: hidden;
+      font-size: 1.5rem;
+    }
   }
 }
 
