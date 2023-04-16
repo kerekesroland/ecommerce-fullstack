@@ -1,5 +1,6 @@
 export interface ICartItem {
   id: string;
+  gift?: boolean;
   image: string;
   title: string;
   price: number;
