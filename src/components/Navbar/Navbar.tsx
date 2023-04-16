@@ -3,7 +3,12 @@ import "./Navbar.scss";
 import { AnimatePresence, motion } from "framer-motion";
 import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Link, NavigateFunction, useNavigate } from "react-router-dom";
+import {
+  Link,
+  NavigateFunction,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ChildFriendlyIcon from "@mui/icons-material/ChildFriendly";
@@ -24,11 +29,13 @@ import Backdrop from "../Backdrop/Backdrop";
 import Cart from "../Cart/Cart";
 import { auth } from "../../firebase/config";
 import { authService } from "../../api/auth/auth";
-import { useSelector } from "react-redux";
-import { RootState } from "../../store/store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../store/store";
+import { emptyCart } from "../../store/slices/cartSlice";
 
 const Navbar = () => {
   const { t, i18n } = useTranslation();
+  const dispatch: AppDispatch = useDispatch();
   const cart = useSelector((state: RootState) => state.cart.cart);
   const cartRef = useRef<HTMLDivElement>(null);
   const currentUser = auth?.currentUser;
@@ -104,6 +111,10 @@ const Navbar = () => {
     },
   ];
 
+  const { pathname } = useLocation();
+
+  const canCartBeClicked = pathname !== "/checkout" ? true : false;
+
   //Function to call when the backdrop is clicked
   const handleCloseMobile = () => setIsOpenMobile(false);
 
@@ -119,6 +130,7 @@ const Navbar = () => {
         setTimeout(() => {
           navigate("/auth");
         }, 500);
+        dispatch(emptyCart());
       })
       .catch((error) => console.error(error));
   };
@@ -254,7 +266,9 @@ const Navbar = () => {
               <div
                 ref={cartRef}
                 className="cart-icon"
-                onClick={() => setIsOpenCart(!isOpenCart)}
+                onClick={() =>
+                  canCartBeClicked ? setIsOpenCart(!isOpenCart) : {}
+                }
               >
                 <ShoppingCartOutlinedIcon style={{ cursor: "pointer" }} />
                 <span>{cart?.length || 0}</span>
@@ -353,7 +367,10 @@ const Navbar = () => {
                           type: "spring",
                         }}
                         onClick={() => {
-                          setIsOpenCart(!isOpenCart);
+                          if (canCartBeClicked) {
+                            setIsOpenCart(!isOpenCart);
+                            setIsOpenMobile(false);
+                          }
                           setIsOpenMobile(false);
                         }}
                         className="item"
