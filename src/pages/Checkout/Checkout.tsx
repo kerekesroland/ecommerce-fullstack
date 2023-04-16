@@ -41,7 +41,8 @@ const Checkout = () => {
   const dispatch: AppDispatch = useDispatch();
   const { products } = useSelector((state: RootState) => state.products);
   const currentUserId = auth?.currentUser;
-  const premiumStatus = usePremiumStatus(currentUserId);
+  const premiumStatus = usePremiumStatus();
+  const [shippingFree, setShippingFree] = useState<boolean>(true);
   const [giftedProduct, setGiftedProduct] = useState<ICartItem | null>(null);
   const navigate: NavigateFunction = useNavigate();
 
@@ -54,6 +55,16 @@ const Checkout = () => {
       dispatch(emptyCart());
     }
   }, [cart, navigate, dispatch]);
+
+  useEffect(() => {
+    const checkForPremium = () => {
+      console.log(premiumStatus);
+      if (premiumStatus !== null) {
+        setShippingFree(true);
+      }
+    };
+    checkForPremium();
+  }, [premiumStatus]);
 
   useEffect(() => {
     //Get a random bonus product for each order if you are silver or above
@@ -87,7 +98,6 @@ const Checkout = () => {
     if (giftedProduct && !alreadyHasBonusItem) {
       dispatch(addToCart(giftedProduct));
     }
-    // dispatch(emptyCart());
   }, [cart, dispatch, giftedProduct]);
 
   const { checkoutFormSchema } = useAuthSchemas();
@@ -131,6 +141,7 @@ const Checkout = () => {
         cartTotal={cartTotal}
         cartSubTotal={cartSubTotal}
         cartShipping={cartShipping}
+        shippingFree={shippingFree}
       />
     </form>
   );
@@ -223,6 +234,7 @@ const CheckoutRightColumn = ({
   cartShipping,
   cartTotal,
   premiumStatus,
+  shippingFree,
 }: {
   cart: ICartItem[];
   cartSubTotal: number;
@@ -230,6 +242,7 @@ const CheckoutRightColumn = ({
   cartTotal: number;
   premiumStatus?: UserSubscription;
   giftedProduct?: ICartItem | null;
+  shippingFree: boolean;
 }) => (
   <div className={styles.order_summary}>
     <h4>Order Summary</h4>
@@ -250,7 +263,7 @@ const CheckoutRightColumn = ({
             <span className={styles.title}>Shipping</span>
             <span className={styles.value}>${cartShipping.toFixed(2)}</span>
           </div>
-          {premiumStatus && (
+          {premiumStatus && shippingFree && (
             <div className={styles.item}>
               <span className={styles.title}>
                 {premiumStatus.toUpperCase()}
@@ -263,7 +276,7 @@ const CheckoutRightColumn = ({
         <div className={styles.total}>
           <span className={styles.title}>Total</span>
           <span className={styles.value}>
-            {premiumStatus
+            {shippingFree !== null
               ? (cartTotal - cartShipping).toFixed(2)
               : cartTotal.toFixed(2)}
           </span>

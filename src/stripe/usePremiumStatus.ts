@@ -1,18 +1,30 @@
 import { User } from "firebase/auth";
 import { useEffect, useState } from "react";
+import { auth } from "../firebase/config";
 import getUserPremiumStatus from "./userPremiumStatus";
 
 export type UserSubscription = "bronze" | "silver" | "gold" | null;
 
-export default function usePremiumStatus(user: User | null) {
+export default function usePremiumStatus() {
   const [premiumStatus, setPremiumStatus] = useState<UserSubscription>(null);
+  const [user, setUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      setUser(user);
+    });
+    return unsubscribe;
+  }, []);
 
   useEffect(() => {
     if (user) {
-      const checkPremiumStatus = async function () {
-        setPremiumStatus(await getUserPremiumStatus());
+      const fetchPremiumStatus = async () => {
+        const status = await getUserPremiumStatus();
+        setPremiumStatus(status);
       };
-      checkPremiumStatus();
+      fetchPremiumStatus();
+    } else {
+      setPremiumStatus(null);
     }
   }, [user]);
 

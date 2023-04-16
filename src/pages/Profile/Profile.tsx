@@ -27,7 +27,7 @@ const Profile = () => {
   const [userProfile, setUserProfile] = useState<User>();
   const [userSubscriptionId, setUserSubscriptionId] = useState<string>("");
   const currUser: any = auth?.currentUser;
-  const premiumStatus = usePremiumStatus(currUser);
+  const premiumStatus = usePremiumStatus();
 
   useEffect(() => {
     auth?.onAuthStateChanged((user) => {
