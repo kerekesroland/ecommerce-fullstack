@@ -4,6 +4,9 @@ import { auth } from "../../../firebase/config";
 import CheckBox from "../../../images/Checkbox.svg";
 import styles from "./GoldCard.module.scss";
 import { UserSubscription } from "../../../stripe/usePremiumStatus";
+import { AppDispatch } from "../../../store/store";
+import { useDispatch } from "react-redux";
+import { emptyCart } from "../../../store/slices/cartSlice";
 
 interface IProps {
   cancelSubscription?: (subscription_key?: string | undefined) => Promise<void>;
@@ -25,6 +28,7 @@ const GoldCard = ({
   premiumStatus,
 }: IProps) => {
   const [success, setSuccess] = useState<boolean>(false);
+  const dispatch: AppDispatch = useDispatch();
   const isBlocked =
     !userSubscriptionId || (premiumStatus !== "gold" && premiumStatus != null);
 
@@ -40,6 +44,7 @@ const GoldCard = ({
         setTimeout(() => {
           window.location.reload();
         }, 2500);
+        dispatch(emptyCart());
         setSuccess(true);
       });
     } catch (error) {

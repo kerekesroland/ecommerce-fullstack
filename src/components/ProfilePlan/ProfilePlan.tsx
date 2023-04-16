@@ -14,6 +14,7 @@ const ProfilePlan = ({
   userSubscriptionId: string;
   premiumStatus: UserSubscription;
 }) => {
+  const hasPremium = premiumStatus !== null && premiumStatus !== undefined;
   return (
     <div className="profile-plan">
       {premiumStatus === "gold" && (
@@ -34,25 +35,24 @@ const ProfilePlan = ({
           cancelSubscription={cancelSubscription}
         />
       )}
-      {premiumStatus === undefined ||
-        (premiumStatus === null && (
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center",
-              textAlign: "center",
-            }}
-          >
-            <h2 style={{ padding: "1rem 0rem" }}>
-              Currently you have no subscriptions!
-            </h2>
-            <Link to="/plans">
-              <LinkButton title="Choose plan!" />
-            </Link>
-          </div>
-        ))}
+      {!hasPremium && (
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            textAlign: "center",
+          }}
+        >
+          <h2 style={{ padding: "1rem 0rem" }}>
+            Currently you have no subscriptions!
+          </h2>
+          <Link to="/plans">
+            <LinkButton title="Choose plan!" />
+          </Link>
+        </div>
+      )}
     </div>
   );
 };

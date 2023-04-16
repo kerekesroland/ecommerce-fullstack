@@ -4,6 +4,9 @@ import styles from "./BronzeCard.module.scss";
 import { useState } from "react";
 import { auth } from "../../../firebase/config";
 import { UserSubscription } from "../../../stripe/usePremiumStatus";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../../store/store";
+import { emptyCart } from "../../../store/slices/cartSlice";
 
 interface IProps {
   cancelSubscription?: (subscription_key?: string | undefined) => Promise<void>;
@@ -25,6 +28,7 @@ const BronzeCard = ({
   premiumStatus,
 }: IProps) => {
   const [success, setSuccess] = useState<boolean>(false);
+  const dispatch: AppDispatch = useDispatch();
   const isBlocked =
     !userSubscriptionId ||
     (premiumStatus !== "bronze" && premiumStatus != null);
@@ -41,6 +45,7 @@ const BronzeCard = ({
         setTimeout(() => {
           window.location.reload();
         }, 2500);
+        dispatch(emptyCart());
         setSuccess(true);
       });
     } catch (error) {
