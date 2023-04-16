@@ -1,7 +1,7 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import InputController from "../../components/InputController/InputController";
 import styles from "./Checkout.module.scss";
-import { RootState } from "../../store/store";
+import { AppDispatch, RootState } from "../../store/store";
 import { ICartItem } from "../../models/ICartItem";
 import CartItem from "../../components/CartItem/CartItem";
 import Separator from "../../components/Separator/Separator";
@@ -16,6 +16,8 @@ import usePremiumStatus, {
   UserSubscription,
 } from "../../stripe/usePremiumStatus";
 import { NavigateFunction, useNavigate } from "react-router-dom";
+import { IProduct } from "../../models/IProduct";
+import { addToCart, emptyCart } from "../../store/slices/cartSlice";
 
 type PaymentMethods =
   | "online_payment"
@@ -36,13 +38,57 @@ const Checkout = () => {
   const { cart, cartTotal, cartSubTotal, cartShipping } = useSelector(
     (state: RootState) => state.cart
   );
+  const dispatch: AppDispatch = useDispatch();
+  const { products } = useSelector((state: RootState) => state.products);
+  const currentUserId = auth?.currentUser;
+  const premiumStatus = usePremiumStatus(currentUserId);
+  const [giftedProduct, setGiftedProduct] = useState<ICartItem | null>(null);
   const navigate: NavigateFunction = useNavigate();
 
   useEffect(() => {
-    if (cart.length === 0) {
+    const items = Boolean(
+      cart.every((item: ICartItem) => item.id.includes("BONUS"))
+    );
+    if (cart.length === 0 || (cart.length > 0 && items)) {
       navigate("/");
+      dispatch(emptyCart());
     }
-  }, [cart, navigate]);
+  }, [cart, navigate, dispatch]);
+
+  useEffect(() => {
+    //Get a random bonus product for each order if you are silver or above
+    const getRandomizedProduct = () => {
+      if (premiumStatus === "silver" || premiumStatus === "gold") {
+        const ids = products.map((product: IProduct) => product.id);
+        const randomPick = ids[Math.floor(Math.random() * ids.length)];
+
+        if (randomPick && giftedProduct === null) {
+          const gift = products.find(
+            (product: IProduct) => product.id === randomPick
+          );
+          setGiftedProduct({
+            ...gift,
+            price: 0,
+            quantity: 1,
+            gift: true,
+            id: gift.id.concat("BONUS"),
+          });
+        }
+      }
+    };
+    getRandomizedProduct();
+  }, [cart, giftedProduct, premiumStatus, products]);
+
+  useEffect(() => {
+    const alreadyHasBonusItem = Boolean(
+      cart.find((item: any) => item.id.includes("BONUS"))
+    );
+
+    if (giftedProduct && !alreadyHasBonusItem) {
+      dispatch(addToCart(giftedProduct));
+    }
+    // dispatch(emptyCart());
+  }, [cart, dispatch, giftedProduct]);
 
   const { checkoutFormSchema } = useAuthSchemas();
   const {
@@ -54,8 +100,6 @@ const Checkout = () => {
     reValidateMode: "onChange",
     mode: "onChange",
   });
-  const currentUserId = auth?.currentUser;
-  const premiumStatus = usePremiumStatus(currentUserId);
 
   const onSubmit: SubmitHandler<CheckoutProps> = async (data) => {
     const dataWithPayment = { ...data, payment_method: paymentMethod };
@@ -185,6 +229,7 @@ const CheckoutRightColumn = ({
   cartShipping: number;
   cartTotal: number;
   premiumStatus?: UserSubscription;
+  giftedProduct?: ICartItem | null;
 }) => (
   <div className={styles.order_summary}>
     <h4>Order Summary</h4>
