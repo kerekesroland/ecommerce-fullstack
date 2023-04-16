@@ -12,7 +12,8 @@ const getProducts = async () => {
       ...product.data(),
     })
   );
-  return products;
+
+  return products.filter((product: any) => !product.id.includes("prod"));
 };
 
 export const productsService = {
