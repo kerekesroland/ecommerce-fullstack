@@ -1,7 +1,7 @@
 import { toast } from "react-toastify";
 import { db } from "../firebase/config";
 import { initializeStripe } from "./initializeStripe";
-import { addDoc, collection, onSnapshot, updateDoc } from "firebase/firestore";
+import { addDoc, collection, onSnapshot } from "firebase/firestore";
 import { ICartItem } from "../models/ICartItem";
 import { CheckoutProps } from "../pages/Checkout/Checkout";
 
