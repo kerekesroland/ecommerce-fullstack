@@ -124,6 +124,7 @@ export const handlePaymentWithCreditCard = async (
         "http://localhost:3000/success/?session_id={CHECKOUT_SESSION_ID}",
       cancel_url: "http://localhost:3000/checkout",
       mode: "payment",
+      receipt_email: dataWithPayment.email,
       metadata: {
         userId: uid,
         name: dataWithPayment.name,
