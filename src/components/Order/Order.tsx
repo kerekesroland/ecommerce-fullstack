@@ -2,6 +2,7 @@ import { FC } from "react";
 import { useTranslation } from "react-i18next";
 import { IOrder } from "../ProfileOrders/ProfileOrders";
 import "./Order.scss";
+import { getInvoice } from "../../stripe/getInvoice";
 
 type IProps = {
   order: IOrder;
@@ -9,6 +10,11 @@ type IProps = {
 
 const Order: FC<IProps> = ({ order }) => {
   const { t } = useTranslation();
+
+  const handleGetInvoice = async () => {
+    const res = await getInvoice(order.latest_charge);
+    window.open(res, "_blank");
+  };
 
   return (
     <div className="order">
@@ -18,13 +24,15 @@ const Order: FC<IProps> = ({ order }) => {
             <span>{t("data.order.id")}:</span>{" "}
             <span className="order-id">{order.id}</span>
           </p>
-          <p>{order.date}</p>
+          <p>{order.createdAt}</p>
         </div>
-        <div className="price">{order.price} GBP</div>
+        <div className="price">{order.amount / 100} GBP</div>
       </div>
       <div className="order-buttons">
         <button className="reorder">{t("data.order.reorder")}</button>
-        <button className="cancel">{t("data.order.details")}</button>
+        <button onClick={handleGetInvoice} className="cancel">
+          {t("data.order.details")}
+        </button>
       </div>
     </div>
   );

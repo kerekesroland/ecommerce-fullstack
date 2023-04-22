@@ -19,12 +19,14 @@
   .order-details {
     display: flex;
     padding: 1rem;
+    gap: 1rem;
     justify-content: space-between;
     .minor-details {
       display: flex;
       flex-direction: column;
       gap: 1rem;
       .order-id {
+        word-break: break-all;
         font-weight: 530;
         font-size: var(--small-font);
         line-height: 15px;
@@ -57,7 +59,7 @@
       color: #ffffff;
       border: none;
       border-radius: 5px;
-      font-weight: 550;
+      font-weight: 500;
       font-size: var(--small-font);
       line-height: 15px;
       cursor: pointer;
@@ -82,10 +84,11 @@
 
     .order-details {
       padding: 1.5rem;
-
+      gap: 1rem;
       .minor-details {
         gap: 1.5rem;
         .order-id {
+          word-break: break-all;
           font-size: var(--medium-font);
           line-height: 19px;
         }
