@@ -3,38 +3,6 @@ import { initializeStripe } from "./initializeStripe";
 import { auth, db } from "../firebase/config";
 
 export default async function cancelSubscription(subscription_key?: string) {
-  const subscriptionsRef = collection(
-    db,
-    "users",
-    auth?.currentUser?.uid as string,
-    "subscriptions"
-  );
-  const q = query(subscriptionsRef);
-
-  const querySnapshot = await getDocs(q);
-
-  const subscription = querySnapshot.docs
-    .map((doc: any) => ({
-      id: doc.id,
-      ...doc.data(),
-    }))
-    .filter((subscription) => subscription.status !== "canceled")[0];
-
-  const subscriptionRef = doc(
-    db,
-    "users",
-    auth?.currentUser?.uid as string,
-    "subscriptions",
-    subscription.id
-  );
-
-  await updateDoc(subscriptionRef, {
-    role: null,
-    status: "canceled",
-    canceled_at: new Date(),
-    ended_at: new Date(),
-  });
-
   const stripe = await initializeStripe();
   if (stripe && subscription_key) {
     const apiKey = process.env.REACT_APP_stripe_secret_key;
@@ -47,8 +15,38 @@ export default async function cancelSubscription(subscription_key?: string) {
       method: "DELETE",
       headers: headers,
     })
-      .then((response) => {
-        console.log(response.status);
+      .then(async (response) => {
+        const subscriptionsRef = collection(
+          db,
+          "users",
+          auth?.currentUser?.uid as string,
+          "subscriptions"
+        );
+        const q = query(subscriptionsRef);
+
+        const querySnapshot = await getDocs(q);
+
+        const subscription = querySnapshot.docs
+          .map((doc: any) => ({
+            id: doc.id,
+            ...doc.data(),
+          }))
+          .filter((subscription) => subscription.status !== "canceled")[0];
+
+        const subscriptionRef = doc(
+          db,
+          "users",
+          auth?.currentUser?.uid as string,
+          "subscriptions",
+          subscription.id
+        );
+
+        await updateDoc(subscriptionRef, {
+          role: null,
+          status: "canceled",
+          canceled_at: new Date(),
+          ended_at: new Date(),
+        });
 
         if (!response.ok) {
           throw new Error("Failed to cancel subscription.");
