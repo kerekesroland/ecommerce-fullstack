@@ -109,7 +109,7 @@ export const handlePaymentWithCreditCard = async (
       product_data: {
         name: "Shipping",
       },
-      unit_amount: shipping * 100,
+      unit_amount: Number((shipping * 100).toFixed(2)),
       tax_behavior: "exclusive",
     },
     quantity: 1,
