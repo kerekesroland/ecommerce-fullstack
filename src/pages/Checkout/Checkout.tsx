@@ -19,6 +19,8 @@ import { NavigateFunction, useNavigate } from "react-router-dom";
 import { IProduct } from "../../models/IProduct";
 import { addToCart, emptyCart } from "../../store/slices/cartSlice";
 import ProductPicker from "../../components/ProductPicker/ProductPicker";
+import { toggleLoading } from "../../store/slices/loadingSlice";
+import Loader from "../../components/Loader/Loader";
 
 type PaymentMethods =
   | "online_payment"
@@ -39,6 +41,7 @@ const Checkout = () => {
   const { cart, cartTotal, cartSubTotal, cartShipping } = useSelector(
     (state: RootState) => state.cart
   );
+  const isLoading = useSelector((state: RootState) => state.loading.isLoading);
   const dispatch: AppDispatch = useDispatch();
   const { products } = useSelector((state: RootState) => state.products);
   const premiumStatus = usePremiumStatus();
@@ -112,12 +115,16 @@ const Checkout = () => {
 
   const onSubmit: SubmitHandler<CheckoutProps> = async (data) => {
     const dataWithPayment = { ...data, payment_method: paymentMethod };
+    dispatch(toggleLoading(true));
+
+    const shipping = premiumStatus ? 0 : cartShipping;
     await handlePaymentWithCreditCard(
       auth?.currentUser?.uid as string,
       cart,
-      premiumStatus ? 0 : cartShipping,
+      shipping,
       dataWithPayment
     );
+    dispatch(toggleLoading(false));
   };
 
   const [paymentMethod, setPaymentMethod] =
@@ -128,22 +135,29 @@ const Checkout = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className={styles.checkout}>
-      <CheckoutLeftColumn
-        paymentMethod={paymentMethod}
-        handlePaymentMethodChange={handlePaymentMethodChange}
-        register={register}
-      />
-      <CheckoutRightColumn
-        premiumStatus={premiumStatus}
-        cart={cart}
-        cartTotal={cartTotal}
-        cartSubTotal={cartSubTotal}
-        cartShipping={cartShipping}
-        shippingFree={shippingFree}
-        products={products}
-      />
-    </form>
+    <>
+      {isLoading && (
+        <div className="loader-container">
+          <Loader />
+        </div>
+      )}
+      <form onSubmit={handleSubmit(onSubmit)} className={styles.checkout}>
+        <CheckoutLeftColumn
+          paymentMethod={paymentMethod}
+          handlePaymentMethodChange={handlePaymentMethodChange}
+          register={register}
+        />
+        <CheckoutRightColumn
+          premiumStatus={premiumStatus}
+          cart={cart}
+          cartTotal={cartTotal}
+          cartSubTotal={cartSubTotal}
+          cartShipping={cartShipping}
+          shippingFree={shippingFree}
+          products={products}
+        />
+      </form>
+    </>
   );
 };
 
@@ -253,7 +267,9 @@ const CheckoutRightColumn = ({
         {cart?.map((cartItem: ICartItem) => (
           <CartItem key={cartItem.id} item={cartItem} />
         ))}
-        {premiumStatus === "gold" && <ProductPicker products={products} />}
+        {premiumStatus === "gold" && (
+          <ProductPicker products={products} cart={cart} />
+        )}
       </div>
       <Separator maxWidth />
       <div className={styles.order_details}>

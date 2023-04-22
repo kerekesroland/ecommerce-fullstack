@@ -3,9 +3,8 @@ import Order from "../Order/Order";
 import "./ProfileOrders.scss";
 import { getOrders } from "../../stripe/getOrders";
 import { User } from "firebase/auth";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../store/store";
-import { toggleLoading } from "../../store/slices/loadingSlice";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../store/store";
 import Loader from "../Loader/Loader";
 
 export interface IOrder {
