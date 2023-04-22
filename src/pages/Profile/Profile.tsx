@@ -10,7 +10,6 @@ import { useEffect, useState } from "react";
 import ProfilePasswordDetails from "../../components/ProfilePasswordDetails/ProfilePasswordDetails";
 import ProfileOrders from "../../components/ProfileOrders/ProfileOrders";
 import ProfilePlan from "../../components/ProfilePlan/ProfilePlan";
-import { User } from "firebase/auth";
 import { motion } from "framer-motion";
 import { authService } from "../../api/auth/auth";
 import Loader from "../../components/Loader/Loader";
@@ -20,35 +19,27 @@ import { useDispatch } from "react-redux";
 import { toggleLoading } from "../../store/slices/loadingSlice";
 import getSubscriptionId from "../../stripe/getSubscriptionId";
 import usePremiumStatus from "../../stripe/usePremiumStatus";
+import useAuthUser from "../../hooks/useAuthUser";
 
 const Profile = () => {
   const isLoading = useSelector((state: RootState) => state.loading.isLoading);
   const dispatch: AppDispatch = useDispatch();
-  const [userProfile, setUserProfile] = useState<User>();
   const [userSubscriptionId, setUserSubscriptionId] = useState<string>("");
   const premiumStatus = usePremiumStatus();
-
-  useEffect(() => {
-    auth?.onAuthStateChanged((user) => {
-      if (user) {
-        setUserProfile(user);
-      } else {
-        setUserProfile(undefined);
-      }
-    });
-  }, [userProfile]);
+  const user = useAuthUser();
 
   useEffect(() => {
     const getUserSubscription = async () => {
       if (!auth.currentUser) return;
       const subscriptionId: string = await getSubscriptionId(
-        userProfile?.uid as string
+        user?.uid as string
       );
       setUserSubscriptionId(subscriptionId);
     };
     getUserSubscription();
-  }, [userProfile]);
-  const photoUrl = userProfile?.photoURL ? userProfile.photoURL : noProfile;
+  }, [user]);
+
+  const photoUrl = user?.photoURL ? user.photoURL : noProfile;
   const [activeChip, setActiveChip] = useState<number>(1);
   const [shouldAnimate, setShouldAnimate] = useState<boolean>(true);
   const [profileImage, setProfileImage] = useState<string>("");
@@ -56,13 +47,9 @@ const Profile = () => {
 
   const handleUploadProfile = async () => {
     // if user is not present, stop right there
-    if (!auth.currentUser) return;
+    if (!user) return;
     dispatch(toggleLoading(true));
-    await authService.uploadProfilePicture(
-      file,
-      auth.currentUser,
-      setProfileImage
-    );
+    await authService.uploadProfilePicture(file, user, setProfileImage);
     dispatch(toggleLoading(false));
   };
 
@@ -74,7 +61,7 @@ const Profile = () => {
         return <ProfilePasswordDetails key="profile-password-details" />;
 
       case 3:
-        return <ProfileOrders key="profile-orders" />;
+        return <ProfileOrders user={user} key="profile-orders" />;
 
       case 4:
         return (
@@ -90,7 +77,7 @@ const Profile = () => {
   const AnimatedComponent = () => {
     return (
       <>
-        {userProfile && (
+        {user && (
           <>
             {shouldAnimate ? (
               <motion.div
