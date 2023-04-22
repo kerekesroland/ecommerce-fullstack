@@ -15,10 +15,22 @@ import { doc, setDoc } from "firebase/firestore";
 
 const registerUser = async (user: IRegisterUser) => {
   try {
-    await createUserWithEmailAndPassword(auth, user.email, user.password);
+    const { user: userProfile } = await createUserWithEmailAndPassword(
+      auth,
+      user.email,
+      user.password
+    );
     if (auth.currentUser) {
       updateProfile(auth.currentUser, { displayName: user.username });
     }
+
+    await setDoc(doc(db, "users", userProfile.uid), {
+      uid: userProfile.uid,
+      email: userProfile.email,
+      name: userProfile.displayName,
+      provider: userProfile.providerData[0].providerId,
+      photoUrl: userProfile.photoURL,
+    });
 
     toast.success(`${t("data.auth.create_account_success")} ${user.email}`, {
       position: "top-center",
@@ -39,6 +51,15 @@ const loginUser = async (user: ILoginUser) => {
       user.email,
       user.password
     );
+
+    await setDoc(doc(db, "users", userProfile.uid), {
+      uid: userProfile.uid,
+      email: userProfile.email,
+      name: userProfile.displayName,
+      provider: userProfile.providerData[0].providerId,
+      photoUrl: userProfile.photoURL,
+    });
+
     toast.success(
       `${t("data.auth.login_success")} ${
         auth?.currentUser?.displayName ?? user.email
