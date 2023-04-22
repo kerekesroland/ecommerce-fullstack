@@ -84,7 +84,7 @@ const Plans = () => {
       </div>
     );
   }
-  console.log({ userSubscriptionId }, { premiumStatus });
+
   return (
     <div className={styles.plans}>
       <BronzeCard
