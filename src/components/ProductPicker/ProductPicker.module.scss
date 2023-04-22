@@ -23,6 +23,18 @@
     b {
       color: cornflowerblue;
     }
+
+    &:disabled::before {
+      display: none;
+    }
+
+    &:disabled:hover {
+      cursor: not-allowed;
+      color: #bfbfbf;
+      b {
+        color: cornflowerblue;
+      }
+    }
   }
 
   .animatedBtn::before {

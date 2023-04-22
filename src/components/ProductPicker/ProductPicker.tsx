@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IProduct } from "../../models/IProduct";
 import styles from "./ProductPicker.module.scss";
 import CloseIcon from "@mui/icons-material/Close";
@@ -7,9 +7,11 @@ import CustomSwiper from "../CustomSwiper/CustomSwiper";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../store/store";
 import { addToCart } from "../../store/slices/cartSlice";
+import { ICartItem } from "../../models/ICartItem";
 
 interface IProductPicker {
   products: IProduct[];
+  cart: ICartItem[];
 }
 
 interface IProductPickerPopup {
@@ -17,12 +19,14 @@ interface IProductPickerPopup {
   onOpen: () => void;
   onClose: () => void;
   products: IProduct[];
+  cart: ICartItem[];
   handleAddToCart: (product: IProduct) => void;
 }
 
-const ProductPicker = ({ products }: IProductPicker) => {
+const ProductPicker = ({ products, cart }: IProductPicker) => {
   const dispatch: AppDispatch = useDispatch();
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [disabledBonus, setDisabledBonus] = useState<boolean>(false);
   const onClose = () => setIsOpen(false);
   const onOpen = () => setIsOpen(true);
 
@@ -33,15 +37,32 @@ const ProductPicker = ({ products }: IProductPicker) => {
         quantity: 1,
         gift: true,
         price: 0,
-        id: product.id.concat("BONUS"),
+        id: product.id.concat("BONUS_GOLD"),
       })
     );
     onClose();
   };
 
+  useEffect(() => {
+    const checkGoldItem = () => {
+      const alreadyHasBonusItem = Boolean(
+        cart.find((item: any) => item.id.includes("BONUS_GOLD"))
+      );
+      if (alreadyHasBonusItem) {
+        setDisabledBonus(true);
+      }
+    };
+    checkGoldItem();
+  }, [cart]);
+
   return (
     <div className={styles.product_picker_container}>
-      <button onClick={onOpen} type="button" className={styles.animatedBtn}>
+      <button
+        disabled={disabledBonus}
+        onClick={onOpen}
+        type="button"
+        className={styles.animatedBtn}
+      >
         Choose a custom <b>bonus item</b>
       </button>
 
@@ -52,6 +73,7 @@ const ProductPicker = ({ products }: IProductPicker) => {
           onClose={onClose}
           onOpen={onOpen}
           products={products}
+          cart={cart}
         />
       ) : null}
     </div>
@@ -59,8 +81,6 @@ const ProductPicker = ({ products }: IProductPicker) => {
 };
 
 const ProductPickerPopup = ({
-  isOpen,
-  onOpen,
   onClose,
   products,
   handleAddToCart,
