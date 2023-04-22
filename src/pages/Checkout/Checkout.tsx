@@ -18,6 +18,7 @@ import usePremiumStatus, {
 import { NavigateFunction, useNavigate } from "react-router-dom";
 import { IProduct } from "../../models/IProduct";
 import { addToCart, emptyCart } from "../../store/slices/cartSlice";
+import ProductPicker from "../../components/ProductPicker/ProductPicker";
 
 type PaymentMethods =
   | "online_payment"
@@ -40,7 +41,6 @@ const Checkout = () => {
   );
   const dispatch: AppDispatch = useDispatch();
   const { products } = useSelector((state: RootState) => state.products);
-  const currentUserId = auth?.currentUser;
   const premiumStatus = usePremiumStatus();
   const [shippingFree, setShippingFree] = useState<boolean>(true);
   const [giftedProduct, setGiftedProduct] = useState<ICartItem | null>(null);
@@ -58,7 +58,6 @@ const Checkout = () => {
 
   useEffect(() => {
     const checkForPremium = () => {
-      console.log(premiumStatus);
       if (premiumStatus !== null) {
         setShippingFree(true);
       }
@@ -104,7 +103,7 @@ const Checkout = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors, touchedFields },
+    // formState: { errors, touchedFields },
   } = useForm<CheckoutProps>({
     resolver: yupResolver(checkoutFormSchema),
     reValidateMode: "onChange",
@@ -142,6 +141,7 @@ const Checkout = () => {
         cartSubTotal={cartSubTotal}
         cartShipping={cartShipping}
         shippingFree={shippingFree}
+        products={products}
       />
     </form>
   );
@@ -235,6 +235,7 @@ const CheckoutRightColumn = ({
   cartTotal,
   premiumStatus,
   shippingFree,
+  products,
 }: {
   cart: ICartItem[];
   cartSubTotal: number;
@@ -243,6 +244,7 @@ const CheckoutRightColumn = ({
   premiumStatus?: UserSubscription;
   giftedProduct?: ICartItem | null;
   shippingFree: boolean;
+  products: IProduct[];
 }) => (
   <div className={styles.order_summary}>
     <h4>Order Summary</h4>
@@ -251,6 +253,7 @@ const CheckoutRightColumn = ({
         {cart?.map((cartItem: ICartItem) => (
           <CartItem key={cartItem.id} item={cartItem} />
         ))}
+        {premiumStatus === "gold" && <ProductPicker products={products} />}
       </div>
       <Separator maxWidth />
       <div className={styles.order_details}>
@@ -266,7 +269,7 @@ const CheckoutRightColumn = ({
           {premiumStatus && shippingFree && (
             <div className={styles.item}>
               <span className={styles.title}>
-                {premiumStatus.toUpperCase()}
+                {premiumStatus?.toUpperCase()}
               </span>
               <span className={styles.value}>-${cartShipping.toFixed(2)}</span>
             </div>
@@ -277,8 +280,8 @@ const CheckoutRightColumn = ({
           <span className={styles.title}>Total</span>
           <span className={styles.value}>
             {shippingFree !== null
-              ? (cartTotal - cartShipping).toFixed(2)
-              : cartTotal.toFixed(2)}
+              ? (cartTotal - cartShipping)?.toFixed(2)
+              : cartTotal?.toFixed(2)}
           </span>
         </div>
         <div className={styles.btn_container}>

@@ -26,7 +26,6 @@ const Profile = () => {
   const dispatch: AppDispatch = useDispatch();
   const [userProfile, setUserProfile] = useState<User>();
   const [userSubscriptionId, setUserSubscriptionId] = useState<string>("");
-  const currUser: any = auth?.currentUser;
   const premiumStatus = usePremiumStatus();
 
   useEffect(() => {
