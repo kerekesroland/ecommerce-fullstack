@@ -1,0 +1,56 @@
+.swiper {
+  width: 100%;
+  height: 100%;
+
+  .slider__container {
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    .image_container {
+      user-select: none;
+      width: 400px;
+      height: 300px;
+
+      img {
+        border-radius: 10px;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        margin-bottom: 0.5rem;
+      }
+      @media screen and (max-width: 400px) {
+        width: 250px;
+        height: 200px;
+      }
+      @media screen and (min-width: 1200px) {
+        width: 350px;
+        height: 300px;
+      }
+    }
+    .btn__container {
+      width: 400px;
+      .choose_item {
+        width: 100%;
+        border-radius: 5px;
+        padding: 1rem;
+        border: none;
+        outline: none;
+        font-size: 1rem;
+        background-color: cornflowerblue;
+        color: #fff;
+        cursor: pointer;
+      }
+      @media screen and (max-width: 400px) {
+        width: 250px;
+      }
+      @media screen and (min-width: 1200px) {
+        width: 350px;
+      }
+    }
+  }
+}
