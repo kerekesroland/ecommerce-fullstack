@@ -121,8 +121,8 @@ export const handlePaymentWithCreditCard = async (
       line_items: formattedItems,
 
       success_url:
-        "  https://ecommerce-fullstack-six.vercel.app/success/?session_id={CHECKOUT_SESSION_ID}",
-      cancel_url: "  https://ecommerce-fullstack-six.vercel.app/checkout",
+        "https://ecommerce-fullstack-six.vercel.app/success/?session_id={CHECKOUT_SESSION_ID}",
+      cancel_url: "https://ecommerce-fullstack-six.vercel.app/checkout",
       mode: "payment",
       receipt_email: dataWithPayment.email,
       metadata: {
