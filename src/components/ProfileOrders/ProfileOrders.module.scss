@@ -1,18 +1,30 @@
 .orders {
   display: flex;
   flex-direction: column;
-  .profile-orders {
+  .profile_orders {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
 
-    .profile-order-separator {
+    .profile_order_separator {
       margin-top: 1.3rem;
       margin-bottom: 1rem;
       color: lightgrey;
       opacity: 0.1;
       width: 100%;
+    }
+  }
+
+  .no_orders {
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+
+    h3 {
+      font-weight: 550;
     }
   }
 }

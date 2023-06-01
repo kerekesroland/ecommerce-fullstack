@@ -7,6 +7,8 @@ export const getOrders = async (uid: string) => {
     const docSnap = await getDoc(docRef);
     const stripeId = await docSnap?.data()?.stripeId;
 
+    if (!stripeId) return null;
+
     const res = await fetch(
       `https://api.stripe.com/v1/payment_intents?customer=${stripeId}`,
       {

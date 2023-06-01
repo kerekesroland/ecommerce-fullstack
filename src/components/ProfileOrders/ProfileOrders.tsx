@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Order from "../Order/Order";
-import "./ProfileOrders.scss";
+import styles from "./ProfileOrders.module.scss";
 import { getOrders } from "../../stripe/getOrders";
 import { User } from "firebase/auth";
 import { useDispatch } from "react-redux";
@@ -18,8 +18,8 @@ export interface IOrder {
 
 const ProfileOrders = ({ user }: { user: User | null }) => {
   const [orders, setOrders] = useState<IOrder[]>([]);
-  const dispatch: AppDispatch = useDispatch();
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const dispatch: AppDispatch = useDispatch();
 
   useEffect(() => {
     const orders = async () => {
@@ -30,13 +30,17 @@ const ProfileOrders = ({ user }: { user: User | null }) => {
           setIsLoading(false);
         }, 500);
 
-        setOrders(
-          res.data.filter(
-            (order: IOrder) =>
-              order.description !== "Subscription creation" &&
-              order.status === "succeeded"
-          )
-        );
+        if (res) {
+          setOrders(
+            res.data.filter(
+              (order: IOrder) =>
+                order.description !== "Subscription creation" &&
+                order.status === "succeeded"
+            )
+          );
+        } else {
+          setOrders([]);
+        }
       }
     };
     orders();
@@ -49,13 +53,20 @@ const ProfileOrders = ({ user }: { user: User | null }) => {
           <Loader />
         </div>
       )}
-      <div className="orders">
-        {orders.map((order) => (
-          <div className="profile-orders" key={order.id}>
-            <Order order={order} />
-            <hr className="profile-order-separator" />
+      <div className={styles.orders}>
+        {orders.length > 0 ? (
+          orders?.map((order) => (
+            <div className={styles.profile_orders} key={order?.id}>
+              <Order order={order} />
+              <hr className={styles.profile_order_separator} />
+            </div>
+          ))
+        ) : (
+          <div className={styles.no_orders}>
+            <h2>No orders found</h2>
+            <h3>Try making some payments!</h3>
           </div>
-        ))}
+        )}
       </div>
     </>
   );

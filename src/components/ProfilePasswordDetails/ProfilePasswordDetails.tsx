@@ -1,45 +1,43 @@
 import "./ProfilePasswordDetails.scss";
-import { ChangeEvent, useState } from "react";
-import Separator from "../Separator/Separator";
+import { User } from "firebase/auth";
+import { authService } from "../../api/auth/auth";
+import { AppDispatch, RootState } from "../../store/store";
+import { useDispatch, useSelector } from "react-redux";
+import Loader from "../Loader/Loader";
+import { toggleLoading } from "../../store/slices/loadingSlice";
 
-const ProfilePasswordDetails = () => {
-  //todo add validation schema for the passwords like the register schema
-  const [newPassword, setNewPassword] = useState<string>("");
-  const [newPasswordConfirm, setNewPasswordConfirm] = useState<string>("");
+const ProfilePasswordDetails = ({ user }: { user: User | null }) => {
+  const isLoading = useSelector((state: RootState) => state.loading.isLoading);
+  const dispatch: AppDispatch = useDispatch();
+
+  const updatePassword = async () => {
+    if (!user) return;
+    dispatch(toggleLoading(true));
+    await authService.handleUpdatePasswordEmailSend(user);
+    dispatch(toggleLoading(false));
+  };
+
   return (
-    <div className="profile-password">
-      <div className="profile-details">
-        <div className="profile-input-group">
-          <div className="profile-input-container">
-            <label htmlFor="username">New password</label>
-            <input
-              type="password"
-              defaultValue={newPassword ? newPassword : ""}
-              onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                setNewPassword(e.target.value)
-              }
-            />
-          </div>
-          <Separator maxWidth />
-          <div className="profile-input-container">
-            <label htmlFor="email">New password confirm</label>
-            <input
-              type="password"
-              defaultValue={newPasswordConfirm ? newPasswordConfirm : ""}
-              onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                setNewPasswordConfirm(e.target.value)
-              }
-            />
-          </div>
-          <Separator maxWidth />
+    <>
+      {isLoading && (
+        <div className="loader-container">
+          <Loader />
         </div>
-        <div className="profile-buttons">
-          <button className="cancel">Cancel</button>
-          <button className="publish">Save changes</button>
+      )}
+      <div className="profile-password">
+        <div>
+          <h2 className="profile-password__title">Update Password</h2>
+          <p className="profile-password__description">
+            Ensure your account security by updating your password
+          </p>
         </div>
-        {/* Personal information END */}
+        <div className="profile-password__content">
+          <button onClick={updatePassword} className="profile-password__button">
+            Update Password
+          </button>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

@@ -3,6 +3,7 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signInWithPopup,
+  sendPasswordResetEmail,
   updateProfile,
   User,
 } from "firebase/auth";
@@ -137,10 +138,23 @@ const uploadProfilePicture = async (
   }
 };
 
+const handleUpdatePasswordEmailSend = async (user: User) => {
+  try {
+    if (user) {
+      await sendPasswordResetEmail(auth, user.email as string);
+    }
+  } catch (error: any) {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    console.error(errorCode, errorMessage);
+  }
+};
+
 export const authService = {
   registerUser,
   loginUser,
   signInWithGoogle,
   logout,
   uploadProfilePicture,
+  handleUpdatePasswordEmailSend,
 };

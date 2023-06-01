@@ -58,7 +58,9 @@ const Profile = () => {
       case 1:
         return <ProfileDetails key="profile-details" />;
       case 2:
-        return <ProfilePasswordDetails key="profile-password-details" />;
+        return (
+          <ProfilePasswordDetails user={user} key="profile-password-details" />
+        );
 
       case 3:
         return <ProfileOrders user={user} key="profile-orders" />;
