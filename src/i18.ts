@@ -12,13 +12,13 @@ i18n
     fallbackLng: "en",
     resources: {
       en: {
-        translation: require("../../client/src/assets/translations/en.json"),
+        translation: require("./assets/translations/en.json"),
       },
       fr: {
-        translation: require("../../client/src/assets/translations/fr.json"),
+        translation: require("./assets/translations/fr.json"),
       },
       de: {
-        translation: require("../../client/src/assets/translations/de.json"),
+        translation: require("./assets/translations/de.json"),
       },
     },
     detection: {
