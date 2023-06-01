@@ -6,9 +6,9 @@ import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 
 const slides: Array<string> = [
-  require("/Users/roland/work/ecommerce/client/src/images/girl_2-min-02.jpg"),
-  require("/Users/roland/work/ecommerce/client/src/images/girl_3-min-02.jpg"),
-  require("/Users/roland/work/ecommerce/client/src/images/man_1-min-02.jpg"),
+  require("../../images/girl_2-min-02.jpg"),
+  require("../../images/girl_3-min-02.jpg"),
+  require("../../images/man_1-min-02.jpg"),
 ];
 
 const Slider = () => {
