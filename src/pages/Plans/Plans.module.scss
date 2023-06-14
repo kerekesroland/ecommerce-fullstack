@@ -21,9 +21,10 @@
   flex-wrap: wrap;
   gap: 2rem;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   margin-top: 2rem;
   width: 100%;
+  min-height: 100vh;
 
   .card-container {
     position: relative;

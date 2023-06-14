@@ -6,6 +6,7 @@
   align-items: flex-start;
   gap: 2rem;
   max-width: 1600px;
+  min-height: calc(100vh - 150px);
 
   .delivery_information {
     flex: 60%;
@@ -184,7 +185,7 @@
   @media screen and (max-width: 500px) {
     flex-direction: column;
     align-items: unset;
-
+    margin: auto;
     padding: 1rem;
     .delivery_information {
       flex: 1;
