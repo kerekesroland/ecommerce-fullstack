@@ -16,7 +16,6 @@ const Home = () => {
   useEffect(() => {
     if (products?.length === 0) {
       dispatch(getProducts());
-      console.log("Product get called");
     }
   }, [dispatch, products.length]);
 

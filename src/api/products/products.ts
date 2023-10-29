@@ -9,6 +9,7 @@ const getProducts = async () => {
   productDocs.forEach((product) =>
     products.push({
       id: product.id,
+      originalPrice: product.data().price,
       ...product.data(),
     })
   );

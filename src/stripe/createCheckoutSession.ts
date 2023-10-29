@@ -12,7 +12,7 @@ export const createPremiumBronzeSession = async (uid: string) => {
     collection(db, "users", uid, "checkout_sessions"),
     {
       price: process.env.REACT_APP_stripe_bronze_key,
-      success_url: "https://ecommerce-fullstack-six.vercel.app/profile",
+      success_url: process.env.REACT_APP_development__checkout_session_url,
       cancel_url: window.location.origin,
     }
   );
@@ -46,7 +46,7 @@ export const createPremiumSilverSession = async (uid: string) => {
     collection(db, "users", uid, "checkout_sessions"),
     {
       price: process.env.REACT_APP_stripe_silver_key,
-      success_url: "https://ecommerce-fullstack-six.vercel.app/profile",
+      success_url: process.env.REACT_APP_development__checkout_session_url,
       cancel_url: window.location.origin,
     }
   );
@@ -64,7 +64,7 @@ export const createPremiumGoldSession = async (uid: string) => {
     collection(db, "users", uid, "checkout_sessions"),
     {
       price: process.env.REACT_APP_stripe_gold_key,
-      success_url: "https://ecommerce-fullstack-six.vercel.app/profile",
+      success_url: process.env.REACT_APP_development__checkout_session_url,
       cancel_url: window.location.origin,
     }
   );
@@ -121,8 +121,8 @@ export const handlePaymentWithCreditCard = async (
       line_items: formattedItems,
 
       success_url:
-        "https://ecommerce-fullstack-six.vercel.app/success/?session_id={CHECKOUT_SESSION_ID}",
-      cancel_url: "https://ecommerce-fullstack-six.vercel.app/checkout",
+        "http://localhost:3000/success/?session_id={CHECKOUT_SESSION_ID}",
+      cancel_url: "http://localhost:3000/checkout",
       mode: "payment",
       receipt_email: dataWithPayment.email,
       metadata: {
@@ -150,7 +150,10 @@ export const handlePaymentWithCreditCard = async (
   };
 
   const sessionId = await waitForSuccessUrlUpdate();
+
   const stripe = await initializeStripe();
+  console.log({ sessionId });
+
   if (stripe && sessionId) {
     await stripe.redirectToCheckout({ sessionId });
   }

@@ -21,6 +21,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "./store/store";
 import Checkout from "./pages/Checkout/Checkout";
 import SuccessPayment from "./pages/SuccessPayment/SuccessPayment";
+import CurrencyProvider from "./context/CurrencyContext";
 
 const Layout = () => {
   const { pathname } = useLocation();
@@ -95,8 +96,10 @@ const App = () => {
   }, [isLoading]);
   return (
     <div>
-      <RouterProvider router={router} />
-      <ToastContainer />
+      <CurrencyProvider>
+        <RouterProvider router={router} />
+        <ToastContainer />
+      </CurrencyProvider>
     </div>
   );
 };

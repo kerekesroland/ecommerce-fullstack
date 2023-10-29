@@ -6,7 +6,7 @@ import storage from "redux-persist/lib/storage";
 import { encryptTransform } from "redux-persist-transform-encrypt";
 import cartSlice from "./slices/cartSlice";
 
-const secretKey = process.env.REACT_APP_redux_secret || "secret";
+const secretKey = process.env.REACT_APP_redux_secret as string;
 
 const persistConfig = {
   key: "root",

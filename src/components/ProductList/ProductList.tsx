@@ -23,21 +23,48 @@ const ProductList: FC<Props> = ({ category, maxPrice, sort, filters }) => {
 
   useEffect(() => {
     if (filters.length !== 0) {
-      setFilteredProducts(
-        products.filter(
-          (product) =>
-            product.main_category.toLowerCase() === category &&
-            filters.some((filter) => product.category.includes(filter))
-        )
-      );
+      // If sort is from lowest to highest
+      if (sort === "desc") {
+        setFilteredProducts(
+          products
+            .sort((a, b) => b.price - a.price)
+            .filter(
+              (product) =>
+                product.main_category.toLowerCase() === category &&
+                filters.some((filter) => product.category.includes(filter))
+            )
+        );
+      } else {
+        setFilteredProducts(
+          products
+            .sort((a, b) => a.price - b.price)
+            .filter(
+              (product) =>
+                product.main_category.toLowerCase() === category &&
+                filters.some((filter) => product.category.includes(filter))
+            )
+        );
+      }
     } else {
-      setFilteredProducts(
-        products.filter(
-          (product) => product.main_category.toLowerCase() === category
-        )
-      );
+      if (sort === "desc") {
+        setFilteredProducts(
+          products
+            .filter(
+              (product) => product.main_category.toLowerCase() === category
+            )
+            .sort((a, b) => b.price - a.price)
+        );
+      } else {
+        setFilteredProducts(
+          products
+            .filter(
+              (product) => product.main_category.toLowerCase() === category
+            )
+            .sort((a, b) => a.price - b.price)
+        );
+      }
     }
-  }, [category, filters, products]);
+  }, [category, filters, products, sort]);
 
   return (
     <motion.div layout className="product-list">

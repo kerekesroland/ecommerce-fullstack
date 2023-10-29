@@ -23,24 +23,27 @@ const ProfileOrders = ({ user }: { user: User | null }) => {
 
   useEffect(() => {
     const orders = async () => {
-      setIsLoading(true);
-      if (user) {
-        const res = await getOrders(user.uid);
-        setTimeout(() => {
-          setIsLoading(false);
-        }, 500);
-
-        if (res) {
-          setOrders(
-            res.data.filter(
-              (order: IOrder) =>
-                order.description !== "Subscription creation" &&
-                order.status === "succeeded"
-            )
-          );
-        } else {
-          setOrders([]);
+      try {
+        setIsLoading(true);
+        if (user) {
+          const res = await getOrders(user.uid);
+          if (res) {
+            setOrders(
+              res.data.filter(
+                (order: IOrder) =>
+                  order.description !== "Subscription creation" &&
+                  order.status === "succeeded"
+              )
+            );
+          } else {
+            setOrders([]);
+          }
         }
+      } catch (error) {
+        console.log(error);
+        setOrders([]);
+      } finally {
+        setIsLoading(false);
       }
     };
     orders();
@@ -48,26 +51,30 @@ const ProfileOrders = ({ user }: { user: User | null }) => {
 
   return (
     <>
-      {isLoading && (
-        <div className="loader-container">
+      {isLoading ? (
+        <div
+          className="loader-container"
+          style={{ backgroundColor: "transparent" }}
+        >
           <Loader />
         </div>
-      )}
-      <div className={styles.orders}>
-        {orders.length > 0 ? (
-          orders?.map((order) => (
-            <div className={styles.profile_orders} key={order?.id}>
-              <Order order={order} />
-              <hr className={styles.profile_order_separator} />
+      ) : (
+        <div className={styles.orders}>
+          {orders.length > 0 ? (
+            orders?.map((order) => (
+              <div className={styles.profile_orders} key={order?.id}>
+                <Order order={order} />
+                <hr className={styles.profile_order_separator} />
+              </div>
+            ))
+          ) : (
+            <div className={styles.no_orders}>
+              <h2>No orders found</h2>
+              <h3>Try making some payments!</h3>
             </div>
-          ))
-        ) : (
-          <div className={styles.no_orders}>
-            <h2>No orders found</h2>
-            <h3>Try making some payments!</h3>
-          </div>
-        )}
-      </div>
+          )}
+        </div>
+      )}
     </>
   );
 };

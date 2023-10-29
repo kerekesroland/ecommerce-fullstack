@@ -1,7 +1,7 @@
 import CartItem from "../CartItem/CartItem";
 import CloseIcon from "@mui/icons-material/Close";
 import { motion } from "framer-motion";
-import { FC } from "react";
+import { FC, MouseEventHandler } from "react";
 import "./Cart.scss";
 import Separator from "../Separator/Separator";
 import { useSelector } from "react-redux";
@@ -25,9 +25,14 @@ const Cart: FC<Props> = ({ setIsOpenCart }) => {
     navigate("/checkout");
   };
 
+  const handleModalClick = (e: any) => {
+    e.stopPropagation();
+  };
+
   if (!cart.length) {
     return (
       <motion.div
+        onClick={handleModalClick}
         key="modal"
         initial={{ right: "-50rem" }}
         animate={{
@@ -78,6 +83,7 @@ const Cart: FC<Props> = ({ setIsOpenCart }) => {
 
   return (
     <motion.div
+      onClick={handleModalClick}
       key="modal"
       initial={{ right: "-50rem" }}
       animate={{

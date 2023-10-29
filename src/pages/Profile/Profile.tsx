@@ -6,7 +6,13 @@ import ProfileInfo from "../../components/ProfileInfo/ProfileInfo";
 import ProfileDetails from "../../components/ProfileDetails/ProfileDetails";
 import ProfileChips from "../../components/ProfileChips/ProfileChips";
 import Separator from "../../components/Separator/Separator";
-import { useEffect, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useState,
+} from "react";
 import ProfilePasswordDetails from "../../components/ProfilePasswordDetails/ProfilePasswordDetails";
 import ProfileOrders from "../../components/ProfileOrders/ProfileOrders";
 import ProfilePlan from "../../components/ProfilePlan/ProfilePlan";
@@ -28,14 +34,12 @@ const Profile = () => {
   const premiumStatus = usePremiumStatus();
   const user = useAuthUser();
 
-  useEffect(() => {
-    const getUserSubscription = async () => {
-      if (!auth.currentUser) return;
-      const subscriptionId: string = await getSubscriptionId(
-        user?.uid as string
-      );
-      setUserSubscriptionId(subscriptionId);
-    };
+  const getUserSubscription = async () => {
+    if (!user) return;
+    const subscriptionId: string = await getSubscriptionId(user?.uid as string);
+    setUserSubscriptionId(subscriptionId);
+  };
+  useLayoutEffect(() => {
     getUserSubscription();
   }, [user]);
 
@@ -53,7 +57,7 @@ const Profile = () => {
     dispatch(toggleLoading(false));
   };
 
-  const checkActiveChip = () => {
+  const checkActiveChip = useCallback(() => {
     switch (activeChip) {
       case 1:
         return <ProfileDetails key="profile-details" />;
@@ -74,9 +78,8 @@ const Profile = () => {
           />
         );
     }
-  };
-
-  const AnimatedComponent = () => {
+  }, [user, activeChip]);
+  const AnimatedComponent = useCallback(() => {
     return (
       <>
         {user && (
@@ -97,7 +100,7 @@ const Profile = () => {
         )}
       </>
     );
-  };
+  }, [user, activeChip]);
 
   //Observable kind of thing to keep track of the mobile menu
   useEffect(() => {

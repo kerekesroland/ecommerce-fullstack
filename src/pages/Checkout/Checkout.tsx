@@ -49,15 +49,20 @@ const Checkout = () => {
   const [giftedProduct, setGiftedProduct] = useState<ICartItem | null>(null);
   const navigate: NavigateFunction = useNavigate();
 
+  const onlyBonusItems = Boolean(
+    cart.every((item: ICartItem) => item.id.includes("BONUS"))
+  );
+
   useEffect(() => {
-    const items = Boolean(
-      cart.every((item: ICartItem) => item.id.includes("BONUS"))
-    );
-    if (cart.length === 0 || (cart.length > 0 && items)) {
+    if (cart.length === 0 || onlyBonusItems) {
       navigate("/");
-      dispatch(emptyCart());
     }
-  }, [cart, navigate, dispatch]);
+    return () => {
+      if (cart.length > 0 && onlyBonusItems) {
+        dispatch(emptyCart());
+      }
+    };
+  }, [cart.length, navigate, dispatch]);
 
   useEffect(() => {
     const checkForPremium = () => {
